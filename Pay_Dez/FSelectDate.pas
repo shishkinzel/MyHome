@@ -39,11 +39,17 @@ var
   i: Integer;
   fDate: TDateTime;
 begin
-//  fDate := Now;
-//  dtpSelectDate.Date := RecodeDay(fDate, 15);
+  fDate := Date;
+  dtpSelectDate.Date := RecodeDay(fDate, 15);
   dsPayAndRecord.DataSet.Open;
   dsPayAndRecord.DataSet.First;
-  dtpSelectDate.Date := dsPayAndRecord.DataSet.FieldByName('date').AsDateTime;
+// если база пуста игнорируем чтение даты из базы
+  if dsPayAndRecord.DataSet.RecordCount > 0 then
+  begin
+    dsPayAndRecord.DataSet.First;
+    dtpSelectDate.Date := dsPayAndRecord.DataSet.FieldByName('date').AsDateTime;
+  end;
+
   dmPayment.fmTabListReport.Close;
   dmPayment.fmTabListReport.Open;
 
@@ -78,19 +84,19 @@ begin
     dmPayment.fmTabListReport.FieldByName('MosEn').AsString := dmPayment.fmTabPayAndRecord.FieldByName('MosEn').AsString;
     dmPayment.fmTabListReport.FieldByName('OnLime').AsString := dmPayment.fmTabPayAndRecord.FieldByName('OnLime').AsString;
  // выполнение
-    if StrToInt(dmPayment.fmTabListReport.FieldByName('DezSum').AsString) = 0 then
+    if StrToFloat(dmPayment.fmTabListReport.FieldByName('DezSum').AsString) = 0 then
       fStatus := 'Отложен'
     else
       fStatus := 'Исполнен';
     dmPayment.fmTabListReport.FieldByName('ExecutionPayDezSum').AsString := fStatus;
 
-    if StrToInt(dmPayment.fmTabListReport.FieldByName('MosEn').AsString) = 0 then
+    if StrToFloat(dmPayment.fmTabListReport.FieldByName('MosEn').AsString) = 0 then
       fStatus := 'Отложен'
     else
       fStatus := 'Исполнен';
     dmPayment.fmTabListReport.FieldByName('ExecutionPayMosEn').AsString := fStatus;
 
-    if StrToInt(dmPayment.fmTabListReport.FieldByName('OnLime').AsString) = 0 then
+    if StrToFloat(dmPayment.fmTabListReport.FieldByName('OnLime').AsString) = 0 then
       fStatus := 'Отложен'
     else
       fStatus := 'Исполнен';

@@ -65,7 +65,6 @@ type
     mniEditData: TMenuItem;
     mniSetting: TMenuItem;
     mniFRPayAndRecord: TMenuItem;
-    mniFRTableAll: TMenuItem;
     dsPayAndRecord: TDataSource;
     dsListReport: TDataSource;
     lblWHotPrev: TLabel;
@@ -80,6 +79,31 @@ type
     mniSelectDIR: TMenuItem;
     mniSeparatorConfig: TMenuItem;
     mniConfig: TMenuItem;
+    mniReportN1: TMenuItem;
+    mniReport_ListReport_form: TMenuItem;
+    mniReportN2: TMenuItem;
+    mniReport_Print: TMenuItem;
+    mniReport_Export: TMenuItem;
+    mniReport__PDF: TMenuItem;
+    mniReport_DOC: TMenuItem;
+    mniReport_XML: TMenuItem;
+    mniReport_Reset: TMenuItem;
+    mniReport_Tab_all_form: TMenuItem;
+    mniReport_Tab_big_form: TMenuItem;
+    mniReport_Tab_big_Report_Show: TMenuItem;
+    mniReport_E_Tab_all: TMenuItem;
+    mniReport_TabAll_Print: TMenuItem;
+    mniReport_TabAll_DOC: TMenuItem;
+    mniReport_TabAll_XML: TMenuItem;
+    mniReport_TabAll_PDF: TMenuItem;
+    mniReport_Tab_big_Show: TMenuItem;
+    mniReport_Tab_big_Report_E_Tab_big: TMenuItem;
+    mniReport_Tab_big_Print: TMenuItem;
+    mniReport_Tab_big_DOC: TMenuItem;
+    mniReport_Tab_big_XML: TMenuItem;
+    mniReport_Tab_big_PDF: TMenuItem;
+    mniReport_Tab_big_Report_Apply: TMenuItem;
+    mniReport_Tab_big_Apply: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniAllTableClick(Sender: TObject);
     procedure mniPayAndRecordClick(Sender: TObject);
@@ -94,6 +118,8 @@ type
     procedure mniSaveBDClick(Sender: TObject);
     procedure mniFindBDClick(Sender: TObject);
     procedure mniConfigClick(Sender: TObject);
+    procedure mniReport_ListReport_formClick(Sender: TObject);
+    procedure mniReport_ResetClick(Sender: TObject);
   private    { Private declarations }
 
   public { Public declarations }
@@ -300,14 +326,21 @@ ShowMessage(fDir);
 //ChDir(fDir);
 end;
 
- // отчет - "Листок учета и оплаты услуг"
+// выбор даты - "Листок учета и оплаты услуг"
 procedure TfrmPaymentDocuments.mniFRPayAndRecordClick(Sender: TObject);
-var
-  i: Integer;
 begin
+// активируем поля - "Листок учета и оплаты услуг"
+  mniReport_ListReport_form.Enabled := True;
+  mniReport_Print.Enabled := True;
+  mniReport_Export.Enabled := True;
+  mniReport_Reset.Enabled := True;
+
   frmSelectionDate := TfrmSelectionDate.Create(nil);
   frmSelectionDate.ShowModal;
 end;
+
+
+
 
 // процедура открытия таблицы показания приборов учета
 procedure TfrmPaymentDocuments.mniPayAndRecordClick(Sender: TObject);
@@ -316,6 +349,21 @@ begin
   frmMeteringDevice.ShowModal;
 end;
 
+ // отчет - "Листок учета и оплаты услуг"
+procedure TfrmPaymentDocuments.mniReport_ListReport_formClick(Sender: TObject);
+begin
+  frmListReport.Show;
+  frmListReport.frR_ListReport.ShowReport();
+end;
+// сброс для  - "Листок учета и оплаты услуг"
+procedure TfrmPaymentDocuments.mniReport_ResetClick(Sender: TObject);
+begin
+ // деактивируем поля - "Листок учета и оплаты услуг"
+  mniReport_ListReport_form.Enabled := False;
+  mniReport_Print.Enabled := False;
+  mniReport_Export.Enabled := False;
+  mniReport_Reset.Enabled := False;
+end;
 
 // закрытие формы
 

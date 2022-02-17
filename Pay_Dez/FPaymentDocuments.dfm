@@ -695,11 +695,89 @@ object frmPaymentDocuments: TfrmPaymentDocuments
     object mniReport: TMenuItem
       Caption = #1054#1090#1095#1105#1090#1099
       object mniFRPayAndRecord: TMenuItem
-        Caption = #1051#1080#1089#1090#1086#1082' '#1091#1095#1105#1090#1072
+        Caption = #1042#1099#1073#1086#1088' '#1076#1072#1090#1099' '#1083#1080#1089#1090#1082#1072' '#1091#1095#1077#1090#1072
         OnClick = mniFRPayAndRecordClick
       end
-      object mniFRTableAll: TMenuItem
+      object mniReportN1: TMenuItem
+        Caption = '-'
+      end
+      object mniReport_ListReport_form: TMenuItem
+        Caption = #1057#1092#1086#1088#1084#1080#1088#1086#1074#1072#1090#1100' '#1083#1080#1089#1090#1086#1082' '#1091#1095#1105#1090#1072
+        Enabled = False
+        OnClick = mniReport_ListReport_formClick
+      end
+      object mniReport_Tab_all_form: TMenuItem
         Caption = #1057#1074#1086#1076#1085#1072#1103' '#1090#1072#1073#1083#1080#1094#1072
+        object mniReport_Tab_big_Report_Apply: TMenuItem
+          Caption = #1057#1092#1086#1088#1084#1080#1088#1086#1074#1072#1090#1100
+        end
+        object mniReport_Tab_big_Report_Show: TMenuItem
+          Caption = #1055#1088#1086#1089#1084#1086#1090#1088
+        end
+        object mniReport_E_Tab_all: TMenuItem
+          Caption = #1069#1082#1089#1087#1086#1088#1090
+          object mniReport_TabAll_DOC: TMenuItem
+            Caption = 'DOC'
+          end
+          object mniReport_TabAll_XML: TMenuItem
+            Caption = 'XML'
+          end
+          object mniReport_TabAll_PDF: TMenuItem
+            Caption = 'PDF'
+          end
+        end
+        object mniReport_TabAll_Print: TMenuItem
+          Caption = #1055#1077#1095#1072#1090#1100
+        end
+      end
+      object mniReport_Tab_big_form: TMenuItem
+        Caption = #1056#1072#1089#1096#1080#1088#1077#1085#1085#1072#1103' '#1090#1072#1073#1083#1080#1094#1072
+        object mniReport_Tab_big_Apply: TMenuItem
+          Caption = #1057#1092#1086#1088#1084#1080#1088#1086#1074#1072#1090#1100
+        end
+        object mniReport_Tab_big_Show: TMenuItem
+          Caption = #1055#1088#1086#1089#1084#1086#1090#1088
+        end
+        object mniReport_Tab_big_Report_E_Tab_big: TMenuItem
+          Caption = #1069#1082#1089#1087#1086#1088#1090
+          object mniReport_Tab_big_DOC: TMenuItem
+            Caption = 'DOC'
+          end
+          object mniReport_Tab_big_XML: TMenuItem
+            Caption = 'XML'
+          end
+          object mniReport_Tab_big_PDF: TMenuItem
+            Caption = 'PDF'
+          end
+        end
+        object mniReport_Tab_big_Print: TMenuItem
+          Caption = #1055#1077#1095#1072#1090#1100
+        end
+      end
+      object mniReportN2: TMenuItem
+        Caption = '-'
+      end
+      object mniReport_Print: TMenuItem
+        Caption = #1055#1077#1095#1072#1090#1100' '#1083#1080#1089#1090#1086#1082' '#1091#1095#1077#1090#1072
+        Enabled = False
+      end
+      object mniReport_Export: TMenuItem
+        Caption = #1069#1082#1089#1087#1086#1088#1090' '#1083#1080#1089#1090#1086#1082' '#1091#1095#1077#1090#1072
+        Enabled = False
+        object mniReport__PDF: TMenuItem
+          Caption = 'PDF'
+        end
+        object mniReport_DOC: TMenuItem
+          Caption = 'DOC'
+        end
+        object mniReport_XML: TMenuItem
+          Caption = 'XML'
+        end
+      end
+      object mniReport_Reset: TMenuItem
+        Caption = #1057#1073#1088#1086#1089' '#1083#1080#1089#1090#1086#1082' '#1091#1095#1077#1090#1072
+        Enabled = False
+        OnClick = mniReport_ResetClick
       end
     end
   end

@@ -1,9 +1,10 @@
 object frmMeteringDevice: TfrmMeteringDevice
   Left = 0
   Top = 0
+  BorderStyle = bsSingle
   Caption = #1058#1072#1073#1083#1080#1094#1072' '#1087#1086#1082#1072#1079#1072#1085#1080#1081' '#1087#1088#1080#1073#1086#1088#1086#1074' '#1091#1095#1105#1090#1072
-  ClientHeight = 740
-  ClientWidth = 1039
+  ClientHeight = 750
+  ClientWidth = 1094
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,8 +19,8 @@ object frmMeteringDevice: TfrmMeteringDevice
   object grdMeteringDevice: TDBGrid
     Left = 0
     Top = 20
-    Width = 1039
-    Height = 720
+    Width = 1094
+    Height = 730
     Align = alClient
     DataSource = dsMeteringDevice
     TabOrder = 0
@@ -32,13 +33,13 @@ object frmMeteringDevice: TfrmMeteringDevice
   object nvgMeteringDevice: TDBNavigator
     Left = 0
     Top = 0
-    Width = 1039
+    Width = 1094
     Height = 20
     DataSource = dsMeteringDevice
     VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
     Align = alTop
     TabOrder = 1
-    ExplicitWidth = 940
+    ExplicitWidth = 1039
   end
   object dsMeteringDevice: TDataSource
     DataSet = dmPayment.fmTabPayAndRecord
