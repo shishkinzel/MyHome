@@ -101,8 +101,6 @@ type
     mniReport_Tab_Big_DOC: TMenuItem;
     mniReport_Tab_Big_XML: TMenuItem;
     mniReport_Tab_Big_PDF: TMenuItem;
-    mniReport_Tab_Little_Apply: TMenuItem;
-    mniReport_Tab_Big_Apply: TMenuItem;
     mniSet_Table_DB: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniTabShow_LittleClick(Sender: TObject);
@@ -368,6 +366,7 @@ end;
 
 procedure TfrmPaymentDocuments.mniReport_Tab_Big_ShowClick(Sender: TObject);
 begin
+frmFRMeteringDevice := TfrmFRMeteringDevice.Create(nil);
  frmFRMeteringDevice.Show;
  frmFRMeteringDevice.fr_R_Table_Big.ShowReport();
 end;

@@ -15,14 +15,14 @@ type
     frE_Table_Big_XML: TfrxXMLExport;
     frE_Table_Big_DOC: TfrxDOCXExport;
     frE_Table_Big_PDF: TfrxPDFExport;
-  private
-    { Private declarations }
-  public
-    { Public declarations }
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private    { Private declarations }
+  public    { Public declarations }
   end;
 
 var
   frmFRMeteringDevice: TfrmFRMeteringDevice;
+
 
 implementation
 
@@ -30,5 +30,10 @@ uses
   FPaymentDocuments, FdmPayment;
 
 {$R *.dfm}
+
+procedure TfrmFRMeteringDevice.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  frmFRMeteringDevice.Action.Free;
+end;
 
 end.

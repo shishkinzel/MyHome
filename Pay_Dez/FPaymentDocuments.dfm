@@ -402,7 +402,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
           ParentFont = False
         end
         object lblAmount: TLabel
-          Left = 303
+          Left = 288
           Top = 10
           Width = 88
           Height = 19
@@ -415,7 +415,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
           ParentFont = False
         end
         object lblExecute: TLabel
-          Left = 556
+          Left = 536
           Top = 10
           Width = 46
           Height = 19
@@ -493,7 +493,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
         ParentBackground = False
         TabOrder = 3
         object lblDezAmount: TLabel
-          Left = 400
+          Left = 376
           Top = 10
           Width = 52
           Height = 19
@@ -506,7 +506,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
           ParentFont = False
         end
         object lblDezApp: TLabel
-          Left = 149
+          Left = 134
           Top = 10
           Width = 43
           Height = 19
@@ -519,7 +519,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
           ParentFont = False
         end
         object lblMosEnAmount: TLabel
-          Left = 400
+          Left = 376
           Top = 40
           Width = 52
           Height = 19
@@ -532,7 +532,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
           ParentFont = False
         end
         object lblMosEnApp: TLabel
-          Left = 149
+          Left = 134
           Top = 40
           Width = 43
           Height = 19
@@ -545,7 +545,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
           ParentFont = False
         end
         object lblOnLineAmount: TLabel
-          Left = 400
+          Left = 376
           Top = 70
           Width = 52
           Height = 19
@@ -558,7 +558,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
           ParentFont = False
         end
         object lblOnLineApp: TLabel
-          Left = 149
+          Left = 134
           Top = 70
           Width = 43
           Height = 19
@@ -706,9 +706,6 @@ object frmPaymentDocuments: TfrmPaymentDocuments
       end
       object mniReport_Tab_Little: TMenuItem
         Caption = #1058#1072#1073#1083#1080#1094#1072' '#1087#1086#1082#1072#1079#1072#1085#1080#1081' '#1087#1088#1080#1073#1086#1088#1086#1074' '#1091#1095#1105#1090#1072
-        object mniReport_Tab_Little_Apply: TMenuItem
-          Caption = #1057#1092#1086#1088#1084#1080#1088#1086#1074#1072#1090#1100
-        end
         object mniReport_Tab_Little_Show: TMenuItem
           Caption = #1055#1088#1086#1089#1084#1086#1090#1088
         end
@@ -730,9 +727,6 @@ object frmPaymentDocuments: TfrmPaymentDocuments
       end
       object mniReport_Tab_Big: TMenuItem
         Caption = #1057#1074#1086#1076#1085#1072#1103' '#1090#1072#1073#1083#1080#1094#1072
-        object mniReport_Tab_Big_Apply: TMenuItem
-          Caption = #1057#1092#1086#1088#1084#1080#1088#1086#1074#1072#1090#1100
-        end
         object mniReport_Tab_Big_Show: TMenuItem
           Caption = #1055#1088#1086#1089#1084#1086#1090#1088
           OnClick = mniReport_Tab_Big_ShowClick

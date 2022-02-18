@@ -2,8 +2,8 @@ object frmFRMeteringDevice: TfrmFRMeteringDevice
   Left = 0
   Top = 0
   Caption = #1051#1080#1089#1090#1086#1082' '#1091#1095#1105#1090#1072' '#1080' '#1086#1087#1083#1072#1090#1099' '#1091#1089#1083#1091#1075
-  ClientHeight = 618
-  ClientWidth = 908
+  ClientHeight = 811
+  ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,13 +11,15 @@ object frmFRMeteringDevice: TfrmFRMeteringDevice
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   object fr_P_Table_Big: TfrxPreview
     Left = 0
     Top = 0
-    Width = 908
-    Height = 618
+    Width = 1184
+    Height = 811
     Align = alClient
     OutlineVisible = False
     OutlineWidth = 120
@@ -26,6 +28,8 @@ object frmFRMeteringDevice: TfrmFRMeteringDevice
     UseReportHints = True
     OutlineTreeSortType = dtsUnsorted
     HideScrolls = False
+    ExplicitWidth = 908
+    ExplicitHeight = 618
   end
   object fr_R_Table_Big: TfrxReport
     Version = '6.9.3'
@@ -37,7 +41,7 @@ object frmFRMeteringDevice: TfrmFRMeteringDevice
     PrintOptions.Printer = 'Default'
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 44610.647343344910000000
-    ReportOptions.LastChange = 44610.686838530090000000
+    ReportOptions.LastChange = 44610.850405844910000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       ''
@@ -96,8 +100,8 @@ object frmFRMeteringDevice: TfrmFRMeteringDevice
       object MasterData1: TfrxMasterData
         FillType = ftBrush
         Frame.Typ = []
-        Height = 41.574830000000000000
-        Top = 226.771800000000000000
+        Height = 37.795300000000000000
+        Top = 215.433210000000000000
         Width = 1046.929810000000000000
         DataSet = dbMeteringDevice
         DataSetName = 'tb_Table_Big'
@@ -117,9 +121,11 @@ object frmFRMeteringDevice: TfrmFRMeteringDevice
           Font.Name = 'Arial'
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          HAlign = haCenter
           Memo.UTF8W = (
             '[tb_Table_Big."number"]')
           ParentFont = False
+          VAlign = vaCenter
         end
         object tb_Table_Bigdate: TfrxMemoView
           IndexTag = 1
@@ -136,9 +142,11 @@ object frmFRMeteringDevice: TfrmFRMeteringDevice
           Font.Name = 'Arial'
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          HAlign = haCenter
           Memo.UTF8W = (
             '[tb_Table_Big."date"]')
           ParentFont = False
+          VAlign = vaCenter
         end
         object tb_Table_BiglightPrev: TfrxMemoView
           IndexTag = 1
@@ -281,9 +289,11 @@ object frmFRMeteringDevice: TfrmFRMeteringDevice
           Font.Name = 'Arial'
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          HAlign = haCenter
           Memo.UTF8W = (
             '[tb_Table_Big."WaterHotPrev"]')
           ParentFont = False
+          VAlign = vaCenter
         end
         object tb_Table_BigWaterHotNext: TfrxMemoView
           IndexTag = 1
@@ -300,9 +310,11 @@ object frmFRMeteringDevice: TfrmFRMeteringDevice
           Font.Name = 'Arial'
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          HAlign = haCenter
           Memo.UTF8W = (
             '[tb_Table_Big."WaterHotNext"]')
           ParentFont = False
+          VAlign = vaCenter
         end
         object tb_Table_BigWaterHotExpense: TfrxMemoView
           IndexTag = 1
@@ -319,9 +331,11 @@ object frmFRMeteringDevice: TfrmFRMeteringDevice
           Font.Name = 'Arial'
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          HAlign = haCenter
           Memo.UTF8W = (
             '[tb_Table_Big."WaterHotExpense"]')
           ParentFont = False
+          VAlign = vaCenter
         end
         object tb_Table_BigDezSum: TfrxMemoView
           IndexTag = 1
@@ -338,9 +352,11 @@ object frmFRMeteringDevice: TfrmFRMeteringDevice
           Font.Name = 'Arial'
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          HAlign = haCenter
           Memo.UTF8W = (
             '[tb_Table_Big."DezSum"]')
           ParentFont = False
+          VAlign = vaCenter
         end
         object tb_Table_BigMosEn: TfrxMemoView
           IndexTag = 1
@@ -357,9 +373,11 @@ object frmFRMeteringDevice: TfrmFRMeteringDevice
           Font.Name = 'Arial'
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          HAlign = haCenter
           Memo.UTF8W = (
             '[tb_Table_Big."MosEn"]')
           ParentFont = False
+          VAlign = vaCenter
         end
         object tb_Table_BigonLime: TfrxMemoView
           IndexTag = 1
@@ -376,16 +394,18 @@ object frmFRMeteringDevice: TfrmFRMeteringDevice
           Font.Name = 'Arial'
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          HAlign = haCenter
           Memo.UTF8W = (
             '[tb_Table_Big."onLime"]')
           ParentFont = False
+          VAlign = vaCenter
         end
       end
       object PageFooter_Big: TfrxPageFooter
         FillType = ftBrush
         Frame.Typ = []
         Height = 30.236240000000000000
-        Top = 328.819110000000000000
+        Top = 313.700990000000000000
         Width = 1046.929810000000000000
         object Memo1: TfrxMemoView
           Align = baCenter
@@ -411,14 +431,14 @@ object frmFRMeteringDevice: TfrmFRMeteringDevice
           Frame.Typ = []
           HAlign = haCenter
           Memo.UTF8W = (
-            '[Date#]')
+            '[Date]')
           VAlign = vaCenter
         end
       end
       object Title_TableBig: TfrxPageHeader
         FillType = ftBrush
         Frame.Typ = []
-        Height = 83.149623390000000000
+        Height = 71.811033390000000000
         Top = 83.149660000000000000
         Width = 1046.929810000000000000
         object Number: TfrxMemoView
