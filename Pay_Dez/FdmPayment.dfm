@@ -5,81 +5,7 @@ object dmPayment: TdmPayment
   Height = 488
   Width = 665
   object fmTabPayAndRecord: TFDMemTable
-    Active = True
-    FieldDefs = <
-      item
-        Name = 'number'
-        Attributes = [faReadonly]
-        DataType = ftInteger
-      end
-      item
-        Name = 'date'
-        Attributes = [faReadonly]
-        DataType = ftDate
-      end
-      item
-        Name = 'lightPrev'
-        Attributes = [faReadonly]
-        DataType = ftInteger
-      end
-      item
-        Name = 'lightNext'
-        Attributes = [faReadonly]
-        DataType = ftInteger
-      end
-      item
-        Name = 'lightExpense'
-        Attributes = [faReadonly]
-        DataType = ftInteger
-      end
-      item
-        Name = 'WaterColdPrev'
-        Attributes = [faReadonly]
-        DataType = ftInteger
-      end
-      item
-        Name = 'WaterColdNext'
-        Attributes = [faReadonly]
-        DataType = ftInteger
-      end
-      item
-        Name = 'WaterColdExpense'
-        Attributes = [faReadonly]
-        DataType = ftInteger
-      end
-      item
-        Name = 'WaterHotPrev'
-        Attributes = [faReadonly]
-        DataType = ftInteger
-      end
-      item
-        Name = 'WaterHotNext'
-        Attributes = [faReadonly]
-        DataType = ftInteger
-      end
-      item
-        Name = 'WaterHotExpense'
-        Attributes = [faReadonly]
-        DataType = ftInteger
-      end
-      item
-        Name = 'DezSum'
-        Attributes = [faReadonly]
-        DataType = ftCurrency
-        Precision = 19
-      end
-      item
-        Name = 'MosEn'
-        Attributes = [faReadonly]
-        DataType = ftCurrency
-        Precision = 19
-      end
-      item
-        Name = 'onLime'
-        Attributes = [faReadonly]
-        DataType = ftCurrency
-        Precision = 19
-      end>
+    FieldDefs = <>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
@@ -193,40 +119,7 @@ object dmPayment: TdmPayment
     end
   end
   object fmTabSummaryTable: TFDMemTable
-    Active = True
-    FieldDefs = <
-      item
-        Name = 'number'
-        DataType = ftInteger
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'lightMeterReading'
-        DataType = ftInteger
-      end
-      item
-        Name = 'lightExpense'
-        DataType = ftInteger
-      end
-      item
-        Name = 'waterColdMeterReading'
-        DataType = ftInteger
-      end
-      item
-        Name = 'waterColdExpense'
-        DataType = ftInteger
-      end
-      item
-        Name = 'waterHotMeterReading'
-        DataType = ftInteger
-      end
-      item
-        Name = 'waterHotExpense'
-        DataType = ftInteger
-      end>
+    FieldDefs = <>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
@@ -288,7 +181,8 @@ object dmPayment: TdmPayment
     end
   end
   object jsonFileDb: TFDStanStorageJSONLink
-    Left = 152
+    Left = 160
+    Top = 24
   end
   object fmTabListReport: TFDMemTable
     Active = True

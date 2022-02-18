@@ -109,7 +109,6 @@ type
     procedure mniTabShow_BigClick(Sender: TObject);
     procedure mniForms_InputDataClick(Sender: TObject);
     procedure mniForms_EditDataClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure mniReport_ListReportClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure mniSet_AdminClick(Sender: TObject);
@@ -120,6 +119,7 @@ type
     procedure mniSet_ConfigClick(Sender: TObject);
     procedure mniReport_ListReport_ApplyClick(Sender: TObject);
     procedure mniReport_ResetClick(Sender: TObject);
+    procedure mniReport_Tab_Big_ShowClick(Sender: TObject);
   private    { Private declarations }
 
   public { Public declarations }
@@ -365,16 +365,15 @@ begin
   mniReport_Reset.Enabled := False;
 end;
 
+
+procedure TfrmPaymentDocuments.mniReport_Tab_Big_ShowClick(Sender: TObject);
+begin
+ frmFRMeteringDevice.Show;
+ frmFRMeteringDevice.fr_R_Table_Big.ShowReport();
+end;
+
 // закрытие формы
 
-procedure TfrmPaymentDocuments.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  // dmPayment.fmTabSummaryTable.Close;
-  // dmPayment.fmTabPayAndRecord.Close;
-  // деактивация таблиц
-  dmPayment.fmTabPayAndRecord.Active := False;
-  dmPayment.fmTabSummaryTable.Active := False;
-end;
 
 end.
 

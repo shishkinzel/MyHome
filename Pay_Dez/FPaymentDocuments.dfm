@@ -15,7 +15,6 @@ object frmPaymentDocuments: TfrmPaymentDocuments
   OldCreateOrder = False
   Position = poScreenCenter
   StyleName = 'Payment Documents'
-  OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
@@ -736,6 +735,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
         end
         object mniReport_Tab_Big_Show: TMenuItem
           Caption = #1055#1088#1086#1089#1084#1086#1090#1088
+          OnClick = mniReport_Tab_Big_ShowClick
         end
         object mniReport_E_Tab_Big: TMenuItem
           Caption = #1069#1082#1089#1087#1086#1088#1090
