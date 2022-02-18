@@ -21,10 +21,9 @@ type
     pnlApply: TPanel;
     pnlShow: TPanel;
     mniOpenDB: TMenuItem;
-    mniFindBD: TMenuItem;
     mniShow: TMenuItem;
-    mniAllTable: TMenuItem;
-    mniReport: TMenuItem;
+    mniTabShow_Little: TMenuItem;
+    mniReport_Show: TMenuItem;
     dtpPay: TDateTimePicker;
     txtDate: TStaticText;
     txtApplyPay: TStaticText;
@@ -59,28 +58,28 @@ type
     pnlApplyTitle: TPanel;
     pnlApplyRow: TPanel;
     pnlApplyDate: TPanel;
-    mniPayAndRecord: TMenuItem;
-    mniForms: TMenuItem;
-    mniInputData: TMenuItem;
-    mniEditData: TMenuItem;
-    mniSetting: TMenuItem;
-    mniFRPayAndRecord: TMenuItem;
+    mniTabShow_Big: TMenuItem;
+    mniTabShow_Forms: TMenuItem;
+    mniForms_InputData: TMenuItem;
+    mniForms_EditData: TMenuItem;
+    mniSet_Show: TMenuItem;
+    mniReport_ListReport: TMenuItem;
     dsPayAndRecord: TDataSource;
     dsListReport: TDataSource;
     lblWHotPrev: TLabel;
     lblWHotNext: TLabel;
     lblWHotExpense: TLabel;
-    mniAdmin: TMenuItem;
+    mniSet_Admin: TMenuItem;
     dlgOpenPay: TOpenDialog;
     dlgSavePay: TSaveDialog;
     mniSeparatorFile: TMenuItem;
     mniSaveBD: TMenuItem;
     mniSeparatorSet: TMenuItem;
-    mniSelectDIR: TMenuItem;
+    mniSet_DIR: TMenuItem;
     mniSeparatorConfig: TMenuItem;
-    mniConfig: TMenuItem;
+    mniSet_Config: TMenuItem;
     mniReportN1: TMenuItem;
-    mniReport_ListReport_form: TMenuItem;
+    mniReport_ListReport_Apply: TMenuItem;
     mniReportN2: TMenuItem;
     mniReport_Print: TMenuItem;
     mniReport_Export: TMenuItem;
@@ -88,37 +87,38 @@ type
     mniReport_DOC: TMenuItem;
     mniReport_XML: TMenuItem;
     mniReport_Reset: TMenuItem;
-    mniReport_Tab_all_form: TMenuItem;
-    mniReport_Tab_big_form: TMenuItem;
-    mniReport_Tab_big_Report_Show: TMenuItem;
-    mniReport_E_Tab_all: TMenuItem;
-    mniReport_TabAll_Print: TMenuItem;
+    mniReport_Tab_Little: TMenuItem;
+    mniReport_Tab_Big: TMenuItem;
+    mniReport_Tab_Little_Show: TMenuItem;
+    mniReport_E_Tab_Little: TMenuItem;
+    mniReport_Tab_Little_Print: TMenuItem;
     mniReport_TabAll_DOC: TMenuItem;
     mniReport_TabAll_XML: TMenuItem;
     mniReport_TabAll_PDF: TMenuItem;
-    mniReport_Tab_big_Show: TMenuItem;
-    mniReport_Tab_big_Report_E_Tab_big: TMenuItem;
-    mniReport_Tab_big_Print: TMenuItem;
-    mniReport_Tab_big_DOC: TMenuItem;
-    mniReport_Tab_big_XML: TMenuItem;
-    mniReport_Tab_big_PDF: TMenuItem;
-    mniReport_Tab_big_Report_Apply: TMenuItem;
-    mniReport_Tab_big_Apply: TMenuItem;
+    mniReport_Tab_Big_Show: TMenuItem;
+    mniReport_E_Tab_Big: TMenuItem;
+    mniReport_Tab_Big_Print: TMenuItem;
+    mniReport_Tab_Big_DOC: TMenuItem;
+    mniReport_Tab_Big_XML: TMenuItem;
+    mniReport_Tab_Big_PDF: TMenuItem;
+    mniReport_Tab_Little_Apply: TMenuItem;
+    mniReport_Tab_Big_Apply: TMenuItem;
+    mniSet_Table_DB: TMenuItem;
     procedure FormCreate(Sender: TObject);
-    procedure mniAllTableClick(Sender: TObject);
-    procedure mniPayAndRecordClick(Sender: TObject);
-    procedure mniInputDataClick(Sender: TObject);
-    procedure mniEditDataClick(Sender: TObject);
+    procedure mniTabShow_LittleClick(Sender: TObject);
+    procedure mniTabShow_BigClick(Sender: TObject);
+    procedure mniForms_InputDataClick(Sender: TObject);
+    procedure mniForms_EditDataClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure mniFRPayAndRecordClick(Sender: TObject);
+    procedure mniReport_ListReportClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure mniAdminClick(Sender: TObject);
-    procedure mniSelectDIRClick(Sender: TObject);
+    procedure mniSet_AdminClick(Sender: TObject);
+    procedure mniSet_DIRClick(Sender: TObject);
     procedure mniOpenDBClick(Sender: TObject);
     procedure mniSaveBDClick(Sender: TObject);
     procedure mniFindBDClick(Sender: TObject);
-    procedure mniConfigClick(Sender: TObject);
-    procedure mniReport_ListReport_formClick(Sender: TObject);
+    procedure mniSet_ConfigClick(Sender: TObject);
+    procedure mniReport_ListReport_ApplyClick(Sender: TObject);
     procedure mniReport_ResetClick(Sender: TObject);
   private    { Private declarations }
 
@@ -173,7 +173,7 @@ begin
   end
   else
   begin
-    mniConfig.Enabled := True;
+    mniSet_Config.Enabled := True;
     ShowMessage('Конфигурационный файл - отсутствует!!!');
 
   end;
@@ -230,20 +230,20 @@ begin
 
 end;
 
-procedure TfrmPaymentDocuments.mniAdminClick(Sender: TObject);
+procedure TfrmPaymentDocuments.mniSet_AdminClick(Sender: TObject);
 begin
   frmAdmin := TfrmAdmin.Create(nil);
   frmAdmin.ShowModal;
 end;
 
-procedure TfrmPaymentDocuments.mniAllTableClick(Sender: TObject);
+procedure TfrmPaymentDocuments.mniTabShow_LittleClick(Sender: TObject);
 begin
   frmTableAll := TfrmTableAll.Create(nil);
   frmTableAll.ShowModal;
 end;
 
 // создание файла конфигурации
-procedure TfrmPaymentDocuments.mniConfigClick(Sender: TObject);
+procedure TfrmPaymentDocuments.mniSet_ConfigClick(Sender: TObject);
 begin
   ShowMessage('Вы пытаетесь создать конфигурационный файл');
   fIniFile := TIniFile.Create(ExtractFilePath(Application.ExeName) + fConfig_file);
@@ -256,17 +256,17 @@ begin
   IniOptions.SaveSettings(fIniFile);
   IniOptions.SaveToFile(fConfig_file);
   fIniFile.Free;
-  mniConfig.Enabled := False;
+  mniSet_Config.Enabled := False;
   fExist_config := True;
 end;
 
-procedure TfrmPaymentDocuments.mniEditDataClick(Sender: TObject);
+procedure TfrmPaymentDocuments.mniForms_EditDataClick(Sender: TObject);
 begin
   frmEditing := TfrmEditing.Create(nil);
   frmEditing.ShowModal;
 end;
 
-procedure TfrmPaymentDocuments.mniInputDataClick(Sender: TObject);
+procedure TfrmPaymentDocuments.mniForms_InputDataClick(Sender: TObject);
 begin
   frmInputData := TfrmInputData.Create(nil);
   frmInputData.ShowModal;
@@ -301,7 +301,7 @@ begin
 end;
 
 // выбор директории по умолчанию
-procedure TfrmPaymentDocuments.mniSelectDIRClick(Sender: TObject);
+procedure TfrmPaymentDocuments.mniSet_DIRClick(Sender: TObject);
 var
   i: Integer;
 begin
@@ -327,10 +327,10 @@ ShowMessage(fDir);
 end;
 
 // выбор даты - "Листок учета и оплаты услуг"
-procedure TfrmPaymentDocuments.mniFRPayAndRecordClick(Sender: TObject);
+procedure TfrmPaymentDocuments.mniReport_ListReportClick(Sender: TObject);
 begin
 // активируем поля - "Листок учета и оплаты услуг"
-  mniReport_ListReport_form.Enabled := True;
+  mniReport_ListReport_Apply.Enabled := True;
   mniReport_Print.Enabled := True;
   mniReport_Export.Enabled := True;
   mniReport_Reset.Enabled := True;
@@ -343,14 +343,14 @@ end;
 
 
 // процедура открытия таблицы показания приборов учета
-procedure TfrmPaymentDocuments.mniPayAndRecordClick(Sender: TObject);
+procedure TfrmPaymentDocuments.mniTabShow_BigClick(Sender: TObject);
 begin
   frmMeteringDevice := TfrmMeteringDevice.Create(nil);
   frmMeteringDevice.ShowModal;
 end;
 
  // отчет - "Листок учета и оплаты услуг"
-procedure TfrmPaymentDocuments.mniReport_ListReport_formClick(Sender: TObject);
+procedure TfrmPaymentDocuments.mniReport_ListReport_ApplyClick(Sender: TObject);
 begin
   frmListReport.Show;
   frmListReport.frR_ListReport.ShowReport();
@@ -359,7 +359,7 @@ end;
 procedure TfrmPaymentDocuments.mniReport_ResetClick(Sender: TObject);
 begin
  // деактивируем поля - "Листок учета и оплаты услуг"
-  mniReport_ListReport_form.Enabled := False;
+  mniReport_ListReport_Apply.Enabled := False;
   mniReport_Print.Enabled := False;
   mniReport_Export.Enabled := False;
   mniReport_Reset.Enabled := False;
@@ -371,6 +371,9 @@ procedure TfrmPaymentDocuments.FormClose(Sender: TObject; var Action: TCloseActi
 begin
   // dmPayment.fmTabSummaryTable.Close;
   // dmPayment.fmTabPayAndRecord.Close;
+  // деактивация таблиц
+  dmPayment.fmTabPayAndRecord.Active := False;
+  dmPayment.fmTabSummaryTable.Active := False;
 end;
 
 end.

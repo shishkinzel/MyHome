@@ -75,6 +75,9 @@ procedure TdmPayment.DataModuleCreate(Sender: TObject);
 var
   fIniFile: TIniFile;
 begin
+//  fmTabPayAndRecord.Open;
+//  fmTabSummaryTable.Open;
+
   if frmPaymentDocuments.fExist_config then
   begin
     ShowMessage('Чтение файла конфигурации');
@@ -99,7 +102,6 @@ begin
   end
   else
     fmTabPayAndRecord.SaveToFile(fJsonFile, sfJSON);
-
   dmPayment.fmTabSummaryTable.Close;
   dmPayment.fmTabPayAndRecord.Close;
 end;

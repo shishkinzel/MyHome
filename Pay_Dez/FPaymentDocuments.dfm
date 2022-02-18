@@ -635,10 +635,6 @@ object frmPaymentDocuments: TfrmPaymentDocuments
         Caption = #1054#1090#1082#1088#1099#1090#1100' '#1092#1072#1081#1083' '#1041#1044
         OnClick = mniOpenDBClick
       end
-      object mniFindBD: TMenuItem
-        Caption = #1053#1072#1081#1090#1080' '#1092#1072#1081#1083' '#1041#1044
-        OnClick = mniFindBDClick
-      end
       object mniSeparatorFile: TMenuItem
         Caption = '-'
       end
@@ -649,72 +645,75 @@ object frmPaymentDocuments: TfrmPaymentDocuments
     end
     object mniShow: TMenuItem
       Caption = #1055#1086#1082#1072#1079#1072#1090#1100
-      object mniAllTable: TMenuItem
-        Caption = #1057#1074#1086#1076#1085#1072#1103' '#1090#1072#1073#1083#1080#1094#1072
-        OnClick = mniAllTableClick
+      object mniTabShow_Little: TMenuItem
+        Caption = #1058#1072#1073#1083#1080#1094#1072' '#1087#1086#1082#1072#1079#1072#1085#1080#1081' '#1087#1088#1080#1073#1086#1088#1086#1074' '#1091#1095#1105#1090#1072
+        OnClick = mniTabShow_LittleClick
       end
-      object mniPayAndRecord: TMenuItem
-        Caption = #1051#1080#1089#1090#1086#1082' '#1091#1095#1105#1090#1072' '#1080' '#1086#1087#1083#1072#1090#1099
-        OnClick = mniPayAndRecordClick
+      object mniTabShow_Big: TMenuItem
+        Caption = #1057#1074#1086#1076#1085#1072#1103' '#1090#1072#1073#1083#1080#1094#1072
+        OnClick = mniTabShow_BigClick
       end
     end
-    object mniForms: TMenuItem
+    object mniTabShow_Forms: TMenuItem
       Caption = #1060#1086#1088#1084#1099
-      object mniInputData: TMenuItem
+      object mniForms_InputData: TMenuItem
         Caption = #1042#1074#1086#1076' '#1076#1072#1085#1085#1099#1093
-        OnClick = mniInputDataClick
+        OnClick = mniForms_InputDataClick
       end
-      object mniEditData: TMenuItem
+      object mniForms_EditData: TMenuItem
         Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1085#1080#1077' '#1076#1072#1085#1085#1099#1093
         Enabled = False
-        OnClick = mniEditDataClick
+        OnClick = mniForms_EditDataClick
       end
     end
-    object mniSetting: TMenuItem
+    object mniSet_Show: TMenuItem
       Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
-      object mniAdmin: TMenuItem
+      object mniSet_Admin: TMenuItem
         Caption = #1040#1076#1084#1080#1085#1080#1089#1090#1088#1080#1088#1086#1074#1072#1085#1080#1077
-        OnClick = mniAdminClick
+        OnClick = mniSet_AdminClick
       end
       object mniSeparatorSet: TMenuItem
         Caption = '-'
       end
-      object mniSelectDIR: TMenuItem
+      object mniSet_Table_DB: TMenuItem
+        Caption = #1055#1072#1087#1082#1072' '#1041#1044
+      end
+      object mniSet_DIR: TMenuItem
         Caption = #1042#1099#1073#1086#1088' '#1087#1072#1087#1082#1080' '
-        OnClick = mniSelectDIRClick
+        OnClick = mniSet_DIRClick
       end
       object mniSeparatorConfig: TMenuItem
         Caption = '-'
       end
-      object mniConfig: TMenuItem
+      object mniSet_Config: TMenuItem
         Caption = #1057#1086#1079#1076#1072#1090#1100' '#1092#1072#1081#1083' '#1082#1086#1085#1092#1080#1075#1091#1088#1072#1094#1080#1080
         Enabled = False
-        OnClick = mniConfigClick
+        OnClick = mniSet_ConfigClick
       end
     end
-    object mniReport: TMenuItem
+    object mniReport_Show: TMenuItem
       Caption = #1054#1090#1095#1105#1090#1099
-      object mniFRPayAndRecord: TMenuItem
+      object mniReport_ListReport: TMenuItem
         Caption = #1042#1099#1073#1086#1088' '#1076#1072#1090#1099' '#1083#1080#1089#1090#1082#1072' '#1091#1095#1077#1090#1072
-        OnClick = mniFRPayAndRecordClick
+        OnClick = mniReport_ListReportClick
       end
       object mniReportN1: TMenuItem
         Caption = '-'
       end
-      object mniReport_ListReport_form: TMenuItem
+      object mniReport_ListReport_Apply: TMenuItem
         Caption = #1057#1092#1086#1088#1084#1080#1088#1086#1074#1072#1090#1100' '#1083#1080#1089#1090#1086#1082' '#1091#1095#1105#1090#1072
         Enabled = False
-        OnClick = mniReport_ListReport_formClick
+        OnClick = mniReport_ListReport_ApplyClick
       end
-      object mniReport_Tab_all_form: TMenuItem
-        Caption = #1057#1074#1086#1076#1085#1072#1103' '#1090#1072#1073#1083#1080#1094#1072
-        object mniReport_Tab_big_Report_Apply: TMenuItem
+      object mniReport_Tab_Little: TMenuItem
+        Caption = #1058#1072#1073#1083#1080#1094#1072' '#1087#1086#1082#1072#1079#1072#1085#1080#1081' '#1087#1088#1080#1073#1086#1088#1086#1074' '#1091#1095#1105#1090#1072
+        object mniReport_Tab_Little_Apply: TMenuItem
           Caption = #1057#1092#1086#1088#1084#1080#1088#1086#1074#1072#1090#1100
         end
-        object mniReport_Tab_big_Report_Show: TMenuItem
+        object mniReport_Tab_Little_Show: TMenuItem
           Caption = #1055#1088#1086#1089#1084#1086#1090#1088
         end
-        object mniReport_E_Tab_all: TMenuItem
+        object mniReport_E_Tab_Little: TMenuItem
           Caption = #1069#1082#1089#1087#1086#1088#1090
           object mniReport_TabAll_DOC: TMenuItem
             Caption = 'DOC'
@@ -726,31 +725,31 @@ object frmPaymentDocuments: TfrmPaymentDocuments
             Caption = 'PDF'
           end
         end
-        object mniReport_TabAll_Print: TMenuItem
+        object mniReport_Tab_Little_Print: TMenuItem
           Caption = #1055#1077#1095#1072#1090#1100
         end
       end
-      object mniReport_Tab_big_form: TMenuItem
-        Caption = #1056#1072#1089#1096#1080#1088#1077#1085#1085#1072#1103' '#1090#1072#1073#1083#1080#1094#1072
-        object mniReport_Tab_big_Apply: TMenuItem
+      object mniReport_Tab_Big: TMenuItem
+        Caption = #1057#1074#1086#1076#1085#1072#1103' '#1090#1072#1073#1083#1080#1094#1072
+        object mniReport_Tab_Big_Apply: TMenuItem
           Caption = #1057#1092#1086#1088#1084#1080#1088#1086#1074#1072#1090#1100
         end
-        object mniReport_Tab_big_Show: TMenuItem
+        object mniReport_Tab_Big_Show: TMenuItem
           Caption = #1055#1088#1086#1089#1084#1086#1090#1088
         end
-        object mniReport_Tab_big_Report_E_Tab_big: TMenuItem
+        object mniReport_E_Tab_Big: TMenuItem
           Caption = #1069#1082#1089#1087#1086#1088#1090
-          object mniReport_Tab_big_DOC: TMenuItem
+          object mniReport_Tab_Big_DOC: TMenuItem
             Caption = 'DOC'
           end
-          object mniReport_Tab_big_XML: TMenuItem
+          object mniReport_Tab_Big_XML: TMenuItem
             Caption = 'XML'
           end
-          object mniReport_Tab_big_PDF: TMenuItem
+          object mniReport_Tab_Big_PDF: TMenuItem
             Caption = 'PDF'
           end
         end
-        object mniReport_Tab_big_Print: TMenuItem
+        object mniReport_Tab_Big_Print: TMenuItem
           Caption = #1055#1077#1095#1072#1090#1100
         end
       end

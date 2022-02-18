@@ -42,7 +42,7 @@ begin
   fAction := caFree;
   if (lbledtLogin.Text = 'admin') and (lbledtPassoword.Text = 'admin') then
   begin
-    frmPaymentDocuments.mniEditData.Enabled := True;
+    frmPaymentDocuments.mniForms_EditData.Enabled := True;
     frmPaymentDocuments.fVerification := True;
     ShowMessage('Добро пожаловать администратор');
   end

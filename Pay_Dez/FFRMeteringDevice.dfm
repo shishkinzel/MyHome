@@ -26,10 +26,6 @@ object frmFRMeteringDevice: TfrmFRMeteringDevice
     UseReportHints = True
     OutlineTreeSortType = dtsUnsorted
     HideScrolls = False
-    ExplicitLeft = 280
-    ExplicitTop = 192
-    ExplicitWidth = 100
-    ExplicitHeight = 100
   end
   object reportMeteringDevice: TfrxReport
     Version = '6.9.3'
@@ -52,6 +48,21 @@ object frmFRMeteringDevice: TfrmFRMeteringDevice
     Datasets = <>
     Variables = <>
     Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 210.000000000000000000
+      PaperHeight = 297.000000000000000000
+      PaperSize = 9
+      LeftMargin = 10.000000000000000000
+      RightMargin = 10.000000000000000000
+      TopMargin = 10.000000000000000000
+      BottomMargin = 10.000000000000000000
+      Frame.Typ = []
+      MirrorMode = []
+    end
   end
   object dbMeteringDevice: TfrxDBDataset
     UserName = 'MeteringDevece'
