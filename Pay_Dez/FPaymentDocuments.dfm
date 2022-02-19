@@ -708,6 +708,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
         Caption = #1058#1072#1073#1083#1080#1094#1072' '#1087#1086#1082#1072#1079#1072#1085#1080#1081' '#1087#1088#1080#1073#1086#1088#1086#1074' '#1091#1095#1105#1090#1072
         object mniReport_Tab_Little_Show: TMenuItem
           Caption = #1055#1088#1086#1089#1084#1086#1090#1088
+          OnClick = mniReport_Tab_Little_ShowClick
         end
         object mniReport_E_Tab_Little: TMenuItem
           Caption = #1069#1082#1089#1087#1086#1088#1090

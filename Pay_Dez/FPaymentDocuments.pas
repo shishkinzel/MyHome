@@ -118,6 +118,7 @@ type
     procedure mniReport_ListReport_ApplyClick(Sender: TObject);
     procedure mniReport_ResetClick(Sender: TObject);
     procedure mniReport_Tab_Big_ShowClick(Sender: TObject);
+    procedure mniReport_Tab_Little_ShowClick(Sender: TObject);
   private    { Private declarations }
 
   public { Public declarations }
@@ -363,12 +364,20 @@ begin
   mniReport_Reset.Enabled := False;
 end;
 
-
+// просмотр отчета "Сводной таблицы"
 procedure TfrmPaymentDocuments.mniReport_Tab_Big_ShowClick(Sender: TObject);
 begin
-frmFRMeteringDevice := TfrmFRMeteringDevice.Create(nil);
- frmFRMeteringDevice.Show;
- frmFRMeteringDevice.fr_R_Table_Big.ShowReport();
+  frmFRMeteringDevice := TfrmFRMeteringDevice.Create(nil);
+  frmFRMeteringDevice.Show;
+  frmFRMeteringDevice.fr_R_Table_Big.ShowReport();
+end;
+// просмотр отчета "Таблицы показаний приборов учёта"
+
+procedure TfrmPaymentDocuments.mniReport_Tab_Little_ShowClick(Sender: TObject);
+begin
+  frmFRTableAll := TfrmFRTableAll.Create(nil);
+  frmFRTableAll.Show;
+  frmFRTableAll.frR_Table_Little.ShowReport();
 end;
 
 // закрытие формы
