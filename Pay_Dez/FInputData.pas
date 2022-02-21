@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Data.DB,
-  System.DateUtils,
+  System.DateUtils, FCheckDevice,
   Vcl.StdCtrls, Vcl.ComCtrls, Vcl.Mask, Vcl.DBCtrls, Vcl.Controls, Vcl.ExtCtrls, Vcl.Graphics,
    Vcl.Forms, Vcl.Dialogs, Vcl.Samples.Spin;
 
@@ -50,23 +50,26 @@ type
     lblECold: TLabel;
     lblTHot: TLabel;
     btnVerification: TButton;
-    procedure FormShow(Sender: TObject);
+//    procedure FormShow(Sender: TObject);
     procedure btnStartClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnVerificationClick(Sender: TObject);
-  private
-    { Private declarations }
-    fdbEmpty : Boolean;      // флаг пустой базы - поумолчанию False
-    stepNub : Integer;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private    { Private declarations }
+    fdbEmpty: Boolean;      // флаг пустой базы - поумолчанию False
+    fActiveForm: Boolean;   // флаг активации формы
+    stepNub: Integer;
 
-  public
-    { Public declarations }
+  public    { Public declarations }
   end;
 
 var
   frmInputData: TfrmInputData;
+
 
 implementation
 
@@ -75,11 +78,14 @@ uses
 {$R *.dfm}
 
 // процедура показа формы
-procedure TfrmInputData.FormShow(Sender: TObject);
+
+procedure TfrmInputData.FormCreate(Sender: TObject);
 var
   fday: Integer;
   fdayCorr: TDate;
 begin
+  fActiveForm := True;                       // флаг для снятия повторного сообщения
+                                             // 'Пожалуйста введите данные в правую колонку'
   if frmPaymentDocuments.fVerification then
     btnVerification.Enabled := True;
 
@@ -92,25 +98,23 @@ begin
     edtEle.Text := '0';
     edtColdWater.Text := '0';
     edtHotWater.Text := '0';
-    pnlRight.Enabled := True;
-    edtEle.SetFocus;
     pnlInData.Enabled := False;
     pnldown.Enabled := False;
     stepNub := 1;
  // работа с датой
     dtpDate.Date := Now;
-     fday := DayOf(dtpDate.Date);
+    fday := DayOf(dtpDate.Date);
     if fday < 15 then
     begin
-     fdayCorr := IncMonth(dtpDate.Date, -1);
-     fdayCorr := RecodeDay(fdayCorr,15)
+      fdayCorr := IncMonth(dtpDate.Date, -1);
+      fdayCorr := RecodeDay(fdayCorr, 15)
     end
     else
     begin
-      fdayCorr :=  dtpDate.Date;
+      fdayCorr := dtpDate.Date;
       fdayCorr := RecodeDay(fdayCorr, 15);
     end;
-    dtpDate.Date := fdayCorr ;
+    dtpDate.Date := fdayCorr;
   end
   else
   begin
@@ -129,6 +133,12 @@ begin
     edtHotWater.Text := dsPayAndRecord.DataSet.FieldByName('WaterHotNext').AsString;
     dmPayment.fmTabPayAndRecord.Append;
   end;
+  FormShow(nil);
+end;
+
+procedure TfrmInputData.FormShow(Sender: TObject);
+begin
+FormActivate(nil);
 end;
 
 // процедура активации формы
@@ -136,11 +146,19 @@ procedure TfrmInputData.FormActivate(Sender: TObject);
 begin
   if dsPayAndRecord.DataSet.IsEmpty then
   begin
-    ShowMessage('Пожалуйста введите данные в правую колонку');
+    if not(fActiveForm) then
+    begin
+      ShowMessage('Пожалуйста введите данные в правую колонку');
+      fActiveForm := False;
+      edtEle.SetFocus;
+    end
+    else
+    begin
 
-    pnlRight.Enabled := True;
-    pnlInData.Enabled := False;
-    pnldown.Enabled := False;
+      pnlRight.Enabled := True;
+      pnlInData.Enabled := False;
+      pnldown.Enabled := False;
+    end;
   end
   else
   begin
@@ -148,6 +166,8 @@ begin
     pnlRight.Enabled := False;
   end;
 end;
+
+
 
 // ввод начальных данных в пустую таблиц
 procedure TfrmInputData.btnStartClick(Sender: TObject);
@@ -167,11 +187,6 @@ begin
 
 end;
 
-procedure TfrmInputData.btnVerificationClick(Sender: TObject);
-begin
-pnlRight.Enabled := True;
-btnStart.Visible := True;
-end;
 
 // ввод начальных значений в таблицу с данными
 procedure TfrmInputData.btnApplyClick(Sender: TObject);
@@ -222,6 +237,8 @@ begin
       FieldByName('WaterHotExpense').AsInteger := fWaterHot;
 
     end;
+
+
 //  frmInputData.Close;
 
     dbedtUseEle.Text := fEle.ToString;
@@ -235,14 +252,31 @@ begin
   end;
 end;
 
+// поверка приборов учета
+procedure TfrmInputData.btnVerificationClick(Sender: TObject);
+begin
+  pnlRight.Enabled := True;
+  btnStart.Visible := True;
+  frmCheckDevice := TfrmCheckDevice.Create(nil);
+  frmCheckDevice.ShowModal;
+end;
+
 
 
 
 // закрытие формы
 procedure TfrmInputData.btnCloseClick(Sender: TObject);
 begin
- frmInputData.Close;
- frmInputData.Release;
+  frmInputData.Close;
+  frmInputData.Action.Free;
 end;
+
+procedure TfrmInputData.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  frmInputData.Action.Free;
+end;
+
+
+
 
 end.

@@ -13,7 +13,8 @@ object frmInputData: TfrmInputData
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
-  OnActivate = FormActivate
+  OnClose = FormClose
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -160,7 +161,7 @@ object frmInputData: TfrmInputData
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      TabOrder = 0
+      TabOrder = 4
     end
     object dbedtEle: TDBEdit
       Left = 150
@@ -175,7 +176,7 @@ object frmInputData: TfrmInputData
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      TabOrder = 2
+      TabOrder = 1
     end
     object dbedtColdWater: TDBEdit
       Left = 150
@@ -190,7 +191,7 @@ object frmInputData: TfrmInputData
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      TabOrder = 3
+      TabOrder = 2
     end
     object dbedtHotWater: TDBEdit
       Left = 150
@@ -205,7 +206,7 @@ object frmInputData: TfrmInputData
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      TabOrder = 4
+      TabOrder = 3
     end
     object dtpDate: TDateTimePicker
       Left = 150
@@ -223,7 +224,7 @@ object frmInputData: TfrmInputData
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      TabOrder = 1
+      TabOrder = 0
     end
     object dbedtUseEle: TDBEdit
       Left = 312
@@ -283,7 +284,6 @@ object frmInputData: TfrmInputData
     Color = 6091532
     ParentBackground = False
     TabOrder = 1
-    ExplicitTop = 100
     object lblDez: TLabel
       Left = 16
       Top = 26
@@ -477,7 +477,7 @@ object frmInputData: TfrmInputData
       MaxLength = 6
       NumbersOnly = True
       ParentFont = False
-      TabOrder = 3
+      TabOrder = 2
     end
     object edtEle: TEdit
       Left = 167
@@ -492,7 +492,7 @@ object frmInputData: TfrmInputData
       MaxLength = 6
       NumbersOnly = True
       ParentFont = False
-      TabOrder = 2
+      TabOrder = 0
     end
     object edtColdWater: TEdit
       Left = 167
@@ -507,7 +507,7 @@ object frmInputData: TfrmInputData
       MaxLength = 6
       NumbersOnly = True
       ParentFont = False
-      TabOrder = 4
+      TabOrder = 1
     end
     object txtTitlePrev: TStaticText
       Left = 32
@@ -521,7 +521,7 @@ object frmInputData: TfrmInputData
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      TabOrder = 0
+      TabOrder = 4
     end
     object btnStart: TButton
       Left = 166
@@ -535,7 +535,7 @@ object frmInputData: TfrmInputData
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      TabOrder = 1
+      TabOrder = 3
       Visible = False
       OnClick = btnStartClick
     end

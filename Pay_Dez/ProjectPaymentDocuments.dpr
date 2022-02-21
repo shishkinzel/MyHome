@@ -15,7 +15,8 @@ uses
   FTestForm in 'FTestForm.pas' {frmTestForm},
   FTableEditing in 'FTableEditing.pas' {frmEditing},
   FAdmin in 'FAdmin.pas' {frmAdmin},
-  UnitConfig in 'UnitConfig.pas';
+  UnitConfig in 'UnitConfig.pas',
+  FCheckDevice in 'FCheckDevice.pas' {frmCheckDevice};
 
 {$R *.res}
 
