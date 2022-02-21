@@ -15,7 +15,7 @@ object dmPayment: TdmPayment
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 56
+    Left = 48
     Top = 8
     object fmTabPayAndRecordnumber: TIntegerField
       Alignment = taCenter
@@ -115,7 +115,7 @@ object dmPayment: TdmPayment
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 56
+    Left = 48
     Top = 64
     object fmTabSummaryTablenumber: TIntegerField
       Alignment = taCenter
@@ -167,8 +167,8 @@ object dmPayment: TdmPayment
     end
   end
   object jsonFileDb: TFDStanStorageJSONLink
-    Left = 160
-    Top = 24
+    Left = 608
+    Top = 8
   end
   object fmTabListReport: TFDMemTable
     Active = True
@@ -265,8 +265,8 @@ object dmPayment: TdmPayment
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 24
-    Top = 152
+    Left = 48
+    Top = 128
     object fmTabListReportnumber: TIntegerField
       FieldName = 'number'
     end
@@ -326,6 +326,130 @@ object dmPayment: TdmPayment
     end
     object strngfldTabListReportExecutionPayOnLime: TStringField
       FieldName = 'ExecutionPayOnLime'
+    end
+  end
+  object fmTabCheckDevice: TFDMemTable
+    Active = True
+    FieldDefs = <
+      item
+        Name = 'number'
+        DataType = ftAutoInc
+      end
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'NameDevice'
+        DataType = ftString
+        Size = 50
+      end
+      item
+        Name = 'ShowBeginOld'
+        DataType = ftInteger
+      end
+      item
+        Name = 'ShowCheck'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Delta'
+        DataType = ftFloat
+      end
+      item
+        Name = 'numberDeviceOld'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'ShowBeginNew'
+        DataType = ftFloat
+      end
+      item
+        Name = 'numberDeveceNew'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'other'
+        DataType = ftString
+        Size = 50
+      end>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 48
+    Top = 184
+    object fmTabCheckDevicenumber: TFDAutoIncField
+      Alignment = taCenter
+      DisplayLabel = #8470
+      DisplayWidth = 10
+      FieldName = 'number'
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      IdentityInsert = True
+    end
+    object fmTabCheckDevicedate: TDateField
+      Alignment = taCenter
+      DisplayLabel = #1044#1072#1090#1072
+      DisplayWidth = 11
+      FieldName = 'date'
+    end
+    object fmTabCheckDeviceNameDevice: TStringField
+      Alignment = taCenter
+      DisplayLabel = #1053#1072#1080#1084#1077#1085#1086#1074#1072#1085#1080#1077' '#1087#1088#1080#1073#1086#1088#1072
+      DisplayWidth = 22
+      FieldName = 'NameDevice'
+      KeyFields = 'NameDevice'
+      Size = 50
+    end
+    object fmTabCheckDeviceShowBeginOld: TIntegerField
+      Alignment = taCenter
+      DisplayLabel = #1053#1072#1095#1072#1083#1100#1085#1086#1077' '#1087#1086#1082#1072#1079#1072#1085#1080#1077#13#10' '#1089#1090#1072#1088#1086#1075#1086' '#1087#1088#1080#1073#1086#1088#1072
+      DisplayWidth = 33
+      FieldName = 'ShowBeginOld'
+    end
+    object fmTabCheckDeviceShowCheck: TFloatField
+      Alignment = taCenter
+      DisplayLabel = #1055#1086#1082#1072#1079#1072#1085#1080#1103' '#1087#1088#1080#13#10' '#1089#1085#1103#1090#1080#1080' '#1087#1088#1080#1073#1086#1088#1072
+      DisplayWidth = 26
+      FieldName = 'ShowCheck'
+    end
+    object fmTabCheckDeviceDelta: TFloatField
+      Alignment = taCenter
+      DisplayLabel = #1055#1086#1090#1088#1077#1073#1083#1077#1085#1080#1077#13#10' '#1089#1090#1072#1088#1086#1075#1086' '#1087#1088#1080#1073#1086#1088#1072
+      DisplayWidth = 25
+      FieldName = 'Delta'
+    end
+    object fmTabCheckDevicenumberDeviceOld: TStringField
+      Alignment = taCenter
+      DisplayLabel = #1053#1086#1084#1077#1088' '#1089#1090#1072#1088#1086#1075#1086' '#13#10#1087#1088#1080#1073#1086#1088#1072
+      DisplayWidth = 20
+      FieldName = 'numberDeviceOld'
+    end
+    object fmTabCheckDeviceShowBeginNew: TFloatField
+      Alignment = taCenter
+      DisplayLabel = #1053#1072#1095#1072#1083#1100#1085#1099#1077' '#1087#1086#1082#1072#1079#1072#1085#1080#1103' '#13#10#1085#1086#1074#1086#1075#1086' '#1087#1088#1080#1073#1086#1088#1072
+      DisplayWidth = 32
+      FieldName = 'ShowBeginNew'
+    end
+    object fmTabCheckDevicenumberDeveceNew: TStringField
+      Alignment = taCenter
+      DisplayLabel = #1053#1086#1084#1077#1088' '#1085#1086#1074#1086#1075#1086' '#13#10#1087#1088#1080#1073#1086#1088#1072
+      DisplayWidth = 20
+      FieldName = 'numberDeveceNew'
+    end
+    object fmTabCheckDeviceother: TStringField
+      Alignment = taCenter
+      DisplayLabel = #1055#1088#1086#1095#1077#1077
+      DisplayWidth = 50
+      FieldName = 'other'
+      Size = 50
     end
   end
 end

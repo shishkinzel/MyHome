@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, Vcl.Dialogs, Data.DB,
   Vcl.Menus, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Controls, Vcl.ExtCtrls,
   System.Classes, Vcl.Graphics,  Vcl.FileCtrl,  Vcl.Forms,
-   UnitConfig, FdmPayment,
+   UnitConfig, FdmPayment, FCheckDevice,// убрать потом
+
   funUntil, FTableAll, FTableMeteringDevice, FFRMeteringDevice, FTableEditing,
   FFRTableAll, FSelectDate, FAdmin, IniFiles, FInputData, FFRListReport,
   FireDAC.Stan.StorageJSON;
@@ -102,6 +103,7 @@ type
     mniReport_Tab_Big_XML: TMenuItem;
     mniReport_Tab_Big_PDF: TMenuItem;
     mniSet_Table_DB: TMenuItem;
+    mniShowCheck: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniTabShow_LittleClick(Sender: TObject);
     procedure mniTabShow_BigClick(Sender: TObject);
@@ -119,6 +121,7 @@ type
     procedure mniReport_ResetClick(Sender: TObject);
     procedure mniReport_Tab_Big_ShowClick(Sender: TObject);
     procedure mniReport_Tab_Little_ShowClick(Sender: TObject);
+    procedure mniShowCheckClick(Sender: TObject);
   private    { Private declarations }
 
   public { Public declarations }
@@ -314,6 +317,12 @@ begin
 
 end;
 
+
+procedure TfrmPaymentDocuments.mniShowCheckClick(Sender: TObject);
+begin
+  frmCheckDevice := TfrmCheckDevice.Create(nil);
+  frmCheckDevice.ShowModal;
+end;
 
 // выбор директории с Базами Данных - проект релизовать
 procedure TfrmPaymentDocuments.mniFindBDClick(Sender: TObject);

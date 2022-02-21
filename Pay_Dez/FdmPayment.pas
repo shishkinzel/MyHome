@@ -54,6 +54,17 @@ type
     strngfldTabListReportExecutionPayDezSum: TStringField;
     strngfldTabListReportExecutionPayMosEn: TStringField;
     strngfldTabListReportExecutionPayOnLime: TStringField;
+    fmTabCheckDevice: TFDMemTable;
+    fmTabCheckDevicenumber: TFDAutoIncField;
+    fmTabCheckDevicedate: TDateField;
+    fmTabCheckDeviceNameDevice: TStringField;
+    fmTabCheckDeviceShowBeginOld: TIntegerField;
+    fmTabCheckDeviceShowCheck: TFloatField;
+    fmTabCheckDeviceDelta: TFloatField;
+    fmTabCheckDevicenumberDeviceOld: TStringField;
+    fmTabCheckDeviceShowBeginNew: TFloatField;
+    fmTabCheckDevicenumberDeveceNew: TStringField;
+    fmTabCheckDeviceother: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private

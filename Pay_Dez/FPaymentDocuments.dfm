@@ -774,6 +774,10 @@ object frmPaymentDocuments: TfrmPaymentDocuments
         OnClick = mniReport_ResetClick
       end
     end
+    object mniShowCheck: TMenuItem
+      Caption = #1055#1088#1086#1089#1084#1086#1090#1088
+      OnClick = mniShowCheckClick
+    end
   end
   object dsPayAndRecord: TDataSource
     DataSet = dmPayment.fmTabPayAndRecord
