@@ -7,9 +7,12 @@ uses
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   FTableAll, FTableMeteringDevice, FFRMeteringDevice, FFRTableAll, FFRListReport,
-  FSelectDate, FTestForm, FireDAC.Stan.StorageJSON, FInputData;
+  FSelectDate, FTestForm, FireDAC.Stan.StorageJSON, FInputData,
+  Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids;
 
 procedure CorrectionTable(tabIn, tabOut: TFDMemTable);
+
+
 
 implementation
 
@@ -39,6 +42,7 @@ begin
 
   end;
 end;
+
 
 end.
 

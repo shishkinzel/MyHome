@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <MainSource>ProjectPaymentDocuments.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -153,6 +153,10 @@
         <DCCReference Include="UnitConfig.pas"/>
         <DCCReference Include="FCheckDevice.pas">
             <Form>frmCheckDevice</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="FDBGridEh.pas">
+            <Form>frmTestDBGridEh</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">

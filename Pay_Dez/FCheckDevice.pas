@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids,
+  WinTypes, WinProcs,  StdCtrls;
 
 type
   TfrmCheckDevice = class(TForm)
@@ -18,11 +19,13 @@ type
     nvgCheckDevice: TDBNavigator;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
-  private
-    { Private declarations }
-  public
-    { Public declarations }
+  private    { Private declarations }
+    GridTitles: array of Boolean;
+
+  public    { Public declarations }
   end;
+
+
 
 var
   frmCheckDevice: TfrmCheckDevice;
@@ -34,11 +37,13 @@ uses
 
 {$R *.dfm}
 
-procedure TfrmCheckDevice.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-frmCheckDevice.Action.Free;
-end;
 
+
+
+// Рисование многострочных заголовков с использованием стандартного компонента TDBGrid
+
+
+//  формирования PickList и центровка заголовка
 procedure TfrmCheckDevice.FormShow(Sender: TObject);
 var
 fColumn : string;
@@ -60,4 +65,14 @@ end;
 
 end;
 
+
+
+
+// закрытие и разрушение формы
+procedure TfrmCheckDevice.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+frmCheckDevice.Action.Free;
+end;
+
 end.
+

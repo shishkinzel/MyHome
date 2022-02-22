@@ -47,7 +47,6 @@ object frmCheckDevice: TfrmCheckDevice
     Constraints.MaxHeight = 80
     Constraints.MinHeight = 50
     TabOrder = 0
-    ExplicitWidth = 794
   end
   object pnlDown: TPanel
     Left = 0
@@ -58,8 +57,6 @@ object frmCheckDevice: TfrmCheckDevice
     Constraints.MaxHeight = 80
     Constraints.MinHeight = 50
     TabOrder = 1
-    ExplicitTop = 283
-    ExplicitWidth = 794
   end
   object pnlCenter: TPanel
     Left = 0
@@ -68,8 +65,6 @@ object frmCheckDevice: TfrmCheckDevice
     Height = 176
     Align = alClient
     TabOrder = 2
-    ExplicitWidth = 794
-    ExplicitHeight = 207
     object grdCheckDevice: TDBGrid
       Left = 1
       Top = 19
@@ -93,7 +88,6 @@ object frmCheckDevice: TfrmCheckDevice
       DataSource = dsCheckDevice
       Align = alTop
       TabOrder = 1
-      ExplicitWidth = 745
     end
   end
   object dsCheckDevice: TDataSource

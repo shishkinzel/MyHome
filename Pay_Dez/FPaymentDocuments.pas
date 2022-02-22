@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, Vcl.Dialogs, Data.DB,
   Vcl.Menus, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Controls, Vcl.ExtCtrls,
   System.Classes, Vcl.Graphics,  Vcl.FileCtrl,  Vcl.Forms,
-   UnitConfig, FdmPayment, FCheckDevice,// убрать потом
+   UnitConfig, FdmPayment, FCheckDevice, FDBGridEh,// убрать потом
 
   funUntil, FTableAll, FTableMeteringDevice, FFRMeteringDevice, FTableEditing,
   FFRTableAll, FSelectDate, FAdmin, IniFiles, FInputData, FFRListReport,
@@ -104,6 +104,7 @@ type
     mniReport_Tab_Big_PDF: TMenuItem;
     mniSet_Table_DB: TMenuItem;
     mniShowCheck: TMenuItem;
+    mniTestDBGridEh: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniTabShow_LittleClick(Sender: TObject);
     procedure mniTabShow_BigClick(Sender: TObject);
@@ -121,7 +122,8 @@ type
     procedure mniReport_ResetClick(Sender: TObject);
     procedure mniReport_Tab_Big_ShowClick(Sender: TObject);
     procedure mniReport_Tab_Little_ShowClick(Sender: TObject);
-    procedure mniShowCheckClick(Sender: TObject);
+//    procedure mniShowCheckClick(Sender: TObject);
+    procedure mniTestDBGridEhClick(Sender: TObject);
   private    { Private declarations }
 
   public { Public declarations }
@@ -244,6 +246,11 @@ begin
   frmTableAll.ShowModal;
 end;
 
+procedure TfrmPaymentDocuments.mniTestDBGridEhClick(Sender: TObject);
+begin
+frmTestDBGridEh.ShowModal;
+end;
+
 // создание файла конфигурации
 procedure TfrmPaymentDocuments.mniSet_ConfigClick(Sender: TObject);
 begin
@@ -318,11 +325,11 @@ begin
 end;
 
 
-procedure TfrmPaymentDocuments.mniShowCheckClick(Sender: TObject);
-begin
-  frmCheckDevice := TfrmCheckDevice.Create(nil);
-  frmCheckDevice.ShowModal;
-end;
+//procedure TfrmPaymentDocuments.mniShowCheckClick(Sender: TObject);
+//begin
+//  frmCheckDevice := TfrmCheckDevice.Create(nil);
+//  frmCheckDevice.ShowModal;
+//end;
 
 // выбор директории с Базами Данных - проект релизовать
 procedure TfrmPaymentDocuments.mniFindBDClick(Sender: TObject);
