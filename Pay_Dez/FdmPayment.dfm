@@ -392,6 +392,8 @@ object dmPayment: TdmPayment
       DisplayWidth = 10
       FieldName = 'number'
       ProviderFlags = [pfInUpdate, pfInWhere]
+      AutoIncrementSeed = 1
+      AutoIncrementStep = 1
       IdentityInsert = True
     end
     object fmTabCheckDevicedate: TDateField
@@ -410,8 +412,8 @@ object dmPayment: TdmPayment
     end
     object fmTabCheckDeviceShowBeginOld: TIntegerField
       Alignment = taCenter
-      DisplayLabel = #1053#1072#1095#1072#1083#1100#1085#1086#1077' '#1087#1086#1082#1072#1079#1072#1085#1080#1077#13#10' '#1089#1090#1072#1088#1086#1075#1086' '#1087#1088#1080#1073#1086#1088#1072
-      DisplayWidth = 33
+      DisplayLabel = #1053#1072#1095#1072#1083#1100#1085#1086#1077' '#13#10#1087#1086#1082#1072#1079#1072#1085#1080#1077#13#10' '#1089#1090#1072#1088#1086#1075#1086#13#10' '#1087#1088#1080#1073#1086#1088#1072
+      DisplayWidth = 16
       FieldName = 'ShowBeginOld'
     end
     object fmTabCheckDeviceShowCheck: TFloatField

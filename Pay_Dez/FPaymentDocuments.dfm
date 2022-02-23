@@ -776,10 +776,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
     end
     object mniShowCheck: TMenuItem
       Caption = #1055#1088#1086#1089#1084#1086#1090#1088
-      object mniTestDBGridEh: TMenuItem
-        Caption = #1055#1088#1086#1089#1084#1086#1090#1088' '#1090#1077#1089#1090#1072
-        OnClick = mniTestDBGridEhClick
-      end
+      OnClick = mniShowCheckClick
     end
   end
   object dsPayAndRecord: TDataSource

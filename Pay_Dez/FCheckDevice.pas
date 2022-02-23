@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids,
-  WinTypes, WinProcs,  StdCtrls;
+  WinTypes,StdCtrls;
 
 type
   TfrmCheckDevice = class(TForm)
@@ -20,11 +20,18 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
   private    { Private declarations }
-    GridTitles: array of Boolean;
-
   public    { Public declarations }
   end;
-
+  TMultiLineDBGrid = class(TDBGrid)
+  private
+    FLinesPerRow: Integer;
+    procedure DrawDataCell(Sender: TObject; const Rect: TRect; Field: TField; State: TGridDrawState);
+    procedure LayoutChanged; override;
+    procedure SetLinesPerRow(ALinesPerRow: Integer);
+  public
+    property LinesPerRow: Integer read FLinesPerRow write SetLinesPerRow default 1;
+    constructor Create(AOwner: TComponent); override;
+  end;
 
 
 var
@@ -37,10 +44,54 @@ uses
 
 {$R *.dfm}
 
+// консторуктор
+constructor TMultiLineDBGrid.Create(AOwner: TComponent);
+begin
+
+  inherited Create(AOwner);
+  FLinesPerRow := 1;
+  OnDrawDataCell := DrawDataCell;
+end;
 
 
 
 // Рисование многострочных заголовков с использованием стандартного компонента TDBGrid
+
+ procedure TMultiLineDBGrid.LayOutChanged;
+begin
+
+  inherited LayOutChanged;
+  DefaultRowHeight := DefaultRowHeight * LinesPerRow;
+end;
+
+procedure TMultiLineDBGrid.DrawDataCell(Sender: TObject; const Rect: TRect;
+  Field: TField; State: TGridDrawState);
+var
+
+  Format: Cardinal;
+  C: array[0..255] of Char;
+begin
+
+  if LinesPerRow = 1 then
+    Format := DT_SINGLELINE or DT_LEFT
+  else
+    Format := DT_LEFT or DT_WORDBREAK;
+
+  Canvas.FillRect(Rect);
+
+  StrPCopy(C, Field.AsString);
+ DrawText(Canvas.Handle, C, StrLen(C), Rect, Format);
+end;
+
+procedure TMultiLineDBGrid.SetLinesPerRow(ALinesPerRow: Integer);
+begin
+
+  if ALinesPerRow <> FLinesPerRow then
+  begin
+    FLinesPerRow := ALinesPerRow;
+    LayoutChanged;
+  end;
+end;
 
 
 //  формирования PickList и центровка заголовка

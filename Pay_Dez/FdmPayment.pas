@@ -7,8 +7,7 @@ uses
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, FTableAll, FTableMeteringDevice, FFRMeteringDevice,
    FFRTableAll, FFRListReport, FSelectDate, FTestForm, FTableEditing, funUntil , IniFiles,
-  FireDAC.Stan.StorageJSON, FInputData, UnitConfig, VCL.Dialogs
-  , FDBGridEh;
+  FireDAC.Stan.StorageJSON, FInputData, UnitConfig, VCL.Dialogs;
 
 type
   TdmPayment = class(TDataModule)

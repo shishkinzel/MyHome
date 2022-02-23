@@ -16,8 +16,7 @@ uses
   FTableEditing in 'FTableEditing.pas' {frmEditing},
   FAdmin in 'FAdmin.pas' {frmAdmin},
   UnitConfig in 'UnitConfig.pas',
-  FCheckDevice in 'FCheckDevice.pas' {frmCheckDevice},
-  FDBGridEh in 'FDBGridEh.pas' {frmTestDBGridEh};
+  FCheckDevice in 'FCheckDevice.pas' {frmCheckDevice};
 
 {$R *.res}
 
@@ -28,6 +27,5 @@ begin
   Application.CreateForm(TdmPayment, dmPayment);
   Application.CreateForm(TfrmListReport, frmListReport);
   Application.CreateForm(TfrmTestForm, frmTestForm);
-  Application.CreateForm(TfrmTestDBGridEh, frmTestDBGridEh);
   Application.Run;
 end.
