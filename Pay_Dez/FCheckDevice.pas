@@ -67,7 +67,7 @@ end;
 procedure TMultiLineDBGrid.DrawDataCell(Sender: TObject; const Rect: TRect;
   Field: TField; State: TGridDrawState);
 var
-
+   R : TRect;
   Format: Cardinal;
   C: array[0..255] of Char;
 begin
@@ -78,9 +78,9 @@ begin
     Format := DT_LEFT or DT_WORDBREAK;
 
   Canvas.FillRect(Rect);
-
+   R := Rect;
   StrPCopy(C, Field.AsString);
- DrawText(Canvas.Handle, C, StrLen(C), Rect, Format);
+ DrawText(Canvas.Handle, C, StrLen(C), R, Format);
 end;
 
 procedure TMultiLineDBGrid.SetLinesPerRow(ALinesPerRow: Integer);
