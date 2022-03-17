@@ -5,12 +5,12 @@ object frmCheckDevice: TfrmCheckDevice
   BorderStyle = bsDialog
   Caption = #1055#1086#1074#1077#1088#1082#1072' '#1087#1088#1080#1073#1086#1088#1086#1074' '#1091#1095#1077#1090#1072
   ClientHeight = 521
-  ClientWidth = 594
+  ClientWidth = 794
   Color = clBtnFace
   Constraints.MaxHeight = 550
-  Constraints.MaxWidth = 600
+  Constraints.MaxWidth = 800
   Constraints.MinHeight = 350
-  Constraints.MinWidth = 550
+  Constraints.MinWidth = 800
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -19,22 +19,22 @@ object frmCheckDevice: TfrmCheckDevice
   OldCreateOrder = False
   Position = poScreenCenter
   OnClose = FormClose
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object splUp: TSplitter
     Left = 0
     Top = 100
-    Width = 594
+    Width = 794
     Height = 2
     Cursor = crVSplit
     Align = alTop
     ExplicitTop = 80
-    ExplicitWidth = 794
   end
   object splDown: TSplitter
     Left = 0
     Top = 399
-    Width = 594
+    Width = 794
     Height = 2
     Cursor = crVSplit
     Align = alBottom
@@ -44,15 +44,16 @@ object frmCheckDevice: TfrmCheckDevice
   object pnlUp: TPanel
     Left = 0
     Top = 0
-    Width = 594
+    Width = 794
     Height = 100
     Align = alTop
     Constraints.MaxHeight = 100
     Constraints.MinHeight = 50
     TabOrder = 0
+    ExplicitWidth = 594
     object txtTitleDevice: TStaticText
-      Left = 144
-      Top = 16
+      Left = 256
+      Top = 8
       Width = 301
       Height = 27
       Alignment = taCenter
@@ -66,9 +67,9 @@ object frmCheckDevice: TfrmCheckDevice
       TabOrder = 0
     end
     object dtpCheckDevice: TDateTimePicker
-      Left = 424
-      Top = 49
-      Width = 150
+      Left = 561
+      Top = 41
+      Width = 180
       Height = 27
       Date = 44637.000000000000000000
       Time = 0.455367835646029600
@@ -84,7 +85,7 @@ object frmCheckDevice: TfrmCheckDevice
   object pnlDown: TPanel
     Left = 0
     Top = 401
-    Width = 594
+    Width = 794
     Height = 120
     Align = alBottom
     Constraints.MaxHeight = 120
@@ -92,17 +93,42 @@ object frmCheckDevice: TfrmCheckDevice
     TabOrder = 1
     ExplicitTop = 211
     ExplicitWidth = 894
+    object grdCheckDevice: TDBGrid
+      Left = 1
+      Top = 19
+      Width = 792
+      Height = 100
+      Align = alClient
+      DataSource = dsCheckDevice
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+    end
+    object nvgCheckDevice: TDBNavigator
+      Left = 1
+      Top = 1
+      Width = 792
+      Height = 18
+      DataSource = dsCheckDevice
+      Align = alTop
+      TabOrder = 1
+      ExplicitLeft = 2
+      ExplicitTop = 4
+      ExplicitWidth = 842
+    end
   end
   object pnlCenter: TPanel
     Left = 0
     Top = 102
-    Width = 594
+    Width = 794
     Height = 297
     Align = alClient
     TabOrder = 2
-    ExplicitLeft = 8
-    ExplicitTop = 78
-    ExplicitHeight = 317
+    ExplicitTop = 99
+    ExplicitWidth = 844
     object txtNameDevice: TStaticText
       Left = 0
       Top = 24
@@ -122,7 +148,7 @@ object frmCheckDevice: TfrmCheckDevice
     object cbbNameDevice: TComboBox
       Left = 135
       Top = 32
-      Width = 160
+      Width = 180
       Height = 21
       TabOrder = 1
       Items.Strings = (
@@ -149,21 +175,21 @@ object frmCheckDevice: TfrmCheckDevice
     object edtNumOldDevice: TEdit
       Left = 135
       Top = 96
-      Width = 140
+      Width = 180
       Height = 21
       Alignment = taRightJustify
       TabOrder = 3
     end
     object edtNumNewDevice: TEdit
-      Left = 434
+      Left = 561
       Top = 96
-      Width = 140
+      Width = 180
       Height = 21
       Alignment = taRightJustify
       TabOrder = 4
     end
     object txtNewDevice: TStaticText
-      Left = 299
+      Left = 426
       Top = 88
       Width = 129
       Height = 41
@@ -178,5 +204,141 @@ object frmCheckDevice: TfrmCheckDevice
       ParentFont = False
       TabOrder = 5
     end
+    object txtShowOldBefore: TStaticText
+      Left = 16
+      Top = 152
+      Width = 193
+      Height = 41
+      Alignment = taCenter
+      AutoSize = False
+      Caption = #1053#1072#1095#1072#1083#1100#1085#1099#1077' '#1087#1086#1082#1072#1079#1072#1085#1080#1103' '#1087#1088#1080#1073#1086#1088#1072
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 6
+    end
+    object txtShowOldNow: TStaticText
+      Left = 16
+      Top = 199
+      Width = 177
+      Height = 41
+      Alignment = taCenter
+      AutoSize = False
+      Caption = #1055#1086#1082#1072#1079#1072#1085#1080#1103' '#1087#1088#1080#1073#1086#1088#1072' '#1085#1072' '#1074#1088#1077#1084#1103' '#1087#1086#1074#1077#1088#1082#1080
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 7
+    end
+    object edtShowOldBefore: TEdit
+      Left = 235
+      Top = 152
+      Width = 80
+      Height = 21
+      Alignment = taRightJustify
+      TabOrder = 8
+    end
+    object edtShowOldNow: TEdit
+      Left = 235
+      Top = 208
+      Width = 80
+      Height = 21
+      Alignment = taRightJustify
+      TabOrder = 9
+    end
+    object ComboBox1: TComboBox
+      Left = 135
+      Top = 32
+      Width = 180
+      Height = 21
+      TabOrder = 10
+      Items.Strings = (
+        #1057#1095#1077#1090#1095#1080#1082' '#1101#1083#1077#1082#1090#1088#1086#1101#1085#1077#1088#1075#1080#1080
+        #1057#1095#1077#1090#1095#1080#1082' '#1075#1086#1088#1103#1095#1077#1081' '#1074#1086#1076#1099
+        #1057#1095#1077#1090#1095#1080#1082' '#1093#1086#1083#1086#1076#1085#1086#1081' '#1074#1086#1076#1099)
+    end
+    object edtShowNewBefore: TEdit
+      Left = 661
+      Top = 152
+      Width = 80
+      Height = 21
+      Alignment = taRightJustify
+      TabOrder = 11
+    end
+    object edtShowNewNow: TEdit
+      Left = 661
+      Top = 200
+      Width = 80
+      Height = 21
+      Alignment = taRightJustify
+      TabOrder = 12
+    end
+    object txtShowNewNow: TStaticText
+      Left = 458
+      Top = 199
+      Width = 177
+      Height = 41
+      Alignment = taCenter
+      AutoSize = False
+      Caption = #1055#1086#1082#1072#1079#1072#1085#1080#1103' '#1087#1088#1080#1073#1086#1088#1072' '#1085#1072' '#1074#1088#1077#1084#1103' '#1087#1086#1074#1077#1088#1082#1080
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 13
+    end
+    object txtShowNewBefore: TStaticText
+      Left = 442
+      Top = 152
+      Width = 193
+      Height = 41
+      Alignment = taCenter
+      AutoSize = False
+      Caption = #1053#1072#1095#1072#1083#1100#1085#1099#1077' '#1087#1086#1082#1072#1079#1072#1085#1080#1103' '#1087#1088#1080#1073#1086#1088#1072
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 14
+    end
+    object btnApply: TButton
+      Left = 16
+      Top = 250
+      Width = 180
+      Height = 25
+      Caption = #1042#1099#1087#1086#1083#1085#1080#1090#1100
+      TabOrder = 15
+    end
+    object btnReset: TButton
+      Left = 305
+      Top = 246
+      Width = 180
+      Height = 25
+      Caption = #1057#1073#1088#1086#1089
+      TabOrder = 16
+    end
+    object btnClose: TButton
+      Left = 561
+      Top = 246
+      Width = 180
+      Height = 25
+      Caption = #1047#1072#1082#1088#1099#1090#1100
+      TabOrder = 17
+    end
+  end
+  object dsCheckDevice: TDataSource
+    DataSet = dmPayment.fmTabCheckDevice
+    Left = 24
+    Top = 24
   end
 end

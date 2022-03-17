@@ -340,40 +340,24 @@ object dmPayment: TdmPayment
         DataType = ftDate
       end
       item
-        Name = 'NameDevice'
+        Name = 'nameDevice'
         DataType = ftString
         Size = 50
       end
       item
-        Name = 'ShowBeginOld'
-        DataType = ftInteger
-      end
-      item
-        Name = 'ShowCheck'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Delta'
-        DataType = ftFloat
-      end
-      item
-        Name = 'numberDeviceOld'
+        Name = 'numOld'
         DataType = ftString
         Size = 20
       end
       item
-        Name = 'ShowBeginNew'
-        DataType = ftFloat
-      end
-      item
-        Name = 'numberDeveceNew'
+        Name = 'numNew'
         DataType = ftString
         Size = 20
       end
       item
-        Name = 'other'
+        Name = 'useAll'
         DataType = ftString
-        Size = 50
+        Size = 10
       end>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
@@ -399,59 +383,30 @@ object dmPayment: TdmPayment
     object fmTabCheckDevicedate: TDateField
       Alignment = taCenter
       DisplayLabel = #1044#1072#1090#1072
-      DisplayWidth = 11
+      DisplayWidth = 19
       FieldName = 'date'
     end
-    object fmTabCheckDeviceNameDevice: TStringField
-      Alignment = taCenter
+    object fmTabCheckDevicenameDevice: TStringField
       DisplayLabel = #1053#1072#1080#1084#1077#1085#1086#1074#1072#1085#1080#1077' '#1087#1088#1080#1073#1086#1088#1072
-      DisplayWidth = 22
-      FieldName = 'NameDevice'
-      KeyFields = 'NameDevice'
-      Size = 50
-    end
-    object fmTabCheckDeviceShowBeginOld: TIntegerField
-      Alignment = taCenter
-      DisplayLabel = #1053#1072#1095#1072#1083#1100#1085#1086#1077' '#13#10#1087#1086#1082#1072#1079#1072#1085#1080#1077#13#10' '#1089#1090#1072#1088#1086#1075#1086#13#10' '#1087#1088#1080#1073#1086#1088#1072
-      DisplayWidth = 16
-      FieldName = 'ShowBeginOld'
-    end
-    object fmTabCheckDeviceShowCheck: TFloatField
-      Alignment = taCenter
-      DisplayLabel = #1055#1086#1082#1072#1079#1072#1085#1080#1103' '#1087#1088#1080#13#10' '#1089#1085#1103#1090#1080#1080' '#1087#1088#1080#1073#1086#1088#1072
-      DisplayWidth = 26
-      FieldName = 'ShowCheck'
-    end
-    object fmTabCheckDeviceDelta: TFloatField
-      Alignment = taCenter
-      DisplayLabel = #1055#1086#1090#1088#1077#1073#1083#1077#1085#1080#1077#13#10' '#1089#1090#1072#1088#1086#1075#1086' '#1087#1088#1080#1073#1086#1088#1072
-      DisplayWidth = 25
-      FieldName = 'Delta'
-    end
-    object fmTabCheckDevicenumberDeviceOld: TStringField
-      Alignment = taCenter
-      DisplayLabel = #1053#1086#1084#1077#1088' '#1089#1090#1072#1088#1086#1075#1086' '#13#10#1087#1088#1080#1073#1086#1088#1072
-      DisplayWidth = 20
-      FieldName = 'numberDeviceOld'
-    end
-    object fmTabCheckDeviceShowBeginNew: TFloatField
-      Alignment = taCenter
-      DisplayLabel = #1053#1072#1095#1072#1083#1100#1085#1099#1077' '#1087#1086#1082#1072#1079#1072#1085#1080#1103' '#13#10#1085#1086#1074#1086#1075#1086' '#1087#1088#1080#1073#1086#1088#1072
       DisplayWidth = 32
-      FieldName = 'ShowBeginNew'
-    end
-    object fmTabCheckDevicenumberDeveceNew: TStringField
-      Alignment = taCenter
-      DisplayLabel = #1053#1086#1084#1077#1088' '#1085#1086#1074#1086#1075#1086' '#13#10#1087#1088#1080#1073#1086#1088#1072
-      DisplayWidth = 20
-      FieldName = 'numberDeveceNew'
-    end
-    object fmTabCheckDeviceother: TStringField
-      Alignment = taCenter
-      DisplayLabel = #1055#1088#1086#1095#1077#1077
-      DisplayWidth = 50
-      FieldName = 'other'
+      FieldName = 'nameDevice'
       Size = 50
+    end
+    object fmTabCheckDevicenumOld: TStringField
+      DisplayLabel = #1053#1086#1084#1077#1088' '#1089#1090#1072#1088#1086#1075#1086
+      DisplayWidth = 24
+      FieldName = 'numOld'
+    end
+    object fmTabCheckDevicenumNew: TStringField
+      DisplayLabel = #1053#1086#1084#1077#1088' '#1085#1086#1074#1086#1075#1086
+      DisplayWidth = 24
+      FieldName = 'numNew'
+    end
+    object fmTabCheckDeviceuseAll: TStringField
+      DisplayLabel = #1055#1086#1090#1088#1077#1073#1083#1077#1085#1080#1077
+      DisplayWidth = 12
+      FieldName = 'useAll'
+      Size = 10
     end
   end
 end
