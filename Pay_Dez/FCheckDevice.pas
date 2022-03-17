@@ -69,7 +69,7 @@ begin
    if f_Admin then
    begin
      nvgCheckDevice.VisibleButtons := nvgCheckDevice.VisibleButtons + [nbInsert] + [nbDelete] +
-     [nbEdit] + [nbPost] + [nbCancel] + [nbRefresh] + [nbApplyUpdates] + [nbCancelUpdates];
+     [nbEdit] + [nbPost] + [nbCancel] + [nbRefresh];
    end;
 
   for i := 0 to grdCheckDevice.Columns.Count - 1 do
