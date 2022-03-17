@@ -148,6 +148,8 @@ const
 var
   frmPaymentDocuments: TfrmPaymentDocuments;
 
+  f_Admin : Boolean;
+  fCheckDevice : ShortInt;
 
 implementation
 
@@ -156,6 +158,10 @@ procedure TfrmPaymentDocuments.FormCreate(Sender: TObject);
 var
   i: Integer;
 begin
+// установка глобальных переменных
+  f_Admin := False;
+  fCheckDevice := -1;
+
   fExist_config := False;
   fStatusList := False;
   fVerification := False;

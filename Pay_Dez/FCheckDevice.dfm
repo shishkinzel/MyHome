@@ -48,9 +48,10 @@ object frmCheckDevice: TfrmCheckDevice
     Height = 100
     Align = alTop
     Constraints.MaxHeight = 100
-    Constraints.MinHeight = 50
+    Constraints.MinHeight = 80
     TabOrder = 0
-    ExplicitWidth = 594
+    ExplicitLeft = -1
+    ExplicitTop = -4
     object txtTitleDevice: TStaticText
       Left = 256
       Top = 8
@@ -91,8 +92,6 @@ object frmCheckDevice: TfrmCheckDevice
     Constraints.MaxHeight = 120
     Constraints.MinHeight = 50
     TabOrder = 1
-    ExplicitTop = 211
-    ExplicitWidth = 894
     object grdCheckDevice: TDBGrid
       Left = 1
       Top = 19
@@ -113,11 +112,9 @@ object frmCheckDevice: TfrmCheckDevice
       Width = 792
       Height = 18
       DataSource = dsCheckDevice
+      VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
       Align = alTop
       TabOrder = 1
-      ExplicitLeft = 2
-      ExplicitTop = 4
-      ExplicitWidth = 842
     end
   end
   object pnlCenter: TPanel
@@ -127,8 +124,6 @@ object frmCheckDevice: TfrmCheckDevice
     Height = 297
     Align = alClient
     TabOrder = 2
-    ExplicitTop = 99
-    ExplicitWidth = 844
     object txtNameDevice: TStaticText
       Left = 0
       Top = 24

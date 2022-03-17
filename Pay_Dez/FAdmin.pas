@@ -44,6 +44,7 @@ begin
   begin
     frmPaymentDocuments.mniForms_EditData.Enabled := True;
     frmPaymentDocuments.fVerification := True;
+    f_Admin := True;
     ShowMessage('Добро пожаловать администратор');
   end
   else
