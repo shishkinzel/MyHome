@@ -50,8 +50,6 @@ object frmCheckDevice: TfrmCheckDevice
     Constraints.MaxHeight = 100
     Constraints.MinHeight = 80
     TabOrder = 0
-    ExplicitLeft = -1
-    ExplicitTop = -4
     object txtTitleDevice: TStaticText
       Left = 256
       Top = 8
@@ -99,6 +97,7 @@ object frmCheckDevice: TfrmCheckDevice
       Height = 100
       Align = alClient
       DataSource = dsCheckDevice
+      Enabled = False
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
@@ -247,24 +246,13 @@ object frmCheckDevice: TfrmCheckDevice
       Alignment = taRightJustify
       TabOrder = 9
     end
-    object ComboBox1: TComboBox
-      Left = 135
-      Top = 32
-      Width = 180
-      Height = 21
-      TabOrder = 10
-      Items.Strings = (
-        #1057#1095#1077#1090#1095#1080#1082' '#1101#1083#1077#1082#1090#1088#1086#1101#1085#1077#1088#1075#1080#1080
-        #1057#1095#1077#1090#1095#1080#1082' '#1075#1086#1088#1103#1095#1077#1081' '#1074#1086#1076#1099
-        #1057#1095#1077#1090#1095#1080#1082' '#1093#1086#1083#1086#1076#1085#1086#1081' '#1074#1086#1076#1099)
-    end
     object edtShowNewBefore: TEdit
       Left = 661
       Top = 152
       Width = 80
       Height = 21
       Alignment = taRightJustify
-      TabOrder = 11
+      TabOrder = 10
     end
     object edtShowNewNow: TEdit
       Left = 661
@@ -272,7 +260,7 @@ object frmCheckDevice: TfrmCheckDevice
       Width = 80
       Height = 21
       Alignment = taRightJustify
-      TabOrder = 12
+      TabOrder = 11
     end
     object txtShowNewNow: TStaticText
       Left = 458
@@ -288,7 +276,7 @@ object frmCheckDevice: TfrmCheckDevice
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      TabOrder = 13
+      TabOrder = 12
     end
     object txtShowNewBefore: TStaticText
       Left = 442
@@ -304,7 +292,7 @@ object frmCheckDevice: TfrmCheckDevice
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      TabOrder = 14
+      TabOrder = 13
     end
     object btnApply: TButton
       Left = 16
@@ -312,7 +300,8 @@ object frmCheckDevice: TfrmCheckDevice
       Width = 180
       Height = 25
       Caption = #1042#1099#1087#1086#1083#1085#1080#1090#1100
-      TabOrder = 15
+      TabOrder = 14
+      OnClick = btnApplyClick
     end
     object btnReset: TButton
       Left = 305
@@ -320,7 +309,8 @@ object frmCheckDevice: TfrmCheckDevice
       Width = 180
       Height = 25
       Caption = #1057#1073#1088#1086#1089
-      TabOrder = 16
+      Enabled = False
+      TabOrder = 15
     end
     object btnClose: TButton
       Left = 561
@@ -328,12 +318,16 @@ object frmCheckDevice: TfrmCheckDevice
       Width = 180
       Height = 25
       Caption = #1047#1072#1082#1088#1099#1090#1100
-      TabOrder = 17
+      TabOrder = 16
     end
   end
   object dsCheckDevice: TDataSource
     DataSet = dmPayment.fmTabCheckDevice
     Left = 24
+    Top = 24
+  end
+  object jsonFileDbCheckDevice: TFDStanStorageJSONLink
+    Left = 80
     Top = 24
   end
 end

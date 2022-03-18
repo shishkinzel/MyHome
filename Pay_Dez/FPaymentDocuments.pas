@@ -170,7 +170,7 @@ begin
   if FileExists(fConfig_file) then
   begin
     fExist_config := True;
-    ShowMessage('Конфигурационный файл - существует');
+     MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - существует', 'Внимание', (MB_OK + MB_ICONINFORMATION));
     fIniFile := TIniFile.Create(ExtractFilePath(Application.ExeName) + fConfig_file);
     IniOptions.LoadFromFile(fSourcePath);
 
@@ -183,7 +183,7 @@ begin
   else
   begin
     mniSet_Config.Enabled := True;
-    ShowMessage('Конфигурационный файл - отсутствует!!!');
+MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - отсутствует!!!', 'Внимание', (MB_OK + MB_ICONWARNING));
 
   end;
 
@@ -254,7 +254,8 @@ end;
 // создание файла конфигурации
 procedure TfrmPaymentDocuments.mniSet_ConfigClick(Sender: TObject);
 begin
-  ShowMessage('Вы пытаетесь создать конфигурационный файл');
+//  ShowMessage('Вы пытаетесь создать конфигурационный файл');
+ MessageBox(frmPaymentDocuments.Handle, 'Вы пытаетесь создать конфигурационный файл', 'Внимание', (MB_OK + MB_ICONINFORMATION));
   fIniFile := TIniFile.Create(ExtractFilePath(Application.ExeName) + fConfig_file);
 // запись файла конфигурации
 
