@@ -109,6 +109,17 @@ begin
   begin
     btnApply.Enabled := False;
     btnReset.Enabled := True;
+// определение прибора учета
+    case cbbNameDevice.ItemIndex of
+      0:
+        fCheckDev := 0;
+      1:
+        fCheckDev := 1;
+      2:
+        fCheckDev := 2;
+
+    end;
+    frmPaymentDocuments.fVerification := False;
   end;
 end;
 
@@ -116,6 +127,9 @@ end;
 // закрытие и разрушение формы
 procedure TfrmCheckDevice.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+
+frmInputData.btnVerification.Enabled := False;
+frmInputData.Close;
 dmPayment.fmTabCheckDevice.SaveToFile(fJsonFileCheckDevice, sfJSON);
 frmCheckDevice.Action.Free;
 end;

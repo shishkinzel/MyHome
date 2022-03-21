@@ -62,13 +62,14 @@ type
   private    { Private declarations }
     fdbEmpty: Boolean;      // флаг пустой базы - поумолчанию False
     fActiveForm: Boolean;   // флаг активации формы
-    stepNub: Integer;
+    stepNub: Integer;       // ??????????? -что это
 
   public    { Public declarations }
   end;
 
 var
   frmInputData: TfrmInputData;
+  flagCheckeing : Boolean;     // флаг активации режима поверки
 
 
 implementation
@@ -84,10 +85,10 @@ var
   fday: Integer;
   fdayCorr: TDate;
 begin
+  flagCheckeing := False;
   fActiveForm := True;                       // флаг для снятия повторного сообщения
                                              // 'Пожалуйста введите данные в правую колонку'
-  if frmPaymentDocuments.fVerification then
-    btnVerification.Enabled := True;
+
 
   dmPayment.fmTabPayAndRecord.Open;
   if dsPayAndRecord.DataSet.IsEmpty then
@@ -138,8 +139,11 @@ end;
 
 procedure TfrmInputData.FormShow(Sender: TObject);
 begin
-FormActivate(nil);
+  if frmPaymentDocuments.fVerification then
+    btnVerification.Enabled := True;
+  FormActivate(nil);
 end;
+
 
 // процедура активации формы
 procedure TfrmInputData.FormActivate(Sender: TObject);
@@ -165,7 +169,39 @@ begin
     fdbEmpty := True;
     pnlRight.Enabled := False;
   end;
+// работа с формой в режиме поверки прибора
+  if flagCheckeing then
+  begin
+
+  end;
+// замороживаем окна поверки приборов
+  if fCheckDev >= 0 then
+  begin
+    case fCheckDev of
+      0:
+        begin
+          edtEle.Enabled := False;
+          dbedtEle.Enabled := False;
+        end;
+      1:
+        begin
+          edtHotWater.Enabled := False;
+          dbedtHotWater.Enabled := False;
+        end;
+      2:
+        begin
+          edtColdWater.Enabled := False;
+          dbedtColdWater.Enabled := False;
+        end;
+
+    end;
+  end;
+
+
 end;
+
+
+
 
 
 
@@ -255,6 +291,7 @@ end;
 // поверка приборов учета
 procedure TfrmInputData.btnVerificationClick(Sender: TObject);
 begin
+  flagCheckeing := True;    // установка флага разрешения поверки прибора
   pnlRight.Enabled := True;
   btnStart.Visible := True;
   frmCheckDevice := TfrmCheckDevice.Create(nil);
@@ -264,9 +301,23 @@ end;
 
 
 
+
+
+
+
 // закрытие формы
 procedure TfrmInputData.btnCloseClick(Sender: TObject);
 begin
+// отморозить окна
+  edtEle.Enabled := True;
+  dbedtEle.Enabled := True;
+  edtHotWater.Enabled := False;
+  dbedtHotWater.Enabled := True;
+  edtColdWater.Enabled := True;
+  dbedtColdWater.Enabled := True;
+
+  fCheckDev := -1;
+  flagCheckeing := False;
   frmInputData.Close;
   frmInputData.Action.Free;
 end;

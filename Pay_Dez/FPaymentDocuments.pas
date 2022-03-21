@@ -148,8 +148,11 @@ const
 var
   frmPaymentDocuments: TfrmPaymentDocuments;
 
-  f_Admin : Boolean;
-  fCheckDevice : ShortInt;
+  f_Admin : Boolean;          // включение режима администрировани€
+  fCheckDev : ShortInt;    // код устройства поверки
+  //   0 -  электросчетчик
+  //   1 -  счетчик гор€чей воды
+  //   2 -  счетчик холодной воды
 
 implementation
 
@@ -160,7 +163,7 @@ var
 begin
 // установка глобальных переменных
   f_Admin := False;
-  fCheckDevice := -1;
+  fCheckDev := -1;
 
   fExist_config := False;
   fStatusList := False;
