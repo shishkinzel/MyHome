@@ -8,10 +8,10 @@ uses
   FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   FTableAll, FTableMeteringDevice, FFRMeteringDevice, FFRTableAll, FFRListReport,
   FSelectDate, FTestForm, FireDAC.Stan.StorageJSON, FInputData,
-  Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids;
+  Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, FCheckDevice;
 
 procedure CorrectionTable(tabIn, tabOut: TFDMemTable);
-
+function MyStrToFloatDef(s : string; i : ShortInt) : Float32;
 
 
 implementation
@@ -43,6 +43,11 @@ begin
   end;
 end;
 
+function MyStrToFloatDef(s: string; i: ShortInt): Float32;
+begin
+  s := StringReplace(s, '.', ',', []);
+  Result := StrToFloatDef(s, i);
+end;
 
 end.
 

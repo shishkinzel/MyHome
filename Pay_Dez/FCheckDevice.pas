@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, Math,
   WinTypes,StdCtrls, Vcl.ComCtrls, FireDAC.Stan.StorageJSON , FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client;
@@ -42,11 +42,15 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
+    procedure edtShowOldBeforeKeyPress(Sender: TObject; var Key: Char);
+    procedure edtShowOldNowKeyPress(Sender: TObject; var Key: Char);
+    procedure edtShowNewBeforeKeyPress(Sender: TObject; var Key: Char);
+    procedure edtShowNewNowKeyPress(Sender: TObject; var Key: Char);
 
   private    { Private declarations }
   public    { Public declarations }
-  const
-  fJsonFileCheckDevice = 'checkdevice_bd.fds';//   файл с Базой Данных поверки приборов
+    const
+      fJsonFileCheckDevice = 'checkdevice_bd.fds'; //   файл с Базой Данных поверки приборов
   end;
 
 
@@ -57,7 +61,7 @@ var
 implementation
 
 uses
-  FInputData, FdmPayment, FPaymentDocuments;
+  FInputData, FdmPayment, FPaymentDocuments, funUntil;
 
 {$R *.dfm}
 
@@ -96,8 +100,10 @@ MessageBox(frmCheckDevice.Handle, 'Пожалуйста, Укажите дату поверки!!', 'Внимани
 end;
 //**************************************************************************************************
 // заполнение таблицы
-
 procedure TfrmCheckDevice.btnApplyClick(Sender: TObject);
+var
+  fcheckOldPrev, fcheckOldNow, fcheckNewPrev, fcheckNewNow: Float32;
+  allSum : Integer;
 begin
 
   if (cbbNameDevice.Text = '') and (edtNumOldDevice.Text = '') and (edtNumNewDevice.Text = '') and (edtShowOldBefore.Text = '') and (edtShowNewBefore.Text = '') and (edtShowOldNow.Text = '') and (edtShowNewNow.Text = '') then
@@ -107,6 +113,19 @@ begin
   end
   else
   begin
+    fcheckOldPrev := funUntil.MyStrToFloatDef(edtShowOldBefore.Text, -1);
+    fcheckOldNow := funUntil.MyStrToFloatDef(edtShowOldNow.Text, -1);
+    fcheckNewPrev := funUntil.MyStrToFloatDef(edtShowNewBefore.Text, -1);
+    fcheckNewNow := funUntil.MyStrToFloatDef(edtShowNewNow.Text, -1);
+    if (fcheckOldPrev < 0) or (fcheckOldNow < 0) or (fcheckNewPrev < 0) or (fcheckNewNow < 0) then
+    begin
+      MessageBox(frmCheckDevice.Handle, 'Пожалуйста, проверти корректность введённых данных!!', 'Внимание, ошибка!!!!', (MB_OK + MB_ICONWARNING));
+      Exit;
+    end
+    else
+    begin
+     allSum := Ceil((fcheckOldNow - fcheckOldPrev) + (fcheckNewNow - fcheckNewPrev));
+    end;
     btnApply.Enabled := False;
     btnReset.Enabled := True;
 // определение прибора учета
@@ -120,16 +139,51 @@ begin
 
     end;
     frmPaymentDocuments.fVerification := False;
+ // заполняем таблицу grdCheckDevice
+    with dsCheckDevice.DataSet do
+    begin
+      Open;
+      Append;
+      Fields[1].AsDateTime := dtpCheckDevice.DateTime;
+      Fields[2].AsString := cbbNameDevice.Text;
+      Fields[3].AsString := edtNumOldDevice.Text;
+      Fields[4].AsString := edtNumNewDevice.Text;
+      Fields[5].AsString := allSum.ToString;
+
+    end;
   end;
 end;
 
+// блокировка ввода некорректных символов в Edit  ****************************************
+procedure TfrmCheckDevice.edtShowNewBeforeKeyPress(Sender: TObject; var Key: Char);
+begin
+ if not (Key in ['0'..'9',',','.', #8])then Key:=#0;
+end;
+
+procedure TfrmCheckDevice.edtShowNewNowKeyPress(Sender: TObject; var Key: Char);
+begin
+ if not (Key in ['0'..'9',',','.', #8])then Key:=#0;
+end;
+
+procedure TfrmCheckDevice.edtShowOldBeforeKeyPress(Sender: TObject; var Key: Char);
+begin
+ if not (Key in ['0'..'9',',','.', #8])then Key:=#0;
+end;
+
+procedure TfrmCheckDevice.edtShowOldNowKeyPress(Sender: TObject; var Key: Char);
+begin
+  if not (Key in ['0'..'9',',','.', #8])then Key:=#0;
+end;
+//****************************************************************************************
 
 // закрытие и разрушение формы
 procedure TfrmCheckDevice.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-
-frmInputData.btnVerification.Enabled := False;
-frmInputData.Close;
+ // потом необходимо убрать - форма не сформированна - все на этапе откладки
+ //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//frmInputData.btnVerification.Enabled := False;
+//frmInputData.Close;
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 dmPayment.fmTabCheckDevice.SaveToFile(fJsonFileCheckDevice, sfJSON);
 frmCheckDevice.Action.Free;
 end;

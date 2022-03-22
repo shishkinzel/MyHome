@@ -387,22 +387,26 @@ object dmPayment: TdmPayment
       FieldName = 'date'
     end
     object fmTabCheckDevicenameDevice: TStringField
+      Alignment = taCenter
       DisplayLabel = #1053#1072#1080#1084#1077#1085#1086#1074#1072#1085#1080#1077' '#1087#1088#1080#1073#1086#1088#1072
       DisplayWidth = 32
       FieldName = 'nameDevice'
       Size = 50
     end
     object fmTabCheckDevicenumOld: TStringField
-      DisplayLabel = #1053#1086#1084#1077#1088' '#1089#1090#1072#1088#1086#1075#1086
+      Alignment = taCenter
+      DisplayLabel = #1053#1086#1084#1077#1088' '#1089#1090#1072#1088#1086#1075#1086' '#1087#1088#1080#1073#1086#1088#1072
       DisplayWidth = 24
       FieldName = 'numOld'
     end
     object fmTabCheckDevicenumNew: TStringField
-      DisplayLabel = #1053#1086#1084#1077#1088' '#1085#1086#1074#1086#1075#1086
+      Alignment = taCenter
+      DisplayLabel = #1053#1086#1084#1077#1088' '#1085#1086#1074#1086#1075#1086' '#1087#1088#1080#1073#1086#1088#1072
       DisplayWidth = 24
       FieldName = 'numNew'
     end
     object fmTabCheckDeviceuseAll: TStringField
+      Alignment = taCenter
       DisplayLabel = #1055#1086#1090#1088#1077#1073#1083#1077#1085#1080#1077
       DisplayWidth = 12
       FieldName = 'useAll'

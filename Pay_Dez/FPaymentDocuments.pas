@@ -143,7 +143,7 @@ const
   fJsonFile = 'any_bd.fds';               //   файл с Базой Данных по умолчанию
   fConfig_file = 'pay_config.ini';        //   конфигурационный файл
   fExe = 'ProjectPaymentDocuments.exe';   //   исполняемый файл
-
+  FCHECK = 'Поверка';                     //   константа для поверки приборов
 
 var
   frmPaymentDocuments: TfrmPaymentDocuments;
@@ -173,7 +173,7 @@ begin
   if FileExists(fConfig_file) then
   begin
     fExist_config := True;
-     MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - существует', 'Внимание', (MB_OK + MB_ICONINFORMATION));
+    MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - существует', 'Внимание', (MB_OK + MB_ICONINFORMATION));
     fIniFile := TIniFile.Create(ExtractFilePath(Application.ExeName) + fConfig_file);
     IniOptions.LoadFromFile(fSourcePath);
 
@@ -186,7 +186,7 @@ begin
   else
   begin
     mniSet_Config.Enabled := True;
-MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - отсутствует!!!', 'Внимание', (MB_OK + MB_ICONWARNING));
+    MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - отсутствует!!!', 'Внимание', (MB_OK + MB_ICONWARNING));
 
   end;
 
@@ -282,6 +282,11 @@ end;
 procedure TfrmPaymentDocuments.mniForms_InputDataClick(Sender: TObject);
 begin
   frmInputData := TfrmInputData.Create(nil);
+   MessageBox(0, 'Для активации кнопки "Поверка"' + #10#13 +
+                'активируйте права администратора' + #10#13 +
+                 '     в меню "Настройки"',  'Обратите внимание' ,
+              (MB_OK + MB_ICONINFORMATION));
+
   frmInputData.ShowModal;
 end;
 

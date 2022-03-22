@@ -59,6 +59,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+
   private    { Private declarations }
     fdbEmpty: Boolean;      // флаг пустой базы - поумолчанию False
     fActiveForm: Boolean;   // флаг активации формы
@@ -142,6 +143,7 @@ begin
   if frmPaymentDocuments.fVerification then
     btnVerification.Enabled := True;
   FormActivate(nil);
+
 end;
 
 
@@ -196,7 +198,6 @@ begin
 
     end;
   end;
-
 
 end;
 
@@ -299,11 +300,10 @@ begin
 end;
 
 
-
-
-
-
-
+//procedure TfrmInputData.dbedtDezKeyPress(Sender: TObject; var Key: Char);
+//begin
+// if not (Key in ['0'..'9',',','.', #8])then Key:=#0;
+//end;
 
 // закрытие формы
 procedure TfrmInputData.btnCloseClick(Sender: TObject);

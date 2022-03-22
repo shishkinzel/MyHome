@@ -237,6 +237,7 @@ object frmCheckDevice: TfrmCheckDevice
       Height = 21
       Alignment = taRightJustify
       TabOrder = 8
+      OnKeyPress = edtShowOldBeforeKeyPress
     end
     object edtShowOldNow: TEdit
       Left = 235
@@ -245,6 +246,7 @@ object frmCheckDevice: TfrmCheckDevice
       Height = 21
       Alignment = taRightJustify
       TabOrder = 9
+      OnKeyPress = edtShowOldNowKeyPress
     end
     object edtShowNewBefore: TEdit
       Left = 661
@@ -253,6 +255,7 @@ object frmCheckDevice: TfrmCheckDevice
       Height = 21
       Alignment = taRightJustify
       TabOrder = 10
+      OnKeyPress = edtShowNewBeforeKeyPress
     end
     object edtShowNewNow: TEdit
       Left = 661
@@ -261,6 +264,7 @@ object frmCheckDevice: TfrmCheckDevice
       Height = 21
       Alignment = taRightJustify
       TabOrder = 11
+      OnKeyPress = edtShowNewNowKeyPress
     end
     object txtShowNewNow: TStaticText
       Left = 458
