@@ -46,6 +46,7 @@ type
     procedure edtShowOldNowKeyPress(Sender: TObject; var Key: Char);
     procedure edtShowNewBeforeKeyPress(Sender: TObject; var Key: Char);
     procedure edtShowNewNowKeyPress(Sender: TObject; var Key: Char);
+    procedure dtpCheckDeviceKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 
   private    { Private declarations }
   public    { Public declarations }
@@ -155,6 +156,7 @@ begin
 end;
 
 // блокировка ввода некорректных символов в Edit  ****************************************
+
 procedure TfrmCheckDevice.edtShowNewBeforeKeyPress(Sender: TObject; var Key: Char);
 begin
  if not (Key in ['0'..'9',',','.', #8])then Key:=#0;
@@ -176,6 +178,18 @@ begin
 end;
 //****************************************************************************************
 
+// фокус на форме
+procedure TfrmCheckDevice.dtpCheckDeviceKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (Key = VK_RETURN)
+
+  then
+    FindNextControl(Sender as TWinControl, True, True, false).SetFocus;
+end;
+
+
+
 // закрытие и разрушение формы
 procedure TfrmCheckDevice.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -185,7 +199,7 @@ begin
 //frmInputData.Close;
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 dmPayment.fmTabCheckDevice.SaveToFile(fJsonFileCheckDevice, sfJSON);
-frmCheckDevice.Action.Free;
+  Action :=  caFree;
 end;
 //**************************************************************************************************
 end.

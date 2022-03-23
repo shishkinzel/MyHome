@@ -31,7 +31,7 @@ uses
 
 procedure TfrmTableAll.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-frmTableAll.Action.Free;
+  Action :=  caFree;
 end;
 
 procedure TfrmTableAll.FormShow(Sender: TObject);

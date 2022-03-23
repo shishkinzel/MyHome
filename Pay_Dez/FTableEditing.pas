@@ -61,7 +61,7 @@ begin
 
 procedure TfrmEditing.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-frmEditing.Action.Free;
+  Action :=  caFree;
 end;
 
 

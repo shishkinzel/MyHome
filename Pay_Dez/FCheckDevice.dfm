@@ -63,7 +63,7 @@ object frmCheckDevice: TfrmCheckDevice
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      TabOrder = 0
+      TabOrder = 1
     end
     object dtpCheckDevice: TDateTimePicker
       Left = 561
@@ -78,7 +78,8 @@ object frmCheckDevice: TfrmCheckDevice
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      TabOrder = 1
+      TabOrder = 0
+      OnKeyDown = dtpCheckDeviceKeyDown
     end
   end
   object pnlDown: TPanel
@@ -145,6 +146,7 @@ object frmCheckDevice: TfrmCheckDevice
       Width = 180
       Height = 21
       TabOrder = 1
+      OnKeyDown = dtpCheckDeviceKeyDown
       Items.Strings = (
         #1057#1095#1077#1090#1095#1080#1082' '#1101#1083#1077#1082#1090#1088#1086#1101#1085#1077#1088#1075#1080#1080
         #1057#1095#1077#1090#1095#1080#1082' '#1075#1086#1088#1103#1095#1077#1081' '#1074#1086#1076#1099
@@ -164,7 +166,7 @@ object frmCheckDevice: TfrmCheckDevice
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      TabOrder = 2
+      TabOrder = 11
     end
     object edtNumOldDevice: TEdit
       Left = 135
@@ -172,7 +174,8 @@ object frmCheckDevice: TfrmCheckDevice
       Width = 180
       Height = 21
       Alignment = taRightJustify
-      TabOrder = 3
+      TabOrder = 2
+      OnKeyDown = dtpCheckDeviceKeyDown
     end
     object edtNumNewDevice: TEdit
       Left = 561
@@ -180,7 +183,8 @@ object frmCheckDevice: TfrmCheckDevice
       Width = 180
       Height = 21
       Alignment = taRightJustify
-      TabOrder = 4
+      TabOrder = 3
+      OnKeyDown = dtpCheckDeviceKeyDown
     end
     object txtNewDevice: TStaticText
       Left = 426
@@ -196,7 +200,7 @@ object frmCheckDevice: TfrmCheckDevice
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      TabOrder = 5
+      TabOrder = 12
     end
     object txtShowOldBefore: TStaticText
       Left = 16
@@ -212,7 +216,7 @@ object frmCheckDevice: TfrmCheckDevice
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      TabOrder = 6
+      TabOrder = 13
     end
     object txtShowOldNow: TStaticText
       Left = 16
@@ -228,7 +232,7 @@ object frmCheckDevice: TfrmCheckDevice
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      TabOrder = 7
+      TabOrder = 14
     end
     object edtShowOldBefore: TEdit
       Left = 235
@@ -236,7 +240,8 @@ object frmCheckDevice: TfrmCheckDevice
       Width = 80
       Height = 21
       Alignment = taRightJustify
-      TabOrder = 8
+      TabOrder = 4
+      OnKeyDown = dtpCheckDeviceKeyDown
       OnKeyPress = edtShowOldBeforeKeyPress
     end
     object edtShowOldNow: TEdit
@@ -245,7 +250,8 @@ object frmCheckDevice: TfrmCheckDevice
       Width = 80
       Height = 21
       Alignment = taRightJustify
-      TabOrder = 9
+      TabOrder = 5
+      OnKeyDown = dtpCheckDeviceKeyDown
       OnKeyPress = edtShowOldNowKeyPress
     end
     object edtShowNewBefore: TEdit
@@ -254,7 +260,8 @@ object frmCheckDevice: TfrmCheckDevice
       Width = 80
       Height = 21
       Alignment = taRightJustify
-      TabOrder = 10
+      TabOrder = 6
+      OnKeyDown = dtpCheckDeviceKeyDown
       OnKeyPress = edtShowNewBeforeKeyPress
     end
     object edtShowNewNow: TEdit
@@ -263,7 +270,8 @@ object frmCheckDevice: TfrmCheckDevice
       Width = 80
       Height = 21
       Alignment = taRightJustify
-      TabOrder = 11
+      TabOrder = 7
+      OnKeyDown = dtpCheckDeviceKeyDown
       OnKeyPress = edtShowNewNowKeyPress
     end
     object txtShowNewNow: TStaticText
@@ -280,7 +288,7 @@ object frmCheckDevice: TfrmCheckDevice
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      TabOrder = 12
+      TabOrder = 15
     end
     object txtShowNewBefore: TStaticText
       Left = 442
@@ -296,7 +304,7 @@ object frmCheckDevice: TfrmCheckDevice
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      TabOrder = 13
+      TabOrder = 16
     end
     object btnApply: TButton
       Left = 16
@@ -304,7 +312,7 @@ object frmCheckDevice: TfrmCheckDevice
       Width = 180
       Height = 25
       Caption = #1042#1099#1087#1086#1083#1085#1080#1090#1100
-      TabOrder = 14
+      TabOrder = 8
       OnClick = btnApplyClick
     end
     object btnReset: TButton
@@ -314,7 +322,7 @@ object frmCheckDevice: TfrmCheckDevice
       Height = 25
       Caption = #1057#1073#1088#1086#1089
       Enabled = False
-      TabOrder = 15
+      TabOrder = 9
     end
     object btnClose: TButton
       Left = 561
@@ -322,7 +330,7 @@ object frmCheckDevice: TfrmCheckDevice
       Width = 180
       Height = 25
       Caption = #1047#1072#1082#1088#1099#1090#1100
-      TabOrder = 16
+      TabOrder = 10
     end
   end
   object dsCheckDevice: TDataSource

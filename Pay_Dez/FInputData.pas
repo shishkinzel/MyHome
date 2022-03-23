@@ -59,6 +59,8 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure edtEleKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure dbedtEleDblClick(Sender: TObject);
 
   private    { Private declarations }
     fdbEmpty: Boolean;      // флаг пустой базы - поумолчанию False
@@ -117,6 +119,7 @@ begin
       fdayCorr := RecodeDay(fdayCorr, 15);
     end;
     dtpDate.Date := fdayCorr;
+
   end
   else
   begin
@@ -135,32 +138,39 @@ begin
     edtHotWater.Text := dsPayAndRecord.DataSet.FieldByName('WaterHotNext').AsString;
     dmPayment.fmTabPayAndRecord.Append;
   end;
-  FormShow(nil);
+//  FormShow(nil);
 end;
 
 procedure TfrmInputData.FormShow(Sender: TObject);
 begin
   if frmPaymentDocuments.fVerification then
     btnVerification.Enabled := True;
-  FormActivate(nil);
 
+  if pnlInData.Enabled then
+  begin
+  if dbedtElE.CanFocus then
+      dbedtEle.SetFocus;
+  end;
 end;
+
+
 
 
 // процедура активации формы
 procedure TfrmInputData.FormActivate(Sender: TObject);
 begin
+
   if dsPayAndRecord.DataSet.IsEmpty then
   begin
-    if not(fActiveForm) then
+    if fActiveForm then
     begin
       ShowMessage('Пожалуйста введите данные в правую колонку');
       fActiveForm := False;
+      pnlRight.Enabled := True;
       edtEle.SetFocus;
     end
     else
     begin
-
       pnlRight.Enabled := True;
       pnlInData.Enabled := False;
       pnldown.Enabled := False;
@@ -198,7 +208,6 @@ begin
 
     end;
   end;
-
 end;
 
 
@@ -299,6 +308,19 @@ begin
   frmCheckDevice.ShowModal;
 end;
 
+procedure TfrmInputData.dbedtEleDblClick(Sender: TObject);
+begin
+  ShowMessage('Dbl click');
+end;
+
+// фокус на форме
+procedure TfrmInputData.edtEleKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if (Key = VK_RETURN)
+
+  then
+    FindNextControl(Sender as TWinControl, True, True, false).SetFocus;
+end;
 
 //procedure TfrmInputData.dbedtDezKeyPress(Sender: TObject; var Key: Char);
 //begin
@@ -309,22 +331,22 @@ end;
 procedure TfrmInputData.btnCloseClick(Sender: TObject);
 begin
 // отморозить окна
-  edtEle.Enabled := True;
-  dbedtEle.Enabled := True;
-  edtHotWater.Enabled := False;
-  dbedtHotWater.Enabled := True;
-  edtColdWater.Enabled := True;
-  dbedtColdWater.Enabled := True;
+//  edtEle.Enabled := True;
+//  dbedtEle.Enabled := True;
+//  edtHotWater.Enabled := False;
+//  dbedtHotWater.Enabled := True;
+//  edtColdWater.Enabled := True;
+//  dbedtColdWater.Enabled := True;
 
   fCheckDev := -1;
   flagCheckeing := False;
-  frmInputData.Close;
-  frmInputData.Action.Free;
+
+  ModalResult := mrOk;
 end;
 
 procedure TfrmInputData.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  frmInputData.Action.Free;
+  Action :=  caFree;
 end;
 
 

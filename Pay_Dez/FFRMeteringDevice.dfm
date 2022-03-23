@@ -28,8 +28,6 @@ object frmFRMeteringDevice: TfrmFRMeteringDevice
     UseReportHints = True
     OutlineTreeSortType = dtsUnsorted
     HideScrolls = False
-    ExplicitWidth = 908
-    ExplicitHeight = 618
   end
   object fr_R_Table_Big: TfrxReport
     Version = '6.9.3'

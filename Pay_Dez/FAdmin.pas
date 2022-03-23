@@ -58,7 +58,7 @@ end;
 
 procedure TfrmAdmin.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-frmAdmin.Action.Free;
+  Action :=  caFree;
 end;
 
 procedure TfrmAdmin.FormShow(Sender: TObject);

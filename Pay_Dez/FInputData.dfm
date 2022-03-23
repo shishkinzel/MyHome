@@ -13,6 +13,7 @@ object frmInputData: TfrmInputData
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
@@ -44,7 +45,7 @@ object frmInputData: TfrmInputData
     Align = alLeft
     Color = 15958140
     ParentBackground = False
-    TabOrder = 0
+    TabOrder = 1
     object lblEl: TLabel
       Left = 16
       Top = 123
@@ -177,6 +178,8 @@ object frmInputData: TfrmInputData
       Font.Style = []
       ParentFont = False
       TabOrder = 1
+      OnDblClick = dbedtEleDblClick
+      OnKeyDown = edtEleKeyDown
     end
     object dbedtColdWater: TDBEdit
       Left = 150
@@ -192,6 +195,7 @@ object frmInputData: TfrmInputData
       Font.Style = []
       ParentFont = False
       TabOrder = 2
+      OnKeyDown = edtEleKeyDown
     end
     object dbedtHotWater: TDBEdit
       Left = 150
@@ -207,6 +211,7 @@ object frmInputData: TfrmInputData
       Font.Style = []
       ParentFont = False
       TabOrder = 3
+      OnKeyDown = edtEleKeyDown
     end
     object dtpDate: TDateTimePicker
       Left = 150
@@ -225,6 +230,7 @@ object frmInputData: TfrmInputData
       Font.Style = []
       ParentFont = False
       TabOrder = 0
+      OnKeyDown = edtEleKeyDown
     end
     object dbedtUseEle: TDBEdit
       Left = 312
@@ -283,7 +289,7 @@ object frmInputData: TfrmInputData
     Align = alBottom
     Color = 6091532
     ParentBackground = False
-    TabOrder = 1
+    TabOrder = 2
     object lblDez: TLabel
       Left = 16
       Top = 26
@@ -337,6 +343,7 @@ object frmInputData: TfrmInputData
       Font.Style = []
       ParentFont = False
       TabOrder = 0
+      OnKeyDown = edtEleKeyDown
     end
     object dbedtMEle: TDBEdit
       Left = 150
@@ -352,6 +359,7 @@ object frmInputData: TfrmInputData
       Font.Style = []
       ParentFont = False
       TabOrder = 1
+      OnKeyDown = edtEleKeyDown
     end
     object dbedtOnLime: TDBEdit
       Left = 150
@@ -367,6 +375,7 @@ object frmInputData: TfrmInputData
       Font.Style = []
       ParentFont = False
       TabOrder = 2
+      OnKeyDown = edtEleKeyDown
     end
     object btnApply: TButton
       Left = 310
@@ -382,6 +391,7 @@ object frmInputData: TfrmInputData
       ParentFont = False
       TabOrder = 3
       OnClick = btnApplyClick
+      OnKeyDown = edtEleKeyDown
     end
     object btnClose: TButton
       Left = 470
@@ -397,6 +407,7 @@ object frmInputData: TfrmInputData
       ParentFont = False
       TabOrder = 4
       OnClick = btnCloseClick
+      OnKeyDown = edtEleKeyDown
     end
     object btnVerification: TButton
       Left = 620
@@ -413,6 +424,7 @@ object frmInputData: TfrmInputData
       ParentFont = False
       TabOrder = 5
       OnClick = btnVerificationClick
+      OnKeyDown = edtEleKeyDown
     end
   end
   object pnlRight: TPanel
@@ -424,7 +436,7 @@ object frmInputData: TfrmInputData
     Color = 16759225
     Enabled = False
     ParentBackground = False
-    TabOrder = 2
+    TabOrder = 0
     object lblHotWaterPrev: TLabel
       Left = 24
       Top = 187
@@ -478,6 +490,7 @@ object frmInputData: TfrmInputData
       NumbersOnly = True
       ParentFont = False
       TabOrder = 2
+      OnKeyDown = edtEleKeyDown
     end
     object edtEle: TEdit
       Left = 167
@@ -493,6 +506,7 @@ object frmInputData: TfrmInputData
       NumbersOnly = True
       ParentFont = False
       TabOrder = 0
+      OnKeyDown = edtEleKeyDown
     end
     object edtColdWater: TEdit
       Left = 167
@@ -508,6 +522,7 @@ object frmInputData: TfrmInputData
       NumbersOnly = True
       ParentFont = False
       TabOrder = 1
+      OnKeyDown = edtEleKeyDown
     end
     object txtTitlePrev: TStaticText
       Left = 32
@@ -538,6 +553,7 @@ object frmInputData: TfrmInputData
       TabOrder = 3
       Visible = False
       OnClick = btnStartClick
+      OnKeyDown = edtEleKeyDown
     end
   end
   object dsPayAndRecord: TDataSource

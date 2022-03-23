@@ -17,6 +17,7 @@ type
     dsPayAndRecord: TDataSource;
     procedure FormShow(Sender: TObject);
     procedure btnStartClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
     fDateSelect : TDate;
@@ -33,6 +34,11 @@ uses
   FPaymentDocuments, FdmPayment;
 
 {$R *.dfm}
+
+procedure TfrmSelectionDate.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action :=  caFree;
+end;
 
 procedure TfrmSelectionDate.FormShow(Sender: TObject);
 var

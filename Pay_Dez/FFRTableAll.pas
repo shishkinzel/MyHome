@@ -36,7 +36,7 @@ uses
 
 procedure TfrmFRTableAll.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  frmFRTableAll.Action.Free;
+  Action :=  caFree;
 end;
 
 end.

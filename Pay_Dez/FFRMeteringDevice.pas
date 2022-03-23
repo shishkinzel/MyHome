@@ -33,7 +33,7 @@ uses
 
 procedure TfrmFRMeteringDevice.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  frmFRMeteringDevice.Action.Free;
+  Action :=  caFree;
 end;
 
 end.

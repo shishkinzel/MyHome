@@ -31,7 +31,7 @@ uses
 
 procedure TfrmMeteringDevice.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  frmMeteringDevice.Action.Free;
+  Action :=  caFree;
 end;
 
 procedure TfrmMeteringDevice.FormShow(Sender: TObject);
