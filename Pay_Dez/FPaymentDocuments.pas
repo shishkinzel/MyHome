@@ -287,7 +287,7 @@ begin
                  '     в меню "Настройки"',  'Обратите внимание' ,
               (MB_OK + MB_ICONINFORMATION));
 
-  frmInputData.ShowModal;
+  frmInputData.Show;
 end;
 
 // процедура открытия Базы Данных   - проект релизовать

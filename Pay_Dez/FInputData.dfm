@@ -178,7 +178,6 @@ object frmInputData: TfrmInputData
       Font.Style = []
       ParentFont = False
       TabOrder = 1
-      OnDblClick = dbedtEleDblClick
       OnKeyDown = edtEleKeyDown
     end
     object dbedtColdWater: TDBEdit
@@ -399,6 +398,7 @@ object frmInputData: TfrmInputData
       Width = 120
       Height = 27
       Caption = #1047#1072#1082#1088#1099#1090#1100' '#1092#1086#1088#1084#1091
+      Enabled = False
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16

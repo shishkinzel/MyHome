@@ -60,12 +60,12 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure edtEleKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure dbedtEleDblClick(Sender: TObject);
 
   private    { Private declarations }
     fdbEmpty: Boolean;      // флаг пустой базы - поумолчанию False
     fActiveForm: Boolean;   // флаг активации формы
-    stepNub: Integer;       // ??????????? -что это
+    fApply : Boolean;         // флаг вычисление полей
+    stepNub: Integer;       //  шаг нумерации таблицы
 
   public    { Public declarations }
   end;
@@ -91,7 +91,8 @@ begin
   flagCheckeing := False;
   fActiveForm := True;                       // флаг для снятия повторного сообщения
                                              // 'Пожалуйста введите данные в правую колонку'
-
+// флаги заполнения таблицы
+  fApply := True;
 
   dmPayment.fmTabPayAndRecord.Open;
   if dsPayAndRecord.DataSet.IsEmpty then
@@ -138,7 +139,6 @@ begin
     edtHotWater.Text := dsPayAndRecord.DataSet.FieldByName('WaterHotNext').AsString;
     dmPayment.fmTabPayAndRecord.Append;
   end;
-//  FormShow(nil);
 end;
 
 procedure TfrmInputData.FormShow(Sender: TObject);
@@ -211,27 +211,43 @@ begin
 end;
 
 
-
-
-
-
 // ввод начальных данных в пустую таблиц
 procedure TfrmInputData.btnStartClick(Sender: TObject);
+var
+ factivate : TCloseAction;
 begin
-  btnStart.Visible := False;
-  pnlRight.Enabled := False;
-  pnlInData.Enabled := True;
-  pnldown.Enabled := True;
-  dsPayAndRecord.DataSet.Append;
-  dmPayment.fmTabPayAndRecord.FieldByName('number').AsInteger := stepNub;
-  dmPayment.fmTabPayAndRecord.FieldByName('date').AsDateTime := dtpDate.Date;
-  dmPayment.fmTabPayAndRecord.FieldByName('lightPrev').AsString := edtEle.Text;
-  dmPayment.fmTabPayAndRecord.FieldByName('WaterColdPrev').AsString := edtColdWater.Text;
-  dmPayment.fmTabPayAndRecord.FieldByName('WaterHotPrev').AsString := edtHotWater.Text;
+  factivate := caFree;
+  if (edtEle.Text = '') or (edtColdWater.Text = '') or (edtHotWater.Text = '') then
+  begin
+    MessageBox(0, 'Проверте корректность заполнения полей', 'Внимание, ошибка!',
+                  (MB_OK + MB_ICONERROR));
+    edtEle.Text := '0';
+    edtColdWater.Text := '0';
+    edtHotWater.Text := '0';
+    edtEle.SetFocus;
+
+    Exit;
+  end
+  else
+  begin
+    pnlInData.Enabled := True;
+    pnldown.Enabled := True;
+    btnStart.Visible := False;
+    pnlRight.Enabled := False;
+    dsPayAndRecord.DataSet.Append;
+    dmPayment.fmTabPayAndRecord.FieldByName('number').AsInteger := stepNub;
+    dmPayment.fmTabPayAndRecord.FieldByName('date').AsDateTime := dtpDate.Date;
+    dmPayment.fmTabPayAndRecord.FieldByName('lightPrev').AsString := edtEle.Text;
+    dmPayment.fmTabPayAndRecord.FieldByName('WaterColdPrev').AsString := edtColdWater.Text;
+    dmPayment.fmTabPayAndRecord.FieldByName('WaterHotPrev').AsString := edtHotWater.Text;
+
+  end;
   ShowMessage('Установите начальную дату');
   dtpDate.Enabled := True;
 
 end;
+
+
 
 
 // ввод начальных значений в таблицу с данными
@@ -259,14 +275,25 @@ begin
     fEle := StrToInt(dbedtEle.Text) - StrToInt(edtEle.Text);
     fWaterCold := StrToInt(dbedtColdWater.Text) - StrToInt(edtColdWater.Text);
     fWaterHot := StrToInt(dbedtHotWater.Text) - StrToInt(edtHotWater.Text);
-
-    with dsPayAndRecord.DataSet do
+    fApply := False;
+    if (fEle >= 0) and (fWaterCold >= 0) and (fWaterHot >= 0) then
     begin
-      FieldByName('lightExpense').AsInteger := fEle;
-      FieldByName('WaterColdExpense').AsInteger := fWaterCold;
-      FieldByName('WaterHotExpense').AsInteger := fWaterHot;
+      with dsPayAndRecord.DataSet do
+      begin
+        FieldByName('lightExpense').AsInteger := fEle;
+        FieldByName('WaterColdExpense').AsInteger := fWaterCold;
+        FieldByName('WaterHotExpense').AsInteger := fWaterHot;
+      end;
+    end
+    else
+    begin
+      dbedtEle.Text := '';
+      dbedtColdWater.Text := '';
+      dbedtHotWater.Text := '';
+      MessageBox(0, 'Проверте корректность заполнения полей', 'Внимание, ошибка!', (MB_OK + MB_ICONERROR));
+       dbedtEle.SetFocus;
+      Exit;
     end;
-
 // запись в таблицу fmTabSummaryTable - dsSummaryTable
     with dsSummaryTable.DataSet do
     begin
@@ -291,6 +318,8 @@ begin
     dbedtUseColdWater.Text := fWaterCold.ToString;
     dbedtUseHotWater.Text := fWaterHot.ToString;
     btnApply.Enabled := False;
+    btnClose.Enabled := True;
+    btnClose.SetFocus;
   end
   else
   begin
@@ -308,10 +337,7 @@ begin
   frmCheckDevice.ShowModal;
 end;
 
-procedure TfrmInputData.dbedtEleDblClick(Sender: TObject);
-begin
-  ShowMessage('Dbl click');
-end;
+
 
 // фокус на форме
 procedure TfrmInputData.edtEleKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -330,22 +356,37 @@ end;
 // закрытие формы
 procedure TfrmInputData.btnCloseClick(Sender: TObject);
 begin
-// отморозить окна
-//  edtEle.Enabled := True;
-//  dbedtEle.Enabled := True;
-//  edtHotWater.Enabled := False;
-//  dbedtHotWater.Enabled := True;
-//  edtColdWater.Enabled := True;
-//  dbedtColdWater.Enabled := True;
-
   fCheckDev := -1;
   flagCheckeing := False;
-
-  ModalResult := mrOk;
+  Close;
 end;
 
 procedure TfrmInputData.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+if not(dsPayAndRecord.DataSet.Modified) then
+  MessageBox(0, 'Вы отменили ввод данных в базу', 'Внимание!',
+                  (MB_ICONINFORMATION))
+else
+begin
+if fApply or not((dbedtEle.Text = '') and (dbedtColdWater.Text = '') and (dbedtHotWater.Text = '')
+  and (dbedtDez.Text = '') and  (dbedtMEle.Text = '') and (dbedtOnLime.Text = '') and
+  (edtEle.Text = '') and (edtColdWater.Text = '') and (edtHotWater.Text = '')) and
+   ((dbedtEle.Text = '') or (dbedtColdWater.Text = '') or  (dbedtHotWater.Text = '')
+  or (dbedtDez.Text = '') or   (dbedtMEle.Text = '') or  (dbedtOnLime.Text = '') or
+  (edtEle.Text = '') or  (edtColdWater.Text = '') or  (edtHotWater.Text = ''))
+ then
+  begin
+    if dsPayAndRecord.DataSet.IsEmpty then
+
+    else
+    begin
+      dsPayAndRecord.DataSet.Last;
+      dsPayAndRecord.DataSet.Delete;
+    end;
+
+  end;
+
+end;
   Action :=  caFree;
 end;
 
