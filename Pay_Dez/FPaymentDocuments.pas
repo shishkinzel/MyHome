@@ -143,7 +143,7 @@ const
   fJsonFile = 'any_bd.fds';               //   файл с Базой Данных по умолчанию
   fConfig_file = 'pay_config.ini';        //   конфигурационный файл
   fExe = 'ProjectPaymentDocuments.exe';   //   исполняемый файл
-  FCHECK = 'Поверка';                     //   константа для поверки приборов
+  fCHECK = 'Поверка';                     //   константа для поверки приборов
 
 var
   frmPaymentDocuments: TfrmPaymentDocuments;
@@ -153,6 +153,8 @@ var
   //   0 -  электросчетчик
   //   1 -  счетчик горячей воды
   //   2 -  счетчик холодной воды
+  f_ShowChecked : string;        // переменная для показаний за месяц, текущего прибора при поверке
+  f_AllRegistration : string;    // переменная для итоговых показаний поверенного прибора
 
 implementation
 
@@ -164,6 +166,8 @@ begin
 // установка глобальных переменных
   f_Admin := False;
   fCheckDev := -1;
+  f_ShowChecked := '';
+  f_AllRegistration := '';
 
   fExist_config := False;
   fStatusList := False;

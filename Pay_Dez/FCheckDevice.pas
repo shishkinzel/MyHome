@@ -126,6 +126,7 @@ begin
     else
     begin
      allSum := Ceil((fcheckOldNow - fcheckOldPrev) + (fcheckNewNow - fcheckNewPrev));
+     f_AllRegistration := allSum.ToString;
     end;
     btnApply.Enabled := False;
     btnReset.Enabled := True;
@@ -193,6 +194,7 @@ end;
 // закрытие и разрушение формы
 procedure TfrmCheckDevice.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+f_ShowChecked := edtShowNewNow.Text;
  // потом необходимо убрать - форма не сформированна - все на этапе откладки
  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //frmInputData.btnVerification.Enabled := False;

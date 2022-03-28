@@ -193,17 +193,26 @@ begin
       0:
         begin
           edtEle.Enabled := False;
+          edtEle.Text := fCHECK;
           dbedtEle.Enabled := False;
+          dbedtEle.Text := f_ShowChecked;
+          dbedtUseEle.Text := f_AllRegistration;
         end;
       1:
         begin
           edtHotWater.Enabled := False;
+          edtHotWater.Text := fCHECK;
           dbedtHotWater.Enabled := False;
+          dbedtHotWater.Text := f_ShowChecked;
+          dbedtUseHotWater.Text := f_AllRegistration;
         end;
       2:
         begin
           edtColdWater.Enabled := False;
+          edtColdWater.Text := fCHECK;
           dbedtColdWater.Enabled := False;
+          dbedtColdWater.Text := f_ShowChecked;
+          dbedtColdWater.Text := f_AllRegistration;
         end;
 
     end;
@@ -272,10 +281,37 @@ begin
       end;
 
 // вычисляемые поля
-    fEle := StrToInt(dbedtEle.Text) - StrToInt(edtEle.Text);
-    fWaterCold := StrToInt(dbedtColdWater.Text) - StrToInt(edtColdWater.Text);
-    fWaterHot := StrToInt(dbedtHotWater.Text) - StrToInt(edtHotWater.Text);
-    fApply := False;
+    if fCheckDev >= 0 then
+    begin
+    // вычисление при поверке прибора
+      case fCheckDev of
+        0:
+          begin
+            fWaterCold := StrToInt(dbedtColdWater.Text) - StrToInt(edtColdWater.Text);
+            fWaterHot := StrToInt(dbedtHotWater.Text) - StrToInt(edtHotWater.Text);
+          end;
+        1:
+          begin
+            fEle := StrToInt(dbedtEle.Text) - StrToInt(edtEle.Text);
+            fWaterCold := StrToInt(dbedtColdWater.Text) - StrToInt(edtColdWater.Text);
+          end;
+        2:
+          begin
+            fEle := StrToInt(dbedtEle.Text) - StrToInt(edtEle.Text);
+            fWaterHot := StrToInt(dbedtHotWater.Text) - StrToInt(edtHotWater.Text);
+          end;
+
+      end;
+    end
+    else
+    begin
+      fEle := StrToInt(dbedtEle.Text) - StrToInt(edtEle.Text);
+      fWaterCold := StrToInt(dbedtColdWater.Text) - StrToInt(edtColdWater.Text);
+      fWaterHot := StrToInt(dbedtHotWater.Text) - StrToInt(edtHotWater.Text);
+    end;
+
+          fApply := False;          // флаг нажатие кнопки выполнить
+
     if (fEle >= 0) and (fWaterCold >= 0) and (fWaterHot >= 0) then
     begin
       with dsPayAndRecord.DataSet do

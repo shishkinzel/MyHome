@@ -5,7 +5,67 @@ object dmPayment: TdmPayment
   Height = 488
   Width = 665
   object fmTabPayAndRecord: TFDMemTable
-    FieldDefs = <>
+    Active = True
+    FieldDefs = <
+      item
+        Name = 'number'
+        DataType = ftInteger
+      end
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'lightPrev'
+        DataType = ftInteger
+      end
+      item
+        Name = 'lightNext'
+        DataType = ftInteger
+      end
+      item
+        Name = 'lightExpense'
+        DataType = ftInteger
+      end
+      item
+        Name = 'WaterColdPrev'
+        DataType = ftInteger
+      end
+      item
+        Name = 'WaterColdNext'
+        DataType = ftInteger
+      end
+      item
+        Name = 'WaterColdExpense'
+        DataType = ftInteger
+      end
+      item
+        Name = 'WaterHotPrev'
+        DataType = ftInteger
+      end
+      item
+        Name = 'WaterHotNext'
+        DataType = ftInteger
+      end
+      item
+        Name = 'WaterHotExpense'
+        DataType = ftInteger
+      end
+      item
+        Name = 'DezSum'
+        DataType = ftCurrency
+        Precision = 19
+      end
+      item
+        Name = 'MosEn'
+        DataType = ftCurrency
+        Precision = 19
+      end
+      item
+        Name = 'onLime'
+        DataType = ftCurrency
+        Precision = 19
+      end>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
