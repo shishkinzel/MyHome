@@ -146,11 +146,11 @@ begin
   if frmPaymentDocuments.fVerification then
     btnVerification.Enabled := True;
 
-  if pnlInData.Enabled then
-  begin
-  if dbedtElE.CanFocus then
-      dbedtEle.SetFocus;
-  end;
+//  if pnlInData.Enabled then
+//  begin
+//  if dbedtElE.CanFocus then
+//      dbedtEle.SetFocus;
+//  end;
 end;
 
 
@@ -159,7 +159,8 @@ end;
 // процедура активации формы
 procedure TfrmInputData.FormActivate(Sender: TObject);
 begin
-
+//     if fCheckDev = 0 then
+//     dbedtColdWater.SetFocus;
   if dsPayAndRecord.DataSet.IsEmpty then
   begin
     if fActiveForm then
@@ -197,6 +198,7 @@ begin
           dbedtEle.Enabled := False;
           dbedtEle.Text := f_ShowChecked;
           dbedtUseEle.Text := f_AllRegistration;
+          dbedtColdWater.SetFocus;
         end;
       1:
         begin
@@ -222,10 +224,7 @@ end;
 
 // ввод начальных данных в пустую таблиц
 procedure TfrmInputData.btnStartClick(Sender: TObject);
-var
- factivate : TCloseAction;
 begin
-  factivate := caFree;
   if (edtEle.Text = '') or (edtColdWater.Text = '') or (edtHotWater.Text = '') then
   begin
     MessageBox(0, 'Проверте корректность заполнения полей', 'Внимание, ошибка!',
@@ -273,12 +272,47 @@ begin
 
 // заполнение таблицы предыдущими данными если таблица была не пустая
     if fdbEmpty then
-      with dsPayAndRecord.DataSet do
+      if fCheckDev >= 0 then
       begin
-        FieldByName('lightPrev').AsString := edtEle.Text;
-        FieldByName('WaterColdPrev').AsString := edtColdWater.Text;
-        FieldByName('WaterHotPrev').AsString := edtHotWater.Text;
+        with dsPayAndRecord.DataSet do
+        begin
+          case fCheckDev of
+            0:
+              begin
+                FieldByName('lightPrev').AsInteger := StrToIntDef(edtEle.Text, -1);
+                FieldByName('WaterColdPrev').AsString := edtColdWater.Text;
+                FieldByName('WaterHotPrev').AsString := edtHotWater.Text;
+                Fields[3].AsString := dbedtEle.Text;
+              end;
+            1:
+              begin
+                FieldByName('lightPrev').AsString := edtEle.Text;
+                FieldByName('WaterColdPrev').AsString := edtColdWater.Text;
+                FieldByName('WaterHotPrev').AsInteger := StrToIntDef(edtHotWater.Text, -1);
+                Fields[9].AsString := dbedtHotWater.Text;
+              end;
+            2:
+              begin
+                FieldByName('lightPrev').AsString := edtEle.Text;
+                FieldByName('WaterColdPrev').AsInteger := StrToIntDef(edtColdWater.Text, -1);
+                FieldByName('WaterHotPrev').AsString := edtHotWater.Text;
+                Fields[6].AsString := dbedtColdWater.Text;
+              end;
+
+          end;
+        end;
+      end
+      else
+      begin
+        with dsPayAndRecord.DataSet do
+        begin
+          FieldByName('lightPrev').AsString := edtEle.Text;
+          FieldByName('WaterColdPrev').AsString := edtColdWater.Text;
+          FieldByName('WaterHotPrev').AsString := edtHotWater.Text;
+        end;
       end;
+
+
 
 // вычисляемые поля
     if fCheckDev >= 0 then
@@ -287,6 +321,7 @@ begin
       case fCheckDev of
         0:
           begin
+            fEle := StrToInt(f_AllRegistration);
             fWaterCold := StrToInt(dbedtColdWater.Text) - StrToInt(edtColdWater.Text);
             fWaterHot := StrToInt(dbedtHotWater.Text) - StrToInt(edtHotWater.Text);
           end;
@@ -294,11 +329,13 @@ begin
           begin
             fEle := StrToInt(dbedtEle.Text) - StrToInt(edtEle.Text);
             fWaterCold := StrToInt(dbedtColdWater.Text) - StrToInt(edtColdWater.Text);
+            fWaterHot := StrToInt(f_AllRegistration);
           end;
         2:
           begin
             fEle := StrToInt(dbedtEle.Text) - StrToInt(edtEle.Text);
             fWaterHot := StrToInt(dbedtHotWater.Text) - StrToInt(edtHotWater.Text);
+            fWaterCold := StrToInt(f_AllRegistration);
           end;
 
       end;

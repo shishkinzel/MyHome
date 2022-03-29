@@ -47,6 +47,8 @@ type
     procedure edtShowNewBeforeKeyPress(Sender: TObject; var Key: Char);
     procedure edtShowNewNowKeyPress(Sender: TObject; var Key: Char);
     procedure dtpCheckDeviceKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnResetClick(Sender: TObject);
+    procedure btnCloseClick(Sender: TObject);
 
   private    { Private declarations }
   public    { Public declarations }
@@ -105,6 +107,7 @@ procedure TfrmCheckDevice.btnApplyClick(Sender: TObject);
 var
   fcheckOldPrev, fcheckOldNow, fcheckNewPrev, fcheckNewNow: Float32;
   allSum : Integer;
+  i : Integer;
 begin
 
   if (cbbNameDevice.Text = '') and (edtNumOldDevice.Text = '') and (edtNumNewDevice.Text = '') and (edtShowOldBefore.Text = '') and (edtShowNewBefore.Text = '') and (edtShowOldNow.Text = '') and (edtShowNewNow.Text = '') then
@@ -125,8 +128,14 @@ begin
     end
     else
     begin
-     allSum := Ceil((fcheckOldNow - fcheckOldPrev) + (fcheckNewNow - fcheckNewPrev));
-     f_AllRegistration := allSum.ToString;
+      if ((fcheckOldNow - fcheckOldPrev) < 0) or ((fcheckNewNow - fcheckNewPrev) < 0) then
+      begin
+        MessageBox(frmCheckDevice.Handle, 'Пожалуйста, проверти корректность введённых данных!!', 'Внимание, ошибка!!!!', (MB_OK + MB_ICONWARNING));
+        Exit;
+      end;
+      allSum := Ceil((fcheckOldNow - fcheckOldPrev) + (fcheckNewNow - fcheckNewPrev));
+      f_ShowChecked := edtShowNewNow.Text;
+      f_AllRegistration := allSum.ToString;
     end;
     btnApply.Enabled := False;
     btnReset.Enabled := True;
@@ -154,7 +163,21 @@ begin
 
     end;
   end;
+  f_AllRegistration := allSum.ToString;
+
+ // стираем все значения в TEdit и устанавливаем время в Now а TComboBox в -1
+for I := 0 to frmCheckDevice.ComponentCount -1 do
+begin
+  if Components[i] is TEdit then
+  (Components[i] as TEdit).Text := '';
+   if Components[i] is TComboBox then
+  (Components[i] as TComboBox).ItemIndex := -1;
+   if Components[i] is TDateTimePicker then
+  (Components[i] as TDateTimePicker).DateTime := Now;
 end;
+end;
+
+
 
 // блокировка ввода некорректных символов в Edit  ****************************************
 
@@ -189,18 +212,45 @@ begin
     FindNextControl(Sender as TWinControl, True, True, false).SetFocus;
 end;
 
+// сброс значений из таблицы если она не пустая
+procedure TfrmCheckDevice.btnResetClick(Sender: TObject);
+begin
+  btnReset.Enabled := False;
+  btnApply.Enabled := True;
+  if dsCheckDevice.DataSet.Modified then
+  begin
+    with dsCheckDevice.DataSet do
+    begin
+      Open;
+      Last;
+      Delete;
+    end;
+  end;
+
+end;
+
+
+// кнопка закрытия формы
+procedure TfrmCheckDevice.btnCloseClick(Sender: TObject);
+var
+fClose : TCloseAction;
+begin
+  fClose := caFree;
+  ModalResult := mrCancel;
+  FormClose(nil, fClose);
+end;
+
 
 
 // закрытие и разрушение формы
 procedure TfrmCheckDevice.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-f_ShowChecked := edtShowNewNow.Text;
  // потом необходимо убрать - форма не сформированна - все на этапе откладки
  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //frmInputData.btnVerification.Enabled := False;
-//frmInputData.Close;
+frmInputData.Refresh;
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-dmPayment.fmTabCheckDevice.SaveToFile(fJsonFileCheckDevice, sfJSON);
+//dmPayment.fmTabCheckDevice.SaveToFile(fJsonFileCheckDevice, sfJSON);
   Action :=  caFree;
 end;
 //**************************************************************************************************

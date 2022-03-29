@@ -415,7 +415,6 @@ object frmInputData: TfrmInputData
       Width = 120
       Height = 27
       Caption = #1055#1086#1074#1077#1088#1082#1072
-      Enabled = False
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16

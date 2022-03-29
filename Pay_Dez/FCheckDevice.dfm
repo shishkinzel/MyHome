@@ -141,6 +141,7 @@ object frmCheckDevice: TfrmCheckDevice
       TabOrder = 0
     end
     object cbbNameDevice: TComboBox
+      Tag = 1
       Left = 135
       Top = 32
       Width = 180
@@ -169,6 +170,7 @@ object frmCheckDevice: TfrmCheckDevice
       TabOrder = 11
     end
     object edtNumOldDevice: TEdit
+      Tag = 1
       Left = 135
       Top = 96
       Width = 180
@@ -178,6 +180,7 @@ object frmCheckDevice: TfrmCheckDevice
       OnKeyDown = dtpCheckDeviceKeyDown
     end
     object edtNumNewDevice: TEdit
+      Tag = 1
       Left = 561
       Top = 96
       Width = 180
@@ -235,6 +238,7 @@ object frmCheckDevice: TfrmCheckDevice
       TabOrder = 14
     end
     object edtShowOldBefore: TEdit
+      Tag = 1
       Left = 235
       Top = 152
       Width = 80
@@ -245,6 +249,7 @@ object frmCheckDevice: TfrmCheckDevice
       OnKeyPress = edtShowOldBeforeKeyPress
     end
     object edtShowOldNow: TEdit
+      Tag = 1
       Left = 235
       Top = 208
       Width = 80
@@ -255,6 +260,7 @@ object frmCheckDevice: TfrmCheckDevice
       OnKeyPress = edtShowOldNowKeyPress
     end
     object edtShowNewBefore: TEdit
+      Tag = 1
       Left = 661
       Top = 152
       Width = 80
@@ -265,6 +271,7 @@ object frmCheckDevice: TfrmCheckDevice
       OnKeyPress = edtShowNewBeforeKeyPress
     end
     object edtShowNewNow: TEdit
+      Tag = 1
       Left = 661
       Top = 200
       Width = 80
@@ -323,6 +330,7 @@ object frmCheckDevice: TfrmCheckDevice
       Caption = #1057#1073#1088#1086#1089
       Enabled = False
       TabOrder = 9
+      OnClick = btnResetClick
     end
     object btnClose: TButton
       Left = 561
@@ -331,6 +339,7 @@ object frmCheckDevice: TfrmCheckDevice
       Height = 25
       Caption = #1047#1072#1082#1088#1099#1090#1100
       TabOrder = 10
+      OnClick = btnCloseClick
     end
   end
   object dsCheckDevice: TDataSource
@@ -339,7 +348,7 @@ object frmCheckDevice: TfrmCheckDevice
     Top = 24
   end
   object jsonFileDbCheckDevice: TFDStanStorageJSONLink
-    Left = 80
+    Left = 144
     Top = 24
   end
 end
