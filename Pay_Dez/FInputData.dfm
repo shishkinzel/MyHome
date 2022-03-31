@@ -165,7 +165,7 @@ object frmInputData: TfrmInputData
       TabOrder = 4
     end
     object dbedtEle: TDBEdit
-      Left = 150
+      Left = 141
       Top = 120
       Width = 120
       Height = 27
@@ -562,7 +562,12 @@ object frmInputData: TfrmInputData
   end
   object dsSummaryTable: TDataSource
     DataSet = dmPayment.fmTabSummaryTable
-    Left = 64
-    Top = 32
+    Left = 104
+    Top = 24
+  end
+  object dsCheckDevice: TDataSource
+    DataSet = dmPayment.fmTabCheckDevice
+    Left = 664
+    Top = 354
   end
 end

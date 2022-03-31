@@ -61,6 +61,11 @@ type
     fmTabCheckDevicenumOld: TStringField;
     fmTabCheckDevicenumNew: TStringField;
     fmTabCheckDeviceuseAll: TStringField;
+    fmTabCheckDeviceoldBefore: TStringField;
+    fmTabCheckDeviceoldNow: TStringField;
+    fmTabCheckDevicenewBefore: TStringField;
+    fmTabCheckDevicenewNow: TStringField;
+    intgrfldTabCheckDeviceindexCbb: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private

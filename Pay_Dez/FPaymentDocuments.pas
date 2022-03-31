@@ -149,12 +149,6 @@ var
   frmPaymentDocuments: TfrmPaymentDocuments;
 
   f_Admin : Boolean;          // включение режима администрирования
-  fCheckDev : ShortInt;    // код устройства поверки
-  //   0 -  электросчетчик
-  //   1 -  счетчик горячей воды
-  //   2 -  счетчик холодной воды
-  f_ShowChecked : string;        // переменная для показаний за месяц, текущего прибора при поверке
-  f_AllRegistration : string;    // переменная для итоговых показаний поверенного прибора
 
 implementation
 
@@ -165,9 +159,6 @@ var
 begin
 // установка глобальных переменных
   f_Admin := False;
-  fCheckDev := -1;
-  f_ShowChecked := '';
-  f_AllRegistration := '';
 
   fExist_config := False;
   fStatusList := False;

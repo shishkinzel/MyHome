@@ -418,6 +418,30 @@ object dmPayment: TdmPayment
         Name = 'useAll'
         DataType = ftString
         Size = 10
+      end
+      item
+        Name = 'oldBefore'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'oldNow'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'newBefore'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'newNow'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'indexCbb'
+        DataType = ftInteger
       end>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
@@ -471,6 +495,28 @@ object dmPayment: TdmPayment
       DisplayWidth = 12
       FieldName = 'useAll'
       Size = 10
+    end
+    object fmTabCheckDeviceoldBefore: TStringField
+      FieldName = 'oldBefore'
+      Visible = False
+    end
+    object fmTabCheckDeviceoldNow: TStringField
+      FieldName = 'oldNow'
+      Visible = False
+    end
+    object fmTabCheckDevicenewBefore: TStringField
+      FieldName = 'newBefore'
+      Visible = False
+    end
+    object fmTabCheckDevicenewNow: TStringField
+      FieldName = 'newNow'
+      Visible = False
+    end
+    object intgrfldTabCheckDeviceindexCbb: TIntegerField
+      DisplayLabel = #1048
+      DisplayWidth = 6
+      FieldName = 'indexCbb'
+      Visible = False
     end
   end
 end

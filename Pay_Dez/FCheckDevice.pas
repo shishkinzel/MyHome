@@ -49,11 +49,13 @@ type
     procedure dtpCheckDeviceKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnResetClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
-
+    procedure FormCreate(Sender: TObject);
   private    { Private declarations }
   public    { Public declarations }
     const
       fJsonFileCheckDevice = 'checkdevice_bd.fds'; //   файл с Базой Данных поверки приборов
+    var
+      f_CountChecked: Integer;
   end;
 
 
@@ -67,6 +69,14 @@ uses
   FInputData, FdmPayment, FPaymentDocuments, funUntil;
 
 {$R *.dfm}
+
+
+// создание формы и начальная инициализация
+procedure TfrmCheckDevice.FormCreate(Sender: TObject);
+begin
+ f_CountChecked := 0;
+end;
+
 
 // показ формы
 procedure TfrmCheckDevice.FormShow(Sender: TObject);
@@ -93,7 +103,7 @@ begin
    grdCheckDevice.Columns[4].Width := 160;
    grdCheckDevice.Columns[5].Width := 80;
 
-  for i := 0 to grdCheckDevice.Columns.Count - 1 do
+  for i := 0 to grdCheckDevice.Columns.Count - 6 do
   begin
     grdCheckDevice.Columns[i].Title.Alignment := taCenter;
   end;
@@ -134,21 +144,9 @@ begin
         Exit;
       end;
       allSum := Ceil((fcheckOldNow - fcheckOldPrev) + (fcheckNewNow - fcheckNewPrev));
-      f_ShowChecked := edtShowNewNow.Text;
-      f_AllRegistration := allSum.ToString;
-    end;
-    btnApply.Enabled := False;
-    btnReset.Enabled := True;
-// определение прибора учета
-    case cbbNameDevice.ItemIndex of
-      0:
-        fCheckDev := 0;
-      1:
-        fCheckDev := 1;
-      2:
-        fCheckDev := 2;
 
     end;
+    btnReset.Enabled := True;
     frmPaymentDocuments.fVerification := False;
  // заполняем таблицу grdCheckDevice
     with dsCheckDevice.DataSet do
@@ -160,10 +158,16 @@ begin
       Fields[3].AsString := edtNumOldDevice.Text;
       Fields[4].AsString := edtNumNewDevice.Text;
       Fields[5].AsString := allSum.ToString;
-
+// заполняем потушенные поля
+      Fields[6].AsString := fcheckOldPrev.ToString;
+      Fields[7].AsString := fcheckOldNow.ToString;
+      Fields[8].AsString := fcheckNewPrev.ToString;
+      Fields[9].AsString := fcheckNewNow.ToString;
+      Fields[10].AsInteger := cbbNameDevice.ItemIndex;
+    Post;
     end;
+    Inc(f_CountChecked);
   end;
-  f_AllRegistration := allSum.ToString;
 
  // стираем все значения в TEdit и устанавливаем время в Now а TComboBox в -1
 for I := 0 to frmCheckDevice.ComponentCount -1 do
@@ -175,7 +179,30 @@ begin
    if Components[i] is TDateTimePicker then
   (Components[i] as TDateTimePicker).DateTime := Now;
 end;
+  if f_CountChecked = 3 then
+    btnApply.Enabled := False;
 end;
+
+// сброс значений из таблицы если она не пустая
+procedure TfrmCheckDevice.btnResetClick(Sender: TObject);
+begin
+  if (dsCheckDevice.DataSet.Modified) or (f_CountChecked > 0) then
+  begin
+    Dec(f_CountChecked);
+    btnApply.Enabled := True;
+    with dsCheckDevice.DataSet do
+    begin
+      Open;
+      Last;
+      Delete;
+      Refresh;
+    end;
+  end;
+  if f_CountChecked = 0 then
+    btnReset.Enabled := False;
+end;
+
+
 
 
 
@@ -212,47 +239,28 @@ begin
     FindNextControl(Sender as TWinControl, True, True, false).SetFocus;
 end;
 
-// сброс значений из таблицы если она не пустая
-procedure TfrmCheckDevice.btnResetClick(Sender: TObject);
-begin
-  btnReset.Enabled := False;
-  btnApply.Enabled := True;
-  if dsCheckDevice.DataSet.Modified then
-  begin
-    with dsCheckDevice.DataSet do
-    begin
-      Open;
-      Last;
-      Delete;
-    end;
-  end;
 
-end;
 
 
 // кнопка закрытия формы
 procedure TfrmCheckDevice.btnCloseClick(Sender: TObject);
-var
-fClose : TCloseAction;
 begin
-  fClose := caFree;
-  ModalResult := mrCancel;
-  FormClose(nil, fClose);
+  Close;
 end;
-
-
 
 // закрытие и разрушение формы
 procedure TfrmCheckDevice.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
- // потом необходимо убрать - форма не сформированна - все на этапе откладки
- //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//frmInputData.btnVerification.Enabled := False;
-frmInputData.Refresh;
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //dmPayment.fmTabCheckDevice.SaveToFile(fJsonFileCheckDevice, sfJSON);
-  Action :=  caFree;
+  if (dsCheckDevice.DataSet.Modified) or (f_CountChecked > 0) then
+    ModalResult := mrOk
+  else
+    ModalResult := mrCancel;
 end;
+
+
+
+
 //**************************************************************************************************
 end.
 

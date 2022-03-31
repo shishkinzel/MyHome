@@ -10,7 +10,7 @@ object frmCheckDevice: TfrmCheckDevice
   Constraints.MaxHeight = 550
   Constraints.MaxWidth = 800
   Constraints.MinHeight = 350
-  Constraints.MinWidth = 800
+  Constraints.MinWidth = 500
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -19,6 +19,7 @@ object frmCheckDevice: TfrmCheckDevice
   OldCreateOrder = False
   Position = poScreenCenter
   OnClose = FormClose
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -150,8 +151,8 @@ object frmCheckDevice: TfrmCheckDevice
       OnKeyDown = dtpCheckDeviceKeyDown
       Items.Strings = (
         #1057#1095#1077#1090#1095#1080#1082' '#1101#1083#1077#1082#1090#1088#1086#1101#1085#1077#1088#1075#1080#1080
-        #1057#1095#1077#1090#1095#1080#1082' '#1075#1086#1088#1103#1095#1077#1081' '#1074#1086#1076#1099
-        #1057#1095#1077#1090#1095#1080#1082' '#1093#1086#1083#1086#1076#1085#1086#1081' '#1074#1086#1076#1099)
+        #1057#1095#1077#1090#1095#1080#1082' '#1093#1086#1083#1086#1076#1085#1086#1081' '#1074#1086#1076#1099
+        #1057#1095#1077#1090#1095#1080#1082' '#1075#1086#1088#1103#1095#1077#1081' '#1074#1086#1076#1099)
     end
     object txtOldDevice: TStaticText
       Left = 0
@@ -315,7 +316,7 @@ object frmCheckDevice: TfrmCheckDevice
     end
     object btnApply: TButton
       Left = 16
-      Top = 250
+      Top = 246
       Width = 180
       Height = 25
       Caption = #1042#1099#1087#1086#1083#1085#1080#1090#1100
