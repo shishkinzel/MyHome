@@ -164,7 +164,7 @@ begin
       Fields[8].AsString := fcheckNewPrev.ToString;
       Fields[9].AsString := fcheckNewNow.ToString;
       Fields[10].AsInteger := cbbNameDevice.ItemIndex;
-    Post;
+//    Post;
     end;
     Inc(f_CountChecked);
   end;
@@ -253,7 +253,10 @@ procedure TfrmCheckDevice.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
 //dmPayment.fmTabCheckDevice.SaveToFile(fJsonFileCheckDevice, sfJSON);
   if (dsCheckDevice.DataSet.Modified) or (f_CountChecked > 0) then
-    ModalResult := mrOk
+  begin
+    dsCheckDevice.DataSet.Post;
+    ModalResult := mrOk;
+  end
   else
     ModalResult := mrCancel;
 end;

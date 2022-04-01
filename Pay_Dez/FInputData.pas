@@ -254,6 +254,14 @@ begin
 
   fApply := False;          // флаг нажатие кнопки выполнить
 
+// заполняем таблицу текущими данными
+    with dsPayAndRecord.DataSet do
+    begin
+     Fields[3].AsString := dbedtEle.Text;
+     Fields[6].AsString := dbedtColdWater.Text;
+     Fields[9].AsString := dbedtHotWater.Text;
+    end;
+
   if (fEle >= 0) and (fWaterCold >= 0) and (fWaterHot >= 0) then
   begin
     with dsPayAndRecord.DataSet do
@@ -316,40 +324,46 @@ begin
   begin
     if frmCheckDevice.f_CountChecked > 0 then
     begin
-      ShowMessage('Привет от старых щтиблет');
       f_CountChecked := dsCheckDevice.DataSet.RecordCount - (frmCheckDevice.f_CountChecked + 1);
       dsCheckDevice.DataSet.First;
       for i := 0 to f_CountChecked do
         dsCheckDevice.DataSet.Next;
-      dsPayAndRecord.DataSet.Last;
-      dsPayAndRecord.DataSet.Append;
+
       for i := 0 to frmCheckDevice.f_CountChecked - 1 do
       begin
         case dsCheckDevice.DataSet.Fields[10].AsInteger of
           0:
             begin
               edtEle.Text := '-1';
+              edtEle.Enabled := False;
               dbedtEle.Text := dsCheckDevice.DataSet.Fields[9].AsString;
+              dbedtEle.Enabled := False;
               dbedtUseEle.Text := dsCheckDevice.DataSet.Fields[5].AsString;
             end;
 
           1:
             begin
               edtColdWater.Text := '-1';
+              edtColdWater.Enabled := False;
               dbedtColdWater.Text := dsCheckDevice.DataSet.Fields[9].AsString;
+              dbedtColdWater.Enabled := False;
               dbedtUseColdWater.Text := dsCheckDevice.DataSet.Fields[5].AsString;
             end;
 
           2:
             begin
               edtHotWater.Text := '-1';
+              edtHotWater.Enabled := False;
               dbedtHotWater.Text := dsCheckDevice.DataSet.Fields[9].AsString;
+              dbedtHotWater.Enabled := False;
               dbedtUseHotWater.Text := dsCheckDevice.DataSet.Fields[5].AsString;
             end;
 
         end;
-
+          dsCheckDevice.DataSet.Next;
       end;
+//      dsPayAndRecord.DataSet.Last;
+//      dsPayAndRecord.DataSet.Append;
     end;
   end
   else
