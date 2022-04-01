@@ -148,6 +148,7 @@ object frmCheckDevice: TfrmCheckDevice
       Width = 180
       Height = 21
       TabOrder = 1
+      OnChange = cbbNameDeviceChange
       OnKeyDown = dtpCheckDeviceKeyDown
       Items.Strings = (
         #1057#1095#1077#1090#1095#1080#1082' '#1101#1083#1077#1082#1090#1088#1086#1101#1085#1077#1088#1075#1080#1080
@@ -245,6 +246,7 @@ object frmCheckDevice: TfrmCheckDevice
       Width = 80
       Height = 21
       Alignment = taRightJustify
+      Enabled = False
       TabOrder = 4
       OnKeyDown = dtpCheckDeviceKeyDown
       OnKeyPress = edtShowOldBeforeKeyPress
@@ -351,5 +353,10 @@ object frmCheckDevice: TfrmCheckDevice
   object jsonFileDbCheckDevice: TFDStanStorageJSONLink
     Left = 144
     Top = 24
+  end
+  object dsPayAndRecord: TDataSource
+    DataSet = dmPayment.fmTabPayAndRecord
+    Left = 384
+    Top = 264
   end
 end

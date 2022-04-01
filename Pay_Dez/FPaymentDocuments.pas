@@ -104,6 +104,8 @@ type
     mniReport_Tab_Big_PDF: TMenuItem;
     mniSet_Table_DB: TMenuItem;
     mniShowCheck: TMenuItem;
+    mniSet_Chedcked: TMenuItem;
+    mniSet_Separator: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniTabShow_LittleClick(Sender: TObject);
     procedure mniTabShow_BigClick(Sender: TObject);
@@ -122,8 +124,11 @@ type
     procedure mniReport_Tab_Big_ShowClick(Sender: TObject);
     procedure mniReport_Tab_Little_ShowClick(Sender: TObject);
     procedure mniShowCheckClick(Sender: TObject);
+    procedure mniSet_ChedckedClick(Sender: TObject);
 
   private    { Private declarations }
+  var
+  f_Handle_Form : HWND;
 
   public { Public declarations }
     fStatusList: Boolean;    // флаг для печати Листка учета - умолчание false
@@ -136,7 +141,7 @@ type
     fSourcePath : string;    // путь к исходному файлу конфигурации
     fExist_config : Boolean; // существование файла конфигурации
     fConfigFile : File;      // переменная для создания файла конфигурации
-
+    f_Checked_btn : Boolean; // флаг активации кнопки поверки приборов
   end;
 
 const
@@ -160,9 +165,15 @@ begin
 // установка глобальных переменных
   f_Admin := False;
 
-  fExist_config := False;
-  fStatusList := False;
-  fVerification := False;
+// хендел формы
+  f_Handle_Form := frmPaymentDocuments.Handle;
+
+//  активация флагов
+  fExist_config := False;              // существование файла конфигурации
+  fStatusList := False;                // флаг для печати Листка учета
+  fVerification := False;              // флаг поверки счетчиков
+  f_Checked_btn := False;              // флаг активации кнопки поверки приборов
+
 // описать чтение конфигурационного файла
   fSourcePath := ExtractFilePath(Application.ExeName) + fConfig_file;
   if FileExists(fConfig_file) then
@@ -184,7 +195,6 @@ begin
     MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - отсутствует!!!', 'Внимание', (MB_OK + MB_ICONWARNING));
 
   end;
-
 
 end;
 
@@ -236,11 +246,24 @@ begin
 
 
 end;
-
+// активация формы прав администратора
 procedure TfrmPaymentDocuments.mniSet_AdminClick(Sender: TObject);
 begin
   frmAdmin := TfrmAdmin.Create(nil);
   frmAdmin.ShowModal;
+end;
+
+// активация кнопки поверки приборов
+procedure TfrmPaymentDocuments.mniSet_ChedckedClick(Sender: TObject);
+begin
+ if MessageBox(f_Handle_Form, 'Вы пытаетесь активировать режим поверки приборов учета', 'Обратите внимание',
+ (MB_OKCANCEL + MB_ICONQUESTION)) = 1 then
+ begin
+f_Checked_btn := True;
+ end
+ else
+ ShowMessage('Вы отказались активировать кнопку поверки приборов');
+
 end;
 
 procedure TfrmPaymentDocuments.mniTabShow_LittleClick(Sender: TObject);
@@ -344,6 +367,8 @@ GetDir(0, fDir);
 ShowMessage(fDir);
 //ChDir(fDir);
 end;
+
+
 
 // выбор даты - "Листок учета и оплаты услуг"
 procedure TfrmPaymentDocuments.mniReport_ListReportClick(Sender: TObject);

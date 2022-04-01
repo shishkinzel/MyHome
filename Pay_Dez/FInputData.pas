@@ -59,7 +59,6 @@ type
     procedure btnVerificationClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure edtEleKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 
   private    { Private declarations }
@@ -74,7 +73,6 @@ type
 
 var
   frmInputData: TfrmInputData;
-  flagCheckeing : Boolean;     // флаг активации режима поверки
 
 
 implementation
@@ -90,7 +88,10 @@ var
   fday: Integer;
   fdayCorr: TDate;
 begin
-  flagCheckeing := False;
+// флаг активации кнопки поверки приборов
+          if frmPaymentDocuments.f_Checked_btn then
+          btnVerification.Enabled := True;
+
   fActiveForm := True;                       // флаг для снятия повторного сообщения
                                              // 'Пожалуйста введите данные в правую колонку'
 // флаги заполнения таблицы
@@ -143,26 +144,10 @@ begin
   end;
 end;
 
-procedure TfrmInputData.FormShow(Sender: TObject);
-begin
-  if frmPaymentDocuments.fVerification then
-    btnVerification.Enabled := True;
-
-//  if pnlInData.Enabled then
-//  begin
-//  if dbedtElE.CanFocus then
-//      dbedtEle.SetFocus;
-//  end;
-end;
-
-
-
-
 // процедура активации формы
 procedure TfrmInputData.FormActivate(Sender: TObject);
 begin
-//     if fCheckDev = 0 then
-//     dbedtColdWater.SetFocus;
+
   if dsPayAndRecord.DataSet.IsEmpty then
   begin
     if fActiveForm then
@@ -184,12 +169,6 @@ begin
     fdbEmpty := True;
     pnlRight.Enabled := False;
   end;
-// работа с формой в режиме поверки прибора
-  if flagCheckeing then
-  begin
-
-  end;
-
 end;
 
 
@@ -314,9 +293,8 @@ var
 f_CountChecked : Integer;
 i : Integer;
 begin
-  flagCheckeing := True;    // установка флага разрешения поверки прибора
-  pnlRight.Enabled := True;
-  btnStart.Visible := True;
+  btnVerification.Enabled := False;
+  frmPaymentDocuments.f_Checked_btn := False;
   frmCheckDevice := TfrmCheckDevice.Create(nil);
   frmCheckDevice.ShowModal;
 // возврат из формы "Поверки"
@@ -360,20 +338,16 @@ begin
             end;
 
         end;
-          dsCheckDevice.DataSet.Next;
+        dsCheckDevice.DataSet.Next;
       end;
-//      dsPayAndRecord.DataSet.Last;
-//      dsPayAndRecord.DataSet.Append;
     end;
   end
   else
   begin
     ShowMessage('Вы ничего не ввели');
   end;
-
   frmCheckDevice.Free;
 end;
-
 
 
 // фокус на форме
@@ -393,7 +367,6 @@ end;
 // закрытие формы
 procedure TfrmInputData.btnCloseClick(Sender: TObject);
 begin
-  flagCheckeing := False;
   Close;
 end;
 procedure TfrmInputData.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -417,11 +390,5 @@ begin
   end;
   Action := caFree;
 end;
-
-
-//        with dsCheckDevice.DataSet do
-//        begin
-//
-//        end;
 end.
 

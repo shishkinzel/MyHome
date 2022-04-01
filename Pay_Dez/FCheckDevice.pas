@@ -39,6 +39,7 @@ type
     btnReset: TButton;
     btnClose: TButton;
     jsonFileDbCheckDevice: TFDStanStorageJSONLink;
+    dsPayAndRecord: TDataSource;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
@@ -50,6 +51,8 @@ type
     procedure btnResetClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+//    procedure cbbNameDeviceExit(Sender: TObject);
+    procedure cbbNameDeviceChange(Sender: TObject);
   private    { Private declarations }
   public    { Public declarations }
     const
@@ -201,6 +204,45 @@ begin
   if f_CountChecked = 0 then
     btnReset.Enabled := False;
 end;
+
+// установка начальных значений в поле  "Начальное показание прибора"
+procedure TfrmCheckDevice.cbbNameDeviceChange(Sender: TObject);
+begin
+  dsPayAndRecord.DataSet.Last;
+  case cbbNameDevice.ItemIndex of
+    0:
+      begin
+        edtShowOldBefore.Text := dsPayAndRecord.DataSet.Fields[3].AsString;
+      end;
+    1:
+      begin
+        edtShowOldBefore.Text := dsPayAndRecord.DataSet.Fields[6].AsString;
+      end;
+    2:
+      begin
+        edtShowOldBefore.Text := dsPayAndRecord.DataSet.Fields[9].AsString;
+      end;
+  end;
+end;
+
+//procedure TfrmCheckDevice.cbbNameDeviceExit(Sender: TObject);
+//begin
+//// выбрать из таблицы и установить начальные показания прибора учета
+//case cbbNameDevice.ItemIndex of
+//  0 :
+//  begin
+//
+//  end;
+//    1 :
+//  begin
+//
+//  end;
+//    2 :
+//  begin
+//
+//  end;
+//end;
+//end;
 
 
 
