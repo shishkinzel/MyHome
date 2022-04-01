@@ -19,9 +19,6 @@ type
     lblEl: TLabel;
     lblColdWater: TLabel;
     lblHotWater: TLabel;
-    dbedtEle: TDBEdit;
-    dbedtColdWater: TDBEdit;
-    dbedtHotWater: TDBEdit;
     lblHotWaterPrev: TLabel;
     lblColdWaterPrev: TLabel;
     lblElPrev: TLabel;
@@ -33,15 +30,9 @@ type
     lblDez: TLabel;
     lblMosEn: TLabel;
     lblOnLime: TLabel;
-    dbedtDez: TDBEdit;
-    dbedtMEle: TDBEdit;
-    dbedtOnLime: TDBEdit;
     btnApply: TButton;
     dsSummaryTable: TDataSource;
     lblUse: TLabel;
-    dbedtUseEle: TDBEdit;
-    dbedtUseColdWater: TDBEdit;
-    dbedtUseHotWater: TDBEdit;
     edtEle: TEdit;
     edtColdWater: TEdit;
     edtHotWater: TEdit;
@@ -51,6 +42,15 @@ type
     lblTHot: TLabel;
     btnVerification: TButton;
     dsCheckDevice: TDataSource;
+    edtEleNow: TEdit;
+    edtColdWaterNow: TEdit;
+    edtHotWaterNow: TEdit;
+    edtDez: TEdit;
+    edtMEle: TEdit;
+    edtOnLime: TEdit;
+    edtUseEle: TEdit;
+    edtUseColdWater: TEdit;
+    edtUseHotWater: TEdit;
 //    procedure FormShow(Sender: TObject);
     procedure btnStartClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -213,7 +213,7 @@ procedure TfrmInputData.btnApplyClick(Sender: TObject);
 var
   fEle, fWaterCold, fWaterHot: Integer;
 begin
-  if (dbedtEle.Text <> '') and (dbedtColdWater.Text <> '') and (dbedtHotWater.Text <> '') and (dbedtDez.Text <> '') and (dbedtMEle.Text <> '') and (dbedtOnLime.Text <> '') then
+  if (edtEleNow.Text <> '') and (edtColdWaterNow.Text <> '') and (edtHotWaterNow.Text <> '') and (edtDez.Text <> '') and (edtMEle.Text <> '') and (edtOnLime.Text <> '') then
   begin
     dmPayment.fmTabPayAndRecord.FieldByName('number').AsInteger := stepNub;
     dmPayment.fmTabPayAndRecord.FieldByName('date').AsDateTime := dtpDate.Date;
@@ -227,18 +227,18 @@ begin
         FieldByName('WaterHotPrev').AsString := edtHotWater.Text;
       end;
 // вычисляемые поля
-  fEle := StrToInt(dbedtEle.Text) - StrToInt(edtEle.Text);
-  fWaterCold := StrToInt(dbedtColdWater.Text) - StrToInt(edtColdWater.Text);
-  fWaterHot := StrToInt(dbedtHotWater.Text) - StrToInt(edtHotWater.Text);
+  fEle := StrToInt(edtEleNow.Text) - StrToInt(edtEle.Text);
+  fWaterCold := StrToInt(edtColdWaterNow.Text) - StrToInt(edtColdWater.Text);
+  fWaterHot := StrToInt(edtHotWaterNow.Text) - StrToInt(edtHotWater.Text);
 
   fApply := False;          // флаг нажатие кнопки выполнить
 
 // заполняем таблицу текущими данными
     with dsPayAndRecord.DataSet do
     begin
-     Fields[3].AsString := dbedtEle.Text;
-     Fields[6].AsString := dbedtColdWater.Text;
-     Fields[9].AsString := dbedtHotWater.Text;
+     Fields[3].AsString := edtEleNow.Text;
+     Fields[6].AsString := edtColdWaterNow.Text;
+     Fields[9].AsString := edtHotWaterNow.Text;
     end;
 
   if (fEle >= 0) and (fWaterCold >= 0) and (fWaterHot >= 0) then
@@ -252,11 +252,11 @@ begin
   end
   else
   begin
-    dbedtEle.Text := '';
-    dbedtColdWater.Text := '';
-    dbedtHotWater.Text := '';
+    edtEleNow.Text := '';
+    edtColdWaterNow.Text := '';
+    edtHotWaterNow.Text := '';
     MessageBox(0, 'Проверте корректность заполнения полей', 'Внимание, ошибка!', (MB_OK + MB_ICONERROR));
-    dbedtEle.SetFocus;
+    edtEleNow.SetFocus;
     Exit;
   end;
 // запись в таблицу fmTabSummaryTable - dsSummaryTable
@@ -266,16 +266,16 @@ begin
       Append;
       FieldByName('number').AsInteger := stepNub;
       FieldByName('date').AsDateTime := dtpDate.Date;
-      FieldByName('lightMeterReading').AsString := dbedtEle.Text;
-      FieldByName('waterColdMeterReading').AsString := dbedtColdWater.Text;
-      FieldByName('waterHotMeterReading').AsString := dbedtHotWater.Text;
+      FieldByName('lightMeterReading').AsString := edtEleNow.Text;
+      FieldByName('waterColdMeterReading').AsString := edtColdWaterNow.Text;
+      FieldByName('waterHotMeterReading').AsString := edtHotWaterNow.Text;
       FieldByName('lightExpense').AsInteger := fEle;
       FieldByName('WaterColdExpense').AsInteger := fWaterCold;
       FieldByName('WaterHotExpense').AsInteger := fWaterHot;
     end;
-    dbedtUseEle.Text := fEle.ToString;
-    dbedtUseColdWater.Text := fWaterCold.ToString;
-    dbedtUseHotWater.Text := fWaterHot.ToString;
+    edtUseEle.Text := fEle.ToString;
+    edtUseColdWater.Text := fWaterCold.ToString;
+    edtUseHotWater.Text := fWaterHot.ToString;
     btnApply.Enabled := False;
     btnClose.Enabled := True;
     btnClose.SetFocus;
@@ -312,29 +312,29 @@ begin
         case dsCheckDevice.DataSet.Fields[10].AsInteger of
           0:
             begin
-              edtEle.Text := '-1';
+              edtEle.Text := fCHECK;
               edtEle.Enabled := False;
-              dbedtEle.Text := dsCheckDevice.DataSet.Fields[9].AsString;
-              dbedtEle.Enabled := False;
-              dbedtUseEle.Text := dsCheckDevice.DataSet.Fields[5].AsString;
+              edtEleNow.Text := dsCheckDevice.DataSet.Fields[9].AsString;
+              edtEleNow.Enabled := False;
+              edtUseEle.Text := dsCheckDevice.DataSet.Fields[5].AsString;
             end;
 
           1:
             begin
-              edtColdWater.Text := '-1';
+              edtColdWater.Text := fCHECK;
               edtColdWater.Enabled := False;
-              dbedtColdWater.Text := dsCheckDevice.DataSet.Fields[9].AsString;
-              dbedtColdWater.Enabled := False;
-              dbedtUseColdWater.Text := dsCheckDevice.DataSet.Fields[5].AsString;
+              edtColdWaterNow.Text := dsCheckDevice.DataSet.Fields[9].AsString;
+              edtColdWaterNow.Enabled := False;
+              edtUseColdWater.Text := dsCheckDevice.DataSet.Fields[5].AsString;
             end;
 
           2:
             begin
-              edtHotWater.Text := '-1';
+              edtHotWater.Text := fCHECK;
               edtHotWater.Enabled := False;
-              dbedtHotWater.Text := dsCheckDevice.DataSet.Fields[9].AsString;
-              dbedtHotWater.Enabled := False;
-              dbedtUseHotWater.Text := dsCheckDevice.DataSet.Fields[5].AsString;
+              edtHotWaterNow.Text := dsCheckDevice.DataSet.Fields[9].AsString;
+              edtHotWaterNow.Enabled := False;
+              edtUseHotWater.Text := dsCheckDevice.DataSet.Fields[5].AsString;
             end;
 
         end;
@@ -359,7 +359,7 @@ begin
     FindNextControl(Sender as TWinControl, True, True, false).SetFocus;
 end;
 
-//procedure TfrmInputData.dbedtDezKeyPress(Sender: TObject; var Key: Char);
+//procedure TfrmInputData.edtDezKeyPress(Sender: TObject; var Key: Char);
 //begin
 // if not (Key in ['0'..'9',',','.', #8])then Key:=#0;
 //end;
@@ -375,7 +375,7 @@ begin
     MessageBox(0, 'Вы отменили ввод данных в базу', 'Внимание!', (MB_ICONINFORMATION))
   else
   begin
-    if fApply or not ((dbedtEle.Text = '') and (dbedtColdWater.Text = '') and (dbedtHotWater.Text = '') and (dbedtDez.Text = '') and (dbedtMEle.Text = '') and (dbedtOnLime.Text = '') and (edtEle.Text = '') and (edtColdWater.Text = '') and (edtHotWater.Text = '')) and ((dbedtEle.Text = '') or (dbedtColdWater.Text = '') or (dbedtHotWater.Text = '') or (dbedtDez.Text = '') or (dbedtMEle.Text = '') or (dbedtOnLime.Text = '') or (edtEle.Text = '') or (edtColdWater.Text = '') or (edtHotWater.Text = '')) then
+    if fApply or not ((edtEleNow.Text = '') and (edtColdWaterNow.Text = '') and (edtHotWaterNow.Text = '') and (edtDez.Text = '') and (edtMEle.Text = '') and (edtOnLime.Text = '') and (edtEle.Text = '') and (edtColdWater.Text = '') and (edtHotWater.Text = '')) and ((edtEleNow.Text = '') or (edtColdWaterNow.Text = '') or (edtHotWaterNow.Text = '') or (edtDez.Text = '') or (edtMEle.Text = '') or (edtOnLime.Text = '') or (edtEle.Text = '') or (edtColdWater.Text = '') or (edtHotWater.Text = '')) then
     begin
       if dsPayAndRecord.DataSet.IsEmpty then
 

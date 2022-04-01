@@ -17,7 +17,8 @@ object dmPayment: TdmPayment
       end
       item
         Name = 'lightPrev'
-        DataType = ftInteger
+        DataType = ftString
+        Size = 20
       end
       item
         Name = 'lightNext'
@@ -29,7 +30,8 @@ object dmPayment: TdmPayment
       end
       item
         Name = 'WaterColdPrev'
-        DataType = ftInteger
+        DataType = ftString
+        Size = 20
       end
       item
         Name = 'WaterColdNext'
@@ -41,7 +43,8 @@ object dmPayment: TdmPayment
       end
       item
         Name = 'WaterHotPrev'
-        DataType = ftInteger
+        DataType = ftString
+        Size = 20
       end
       item
         Name = 'WaterHotNext'
@@ -91,8 +94,7 @@ object dmPayment: TdmPayment
       DisplayWidth = 11
       FieldName = 'date'
     end
-    object fmTabPayAndRecordlightPrev: TIntegerField
-      Alignment = taCenter
+    object strngfldTabPayAndRecordlightPrev: TStringField
       DisplayLabel = #1057#1074#1077#1090'_'#1087#1088#1077#1076
       DisplayWidth = 11
       FieldName = 'lightPrev'
@@ -109,8 +111,7 @@ object dmPayment: TdmPayment
       DisplayWidth = 9
       FieldName = 'lightExpense'
     end
-    object fmTabPayAndRecordWaterColdPrev: TIntegerField
-      Alignment = taCenter
+    object strngfldTabPayAndRecordWaterColdPrev: TStringField
       DisplayLabel = #1042#1086#1076#1072'_'#1093#1086#1083'_'#1087#1088#1077#1076
       DisplayWidth = 14
       FieldName = 'WaterColdPrev'
@@ -127,10 +128,9 @@ object dmPayment: TdmPayment
       DisplayWidth = 13
       FieldName = 'WaterColdExpense'
     end
-    object fmTabPayAndRecordWaterHotPrev: TIntegerField
-      Alignment = taCenter
+    object strngfldTabPayAndRecordWaterHotPrev: TStringField
       DisplayLabel = #1042#1086#1076#1072'_'#1075#1086#1088'_'#1087#1088#1077#1076
-      DisplayWidth = 13
+      DisplayWidth = 14
       FieldName = 'WaterHotPrev'
     end
     object fmTabPayAndRecordWaterHotNext: TIntegerField
@@ -165,7 +165,40 @@ object dmPayment: TdmPayment
     end
   end
   object fmTabSummaryTable: TFDMemTable
-    FieldDefs = <>
+    Active = True
+    FieldDefs = <
+      item
+        Name = 'number'
+        DataType = ftInteger
+      end
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'lightMeterReading'
+        DataType = ftInteger
+      end
+      item
+        Name = 'lightExpense'
+        DataType = ftInteger
+      end
+      item
+        Name = 'waterColdMeterReading'
+        DataType = ftInteger
+      end
+      item
+        Name = 'waterColdExpense'
+        DataType = ftInteger
+      end
+      item
+        Name = 'waterHotMeterReading'
+        DataType = ftInteger
+      end
+      item
+        Name = 'waterHotExpense'
+        DataType = ftInteger
+      end>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll

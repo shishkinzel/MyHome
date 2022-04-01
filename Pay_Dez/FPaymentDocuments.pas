@@ -300,10 +300,10 @@ end;
 procedure TfrmPaymentDocuments.mniForms_InputDataClick(Sender: TObject);
 begin
   frmInputData := TfrmInputData.Create(nil);
-   MessageBox(0, 'Для активации кнопки "Поверка"' + #10#13 +
-                'активируйте права администратора' + #10#13 +
-                 '     в меню "Настройки"',  'Обратите внимание' ,
-              (MB_OK + MB_ICONINFORMATION));
+//   MessageBox(0, 'Для активации кнопки "Поверка"' + #10#13 +
+//                'активируйте права администратора' + #10#13 +
+//                 '     в меню "Настройки"',  'Обратите внимание' ,
+//              (MB_OK + MB_ICONINFORMATION));
 
   frmInputData.Show;
 end;

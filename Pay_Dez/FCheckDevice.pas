@@ -225,28 +225,6 @@ begin
   end;
 end;
 
-//procedure TfrmCheckDevice.cbbNameDeviceExit(Sender: TObject);
-//begin
-//// выбрать из таблицы и установить начальные показания прибора учета
-//case cbbNameDevice.ItemIndex of
-//  0 :
-//  begin
-//
-//  end;
-//    1 :
-//  begin
-//
-//  end;
-//    2 :
-//  begin
-//
-//  end;
-//end;
-//end;
-
-
-
-
 
 // блокировка ввода некорректных символов в Edit  ****************************************
 

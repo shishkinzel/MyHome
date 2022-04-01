@@ -163,54 +163,6 @@ object frmInputData: TfrmInputData
       ParentFont = False
       TabOrder = 4
     end
-    object dbedtEle: TDBEdit
-      Left = 141
-      Top = 120
-      Width = 120
-      Height = 27
-      DataField = 'lightNext'
-      DataSource = dsPayAndRecord
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 1
-      OnKeyDown = edtEleKeyDown
-    end
-    object dbedtColdWater: TDBEdit
-      Left = 150
-      Top = 176
-      Width = 120
-      Height = 27
-      DataField = 'WaterColdNext'
-      DataSource = dsPayAndRecord
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 2
-      OnKeyDown = edtEleKeyDown
-    end
-    object dbedtHotWater: TDBEdit
-      Left = 150
-      Top = 236
-      Width = 120
-      Height = 27
-      DataField = 'WaterHotNext'
-      DataSource = dsPayAndRecord
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 3
-      OnKeyDown = edtEleKeyDown
-    end
     object dtpDate: TDateTimePicker
       Left = 150
       Top = 64
@@ -230,13 +182,53 @@ object frmInputData: TfrmInputData
       TabOrder = 0
       OnKeyDown = edtEleKeyDown
     end
-    object dbedtUseEle: TDBEdit
+    object edtEleNow: TEdit
+      Left = 150
+      Top = 120
+      Width = 120
+      Height = 27
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+      OnKeyDown = edtEleKeyDown
+    end
+    object edtColdWaterNow: TEdit
+      Left = 150
+      Top = 176
+      Width = 120
+      Height = 27
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 2
+      OnKeyDown = edtEleKeyDown
+    end
+    object edtHotWaterNow: TEdit
+      Left = 150
+      Top = 236
+      Width = 120
+      Height = 27
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+      OnKeyDown = edtEleKeyDown
+    end
+    object edtUseEle: TEdit
       Left = 312
       Top = 120
       Width = 80
       Height = 27
-      DataField = 'lightExpense'
-      DataSource = dsPayAndRecord
       Enabled = False
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -246,13 +238,11 @@ object frmInputData: TfrmInputData
       ParentFont = False
       TabOrder = 5
     end
-    object dbedtUseColdWater: TDBEdit
-      Left = 312
+    object edtUseColdWater: TEdit
+      Left = 310
       Top = 176
       Width = 80
       Height = 27
-      DataField = 'WaterColdExpense'
-      DataSource = dsPayAndRecord
       Enabled = False
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -262,13 +252,11 @@ object frmInputData: TfrmInputData
       ParentFont = False
       TabOrder = 6
     end
-    object dbedtUseHotWater: TDBEdit
-      Left = 312
+    object edtUseHotWater: TEdit
+      Left = 310
       Top = 236
       Width = 80
       Height = 27
-      DataField = 'WaterHotExpense'
-      DataSource = dsPayAndRecord
       Enabled = False
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -327,54 +315,6 @@ object frmInputData: TfrmInputData
       Font.Style = []
       ParentFont = False
     end
-    object dbedtDez: TDBEdit
-      Left = 150
-      Top = 20
-      Width = 120
-      Height = 27
-      DataField = 'DezSum'
-      DataSource = dsPayAndRecord
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 0
-      OnKeyDown = edtEleKeyDown
-    end
-    object dbedtMEle: TDBEdit
-      Left = 150
-      Top = 60
-      Width = 120
-      Height = 27
-      DataField = 'MosEn'
-      DataSource = dsPayAndRecord
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 1
-      OnKeyDown = edtEleKeyDown
-    end
-    object dbedtOnLime: TDBEdit
-      Left = 150
-      Top = 100
-      Width = 120
-      Height = 27
-      DataField = 'onLime'
-      DataSource = dsPayAndRecord
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 2
-      OnKeyDown = edtEleKeyDown
-    end
     object btnApply: TButton
       Left = 310
       Top = 100
@@ -423,6 +363,48 @@ object frmInputData: TfrmInputData
       ParentFont = False
       TabOrder = 5
       OnClick = btnVerificationClick
+      OnKeyDown = edtEleKeyDown
+    end
+    object edtDez: TEdit
+      Left = 150
+      Top = 20
+      Width = 121
+      Height = 27
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      OnKeyDown = edtEleKeyDown
+    end
+    object edtMEle: TEdit
+      Left = 150
+      Top = 60
+      Width = 121
+      Height = 27
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+      OnKeyDown = edtEleKeyDown
+    end
+    object edtOnLime: TEdit
+      Left = 150
+      Top = 100
+      Width = 121
+      Height = 27
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 2
       OnKeyDown = edtEleKeyDown
     end
   end

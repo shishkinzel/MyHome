@@ -15,13 +15,10 @@ type
     fmTabSummaryTable: TFDMemTable;
     fmTabPayAndRecordnumber: TIntegerField;
     fmTabPayAndRecorddate: TDateField;
-    fmTabPayAndRecordlightPrev: TIntegerField;
     fmTabPayAndRecordlightNext: TIntegerField;
     fmTabPayAndRecordlightExpense: TIntegerField;
-    fmTabPayAndRecordWaterColdPrev: TIntegerField;
     fmTabPayAndRecordWaterColdNext: TIntegerField;
     fmTabPayAndRecordWaterColdExpense: TIntegerField;
-    fmTabPayAndRecordWaterHotPrev: TIntegerField;
     fmTabPayAndRecordWaterHotNext: TIntegerField;
     fmTabPayAndRecordWaterHotExpense: TIntegerField;
     fmTabSummaryTablenumber: TIntegerField;
@@ -66,6 +63,9 @@ type
     fmTabCheckDevicenewBefore: TStringField;
     fmTabCheckDevicenewNow: TStringField;
     intgrfldTabCheckDeviceindexCbb: TIntegerField;
+    strngfldTabPayAndRecordlightPrev: TStringField;
+    strngfldTabPayAndRecordWaterColdPrev: TStringField;
+    strngfldTabPayAndRecordWaterHotPrev: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private
