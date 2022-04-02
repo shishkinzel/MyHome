@@ -219,10 +219,7 @@ var
 begin
   if (edtEleNow.Text <> '') and (edtColdWaterNow.Text <> '') and (edtHotWaterNow.Text <> '') and (edtDez.Text <> '') and (edtMEle.Text <> '') and (edtOnLime.Text <> '') then
   begin
-      dsPayAndRecord.DataSet.Append;
-//    dmPayment.fmTabPayAndRecord.FieldByName('number').AsInteger := stepNub;
-//    dmPayment.fmTabPayAndRecord.FieldByName('date').AsDateTime := dtpDate.Date;
-
+    dsPayAndRecord.DataSet.Append;
     dsPayAndRecord.DataSet.FieldByName('number').AsInteger := stepNub;
     dsPayAndRecord.DataSet.FieldByName('date').AsDateTime := dtpDate.Date;
 
@@ -325,9 +322,11 @@ end;
 // поверка приборов учета
 procedure TfrmInputData.btnVerificationClick(Sender: TObject);
 var
-f_CountChecked : Integer;
-i : Integer;
+  f_CountChecked: Integer;
+  i: Integer;
+  f_setFocus: Byte;  // переменная для определния фокуса
 begin
+  f_setFocus := 0;
   btnVerification.Enabled := False;
   frmPaymentDocuments.f_Checked_btn := False;
   frmCheckDevice := TfrmCheckDevice.Create(nil);
@@ -352,7 +351,7 @@ begin
               edtEleNow.Text := dsCheckDevice.DataSet.Fields[9].AsString;
               edtEleNow.Enabled := False;
               edtUseEle.Text := dsCheckDevice.DataSet.Fields[5].AsString;
-
+              Inc(f_setFocus);
             end;
 
           1:
@@ -362,7 +361,8 @@ begin
               edtColdWaterNow.Text := dsCheckDevice.DataSet.Fields[9].AsString;
               edtColdWaterNow.Enabled := False;
               edtUseColdWater.Text := dsCheckDevice.DataSet.Fields[5].AsString;
-              end;
+              Inc(f_setFocus, 2);
+            end;
 
           2:
             begin
@@ -371,6 +371,7 @@ begin
               edtHotWaterNow.Text := dsCheckDevice.DataSet.Fields[9].AsString;
               edtHotWaterNow.Enabled := False;
               edtUseHotWater.Text := dsCheckDevice.DataSet.Fields[5].AsString;
+              Inc(f_setFocus, 4);
             end;
 
         end;
@@ -380,10 +381,23 @@ begin
   end
   else
   begin
-    ShowMessage('Вы ничего не ввели');
+     MessageBox(0, 'Вы ничего не ввели', 'Внимание!', (MB_ICONINFORMATION));
+  end;
+  case f_setFocus of
+    0, 2, 4, 6:
+      edtEleNow.SetFocus;
+    1, 5:
+      edtColdWaterNow.SetFocus;
+    3:
+      edtHotWaterNow.SetFocus;
+    7:
+      edtDez.SetFocus;
+
   end;
   frmCheckDevice.Free;
 end;
+
+
 
 
 // фокус на форме

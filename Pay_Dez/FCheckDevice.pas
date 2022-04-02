@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, Math,
   WinTypes,StdCtrls, Vcl.ComCtrls, FireDAC.Stan.StorageJSON , FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, DateUtils;
 
 type
   TfrmCheckDevice = class(TForm)
@@ -76,9 +76,19 @@ uses
 
 // создание формы и начальная инициализация
 procedure TfrmCheckDevice.FormCreate(Sender: TObject);
+var
+  fday: Integer;
+  fdayCorr: TDate;
 begin
- f_CountChecked := 0;
+  f_CountChecked := 0;
+  dsPayAndRecord.DataSet.Last;
+  fdayCorr := IncMonth(dsPayAndRecord.DataSet.Fields[1].AsDateTime, 1);
+  dtpCheckDevice.MaxDate := EndOfTheMonth(fdayCorr);
+  dtpCheckDevice.MinDate := StartOfTheMonth(fdayCorr);
+  dtpCheckDevice.Date := fdayCorr;
 end;
+
+
 
 
 // показ формы
@@ -90,7 +100,6 @@ begin
   if FileExists(fJsonFileCheckDevice) then
     dmPayment.fmTabCheckDevice.LoadFromFile(fJsonFileCheckDevice, sfJSON);
 
-  dtpCheckDevice.Date := Now;
 
     if f_Admin then
     begin

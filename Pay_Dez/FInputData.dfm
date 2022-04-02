@@ -276,7 +276,6 @@ object frmInputData: TfrmInputData
     Color = 6091532
     ParentBackground = False
     TabOrder = 2
-    ExplicitLeft = 1
     object lblDez: TLabel
       Left = 16
       Top = 26
