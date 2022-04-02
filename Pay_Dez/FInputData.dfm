@@ -276,6 +276,7 @@ object frmInputData: TfrmInputData
     Color = 6091532
     ParentBackground = False
     TabOrder = 2
+    ExplicitLeft = 1
     object lblDez: TLabel
       Left = 16
       Top = 26
@@ -315,8 +316,47 @@ object frmInputData: TfrmInputData
       Font.Style = []
       ParentFont = False
     end
+    object lblRub1: TLabel
+      Left = 277
+      Top = 27
+      Width = 24
+      Height = 16
+      Caption = #1056#1091#1073'.'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lblRub2: TLabel
+      Left = 277
+      Top = 67
+      Width = 24
+      Height = 16
+      Caption = #1056#1091#1073'.'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lblRub3: TLabel
+      Left = 277
+      Top = 107
+      Width = 24
+      Height = 16
+      Caption = #1056#1091#1073'.'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
     object btnApply: TButton
-      Left = 310
+      Left = 321
       Top = 100
       Width = 120
       Height = 27
@@ -332,7 +372,7 @@ object frmInputData: TfrmInputData
       OnKeyDown = edtEleKeyDown
     end
     object btnClose: TButton
-      Left = 470
+      Left = 481
       Top = 100
       Width = 120
       Height = 27
@@ -349,7 +389,7 @@ object frmInputData: TfrmInputData
       OnKeyDown = edtEleKeyDown
     end
     object btnVerification: TButton
-      Left = 620
+      Left = 631
       Top = 100
       Width = 120
       Height = 27

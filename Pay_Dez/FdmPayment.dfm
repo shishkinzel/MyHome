@@ -95,6 +95,7 @@ object dmPayment: TdmPayment
       FieldName = 'date'
     end
     object strngfldTabPayAndRecordlightPrev: TStringField
+      Alignment = taCenter
       DisplayLabel = #1057#1074#1077#1090'_'#1087#1088#1077#1076
       DisplayWidth = 11
       FieldName = 'lightPrev'
@@ -112,6 +113,7 @@ object dmPayment: TdmPayment
       FieldName = 'lightExpense'
     end
     object strngfldTabPayAndRecordWaterColdPrev: TStringField
+      Alignment = taCenter
       DisplayLabel = #1042#1086#1076#1072'_'#1093#1086#1083'_'#1087#1088#1077#1076
       DisplayWidth = 14
       FieldName = 'WaterColdPrev'
@@ -129,6 +131,7 @@ object dmPayment: TdmPayment
       FieldName = 'WaterColdExpense'
     end
     object strngfldTabPayAndRecordWaterHotPrev: TStringField
+      Alignment = taCenter
       DisplayLabel = #1042#1086#1076#1072'_'#1075#1086#1088'_'#1087#1088#1077#1076
       DisplayWidth = 14
       FieldName = 'WaterHotPrev'

@@ -51,7 +51,9 @@ type
     edtUseEle: TEdit;
     edtUseColdWater: TEdit;
     edtUseHotWater: TEdit;
-//    procedure FormShow(Sender: TObject);
+    lblRub1: TLabel;
+    lblRub2: TLabel;
+    lblRub3: TLabel;
     procedure btnStartClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
@@ -62,10 +64,11 @@ type
     procedure edtEleKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 
   private    { Private declarations }
+    f_checked: Boolean;    // флаг режима поверки
     fdbEmpty: Boolean;      // флаг пустой базы - поумолчанию False
     fActiveForm: Boolean;   // флаг активации формы
-    fApply : Boolean;         // флаг вычисление полей
-    fFormFree : Boolean;     // флаг уничтожение формы ввода данный в результате поверки
+    fApply: Boolean;         // флаг вычисление полей
+    fFormFree: Boolean;     // флаг уничтожение формы ввода данный в результате поверки
     stepNub: Integer;       //  шаг нумерации таблицы
 
   public    { Public declarations }
@@ -94,6 +97,7 @@ begin
 
   fActiveForm := True;                       // флаг для снятия повторного сообщения
                                              // 'Пожалуйста введите данные в правую колонку'
+  f_checked := False;
 // флаги заполнения таблицы
   fApply := True;
   fFormFree := False;
@@ -215,8 +219,12 @@ var
 begin
   if (edtEleNow.Text <> '') and (edtColdWaterNow.Text <> '') and (edtHotWaterNow.Text <> '') and (edtDez.Text <> '') and (edtMEle.Text <> '') and (edtOnLime.Text <> '') then
   begin
-    dmPayment.fmTabPayAndRecord.FieldByName('number').AsInteger := stepNub;
-    dmPayment.fmTabPayAndRecord.FieldByName('date').AsDateTime := dtpDate.Date;
+      dsPayAndRecord.DataSet.Append;
+//    dmPayment.fmTabPayAndRecord.FieldByName('number').AsInteger := stepNub;
+//    dmPayment.fmTabPayAndRecord.FieldByName('date').AsDateTime := dtpDate.Date;
+
+    dsPayAndRecord.DataSet.FieldByName('number').AsInteger := stepNub;
+    dsPayAndRecord.DataSet.FieldByName('date').AsDateTime := dtpDate.Date;
 
 // заполнение таблицы предыдущими данными если таблица была не пустая
     if fdbEmpty then
@@ -227,38 +235,65 @@ begin
         FieldByName('WaterHotPrev').AsString := edtHotWater.Text;
       end;
 // вычисляемые поля
-  fEle := StrToInt(edtEleNow.Text) - StrToInt(edtEle.Text);
-  fWaterCold := StrToInt(edtColdWaterNow.Text) - StrToInt(edtColdWater.Text);
-  fWaterHot := StrToInt(edtHotWaterNow.Text) - StrToInt(edtHotWater.Text);
+  fEle := StrToInt(edtEleNow.Text) - StrToIntDef(edtEle.Text, -1);
+  fWaterCold := StrToInt(edtColdWaterNow.Text) - StrToIntDef(edtColdWater.Text, -1);
+  fWaterHot := StrToInt(edtHotWaterNow.Text) - StrToIntDef(edtHotWater.Text, -1);
 
   fApply := False;          // флаг нажатие кнопки выполнить
 
 // заполняем таблицу текущими данными
     with dsPayAndRecord.DataSet do
     begin
-     Fields[3].AsString := edtEleNow.Text;
-     Fields[6].AsString := edtColdWaterNow.Text;
-     Fields[9].AsString := edtHotWaterNow.Text;
+      Fields[3].AsString := edtEleNow.Text;
+      Fields[6].AsString := edtColdWaterNow.Text;
+      Fields[9].AsString := edtHotWaterNow.Text;
+      Fields[11].AsString := edtDez.Text;
+      Fields[12].AsString := edtMEle.Text;
+      Fields[13].AsString := edtOnLime.Text;
     end;
 
-  if (fEle >= 0) and (fWaterCold >= 0) and (fWaterHot >= 0) then
-  begin
-    with dsPayAndRecord.DataSet do
+// блок вычисление полей
+    if f_checked then
     begin
-      FieldByName('lightExpense').AsInteger := fEle;
-      FieldByName('WaterColdExpense').AsInteger := fWaterCold;
-      FieldByName('WaterHotExpense').AsInteger := fWaterHot;
+      f_checked := False;
+     //  вычисляем после поверки
+      if StrToIntDef(edtEle.Text, -1) > 0 then
+        dsPayAndRecord.DataSet.Fields[4].AsInteger := fEle
+      else
+        dsPayAndRecord.DataSet.Fields[4].AsString := edtUseEle.Text;
+
+      if StrToIntDef(edtColdWater.Text, -1) > 0 then
+        dsPayAndRecord.DataSet.Fields[7].AsInteger := fWaterCold
+      else
+        dsPayAndRecord.DataSet.Fields[7].AsString := edtUseColdWater.Text;
+
+      if StrToIntDef(edtHotWater.Text, -1) > 0 then
+        dsPayAndRecord.DataSet.Fields[10].AsInteger := fWaterHot
+      else
+        dsPayAndRecord.DataSet.Fields[10].AsString := edtUseHotWater.Text;
+    end
+    else
+    begin    // вычилям по обычному порядку
+      if (fEle >= 0) and (fWaterCold >= 0) and (fWaterHot >= 0) then
+      begin
+        with dsPayAndRecord.DataSet do
+        begin
+          FieldByName('lightExpense').AsInteger := fEle;
+          FieldByName('WaterColdExpense').AsInteger := fWaterCold;
+          FieldByName('WaterHotExpense').AsInteger := fWaterHot;
+        end;
+      end
+      else
+      begin
+        edtEleNow.Text := '';
+        edtColdWaterNow.Text := '';
+        edtHotWaterNow.Text := '';
+        MessageBox(0, 'Проверте корректность заполнения полей', 'Внимание, ошибка!', (MB_OK + MB_ICONERROR));
+        edtEleNow.SetFocus;
+        Exit;
+      end;
     end;
-  end
-  else
-  begin
-    edtEleNow.Text := '';
-    edtColdWaterNow.Text := '';
-    edtHotWaterNow.Text := '';
-    MessageBox(0, 'Проверте корректность заполнения полей', 'Внимание, ошибка!', (MB_OK + MB_ICONERROR));
-    edtEleNow.SetFocus;
-    Exit;
-  end;
+
 // запись в таблицу fmTabSummaryTable - dsSummaryTable
     with dsSummaryTable.DataSet do
     begin
@@ -302,11 +337,11 @@ begin
   begin
     if frmCheckDevice.f_CountChecked > 0 then
     begin
+      f_checked := True;
       f_CountChecked := dsCheckDevice.DataSet.RecordCount - (frmCheckDevice.f_CountChecked + 1);
       dsCheckDevice.DataSet.First;
       for i := 0 to f_CountChecked do
         dsCheckDevice.DataSet.Next;
-
       for i := 0 to frmCheckDevice.f_CountChecked - 1 do
       begin
         case dsCheckDevice.DataSet.Fields[10].AsInteger of
@@ -317,6 +352,7 @@ begin
               edtEleNow.Text := dsCheckDevice.DataSet.Fields[9].AsString;
               edtEleNow.Enabled := False;
               edtUseEle.Text := dsCheckDevice.DataSet.Fields[5].AsString;
+
             end;
 
           1:
@@ -326,7 +362,7 @@ begin
               edtColdWaterNow.Text := dsCheckDevice.DataSet.Fields[9].AsString;
               edtColdWaterNow.Enabled := False;
               edtUseColdWater.Text := dsCheckDevice.DataSet.Fields[5].AsString;
-            end;
+              end;
 
           2:
             begin
