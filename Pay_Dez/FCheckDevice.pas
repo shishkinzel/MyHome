@@ -54,6 +54,7 @@ type
 //    procedure cbbNameDeviceExit(Sender: TObject);
     procedure cbbNameDeviceChange(Sender: TObject);
   private    { Private declarations }
+    fdayCorr: TDate;
   public    { Public declarations }
     const
       fJsonFileCheckDevice = 'checkdevice_bd.fds'; //   файл с Базой Данных поверки приборов
@@ -78,7 +79,6 @@ uses
 procedure TfrmCheckDevice.FormCreate(Sender: TObject);
 var
   fday: Integer;
-  fdayCorr: TDate;
 begin
   f_CountChecked := 0;
   dsPayAndRecord.DataSet.Last;
@@ -189,7 +189,7 @@ begin
    if Components[i] is TComboBox then
   (Components[i] as TComboBox).ItemIndex := -1;
    if Components[i] is TDateTimePicker then
-  (Components[i] as TDateTimePicker).DateTime := Now;
+  (Components[i] as TDateTimePicker).DateTime := fdayCorr;
 end;
   if f_CountChecked = 3 then
     btnApply.Enabled := False;

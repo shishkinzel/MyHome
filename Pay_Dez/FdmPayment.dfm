@@ -267,91 +267,7 @@ object dmPayment: TdmPayment
     Top = 8
   end
   object fmTabListReport: TFDMemTable
-    Active = True
-    FieldDefs = <
-      item
-        Name = 'number'
-        DataType = ftInteger
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'lightPrev'
-        DataType = ftString
-        Size = 8
-      end
-      item
-        Name = 'lightNext'
-        DataType = ftString
-        Size = 8
-      end
-      item
-        Name = 'lightExpense'
-        DataType = ftString
-        Size = 8
-      end
-      item
-        Name = 'WaterColdPrev'
-        DataType = ftString
-        Size = 6
-      end
-      item
-        Name = 'WaterColdNext'
-        DataType = ftString
-        Size = 6
-      end
-      item
-        Name = 'WaterColdPExpense'
-        DataType = ftString
-        Size = 6
-      end
-      item
-        Name = 'WaterHotPrev'
-        DataType = ftString
-        Size = 6
-      end
-      item
-        Name = 'WaterHotNext'
-        DataType = ftString
-        Size = 6
-      end
-      item
-        Name = 'WaterHotExpense'
-        DataType = ftString
-        Size = 6
-      end
-      item
-        Name = 'DezSum'
-        DataType = ftCurrency
-        Precision = 19
-      end
-      item
-        Name = 'MosEn'
-        DataType = ftCurrency
-        Precision = 19
-      end
-      item
-        Name = 'OnLime'
-        DataType = ftCurrency
-        Precision = 19
-      end
-      item
-        Name = 'ExecutionPayDezSum'
-        DataType = ftString
-        Size = 20
-      end
-      item
-        Name = 'ExecutionPayMosEn'
-        DataType = ftString
-        Size = 20
-      end
-      item
-        Name = 'ExecutionPayOnLime'
-        DataType = ftString
-        Size = 20
-      end>
+    FieldDefs = <>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
@@ -383,7 +299,7 @@ object dmPayment: TdmPayment
     end
     object fmTabListReportWaterColdPrev: TStringField
       FieldName = 'WaterColdPrev'
-      Size = 6
+      Size = 8
     end
     object fmTabListReportWaterColdNext: TStringField
       FieldName = 'WaterColdNext'
@@ -395,7 +311,7 @@ object dmPayment: TdmPayment
     end
     object fmTabListReportWaterHotPrev: TStringField
       FieldName = 'WaterHotPrev'
-      Size = 6
+      Size = 8
     end
     object fmTabListReportWaterHotNext: TStringField
       FieldName = 'WaterHotNext'

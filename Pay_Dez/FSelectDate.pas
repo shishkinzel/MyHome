@@ -113,16 +113,27 @@ begin
     with frmPaymentDocuments do
     begin
       dtpPay.Date := dsListReport.DataSet.FieldByName('date').AsDateTime;
+      if dsListReport.DataSet.FieldByName('lightPrev').AsString = fCHECK then
+        lblEprev.Caption := fCHECK
+      else
+        lblEprev.Caption := dsListReport.DataSet.FieldByName('lightPrev').AsString + '  вт/час';
 
-      lblEprev.Caption := dsListReport.DataSet.FieldByName('lightPrev').AsString + '  вт/час';
       lblEnext.Caption := dsListReport.DataSet.FieldByName('lightNext').AsString + '  вт/час';
       lblEexpense.Caption := dsListReport.DataSet.FieldByName('lightExpense').AsString + '  вт/час';
 
-      lblWGoldPrev.Caption := dsListReport.DataSet.FieldByName('WaterColdPrev').AsString + '  уб.';
+      if dsListReport.DataSet.FieldByName('WaterColdPrev').AsString = fCHECK then
+        lblWGoldPrev.Caption := fCHECK
+      else
+        lblWGoldPrev.Caption := dsListReport.DataSet.FieldByName('WaterColdPrev').AsString + '  уб.';
+
       lblWGoldNext.Caption := dsListReport.DataSet.FieldByName('WaterColdNext').AsString + '  уб.';
       lblWGoldExpense.Caption := dsListReport.DataSet.FieldByName('WaterColdPExpense').AsString + '  уб.';
 
-      lblWHotPrev.Caption := dsListReport.DataSet.FieldByName('WaterHotPrev').AsString + '  уб.';
+      if dsListReport.DataSet.FieldByName('WaterHotPrev').AsString = fCHECK then
+        lblWHotPrev.Caption := fCHECK
+      else
+        lblWHotPrev.Caption := dsListReport.DataSet.FieldByName('WaterHotPrev').AsString + '  уб.';
+
       lblWHotNext.Caption := dsListReport.DataSet.FieldByName('WaterHotNext').AsString + '  уб.';
       lblWHotExpense.Caption := dsListReport.DataSet.FieldByName('WaterHotExpense').AsString + '  уб.';
 

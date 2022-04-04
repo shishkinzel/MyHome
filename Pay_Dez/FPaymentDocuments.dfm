@@ -783,6 +783,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
     end
     object mniShowCheck: TMenuItem
       Caption = #1055#1088#1086#1089#1084#1086#1090#1088
+      Enabled = False
       OnClick = mniShowCheckClick
     end
   end

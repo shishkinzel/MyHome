@@ -148,14 +148,18 @@ const
   fJsonFile = 'any_bd.fds';               //   файл с Базой Данных по умолчанию
   fConfig_file = 'pay_config.ini';        //   конфигурационный файл
   fExe = 'ProjectPaymentDocuments.exe';   //   исполняемый файл
-  fCHECK = 'Поверка';                     //   константа для поверки приборов
+//  fCHECK = 'Поверка';                     //   константа для поверки приборов
 
 var
   frmPaymentDocuments: TfrmPaymentDocuments;
 
-  f_Admin : Boolean;          // включение режима администрирования
+  f_Admin: Boolean;          // включение режима администрирования
+
+const
+  fCHECK = 'Поверка';                     //   константа для поверки приборов
 
 implementation
+
 
 {$R *.dfm}
 procedure TfrmPaymentDocuments.FormCreate(Sender: TObject);
@@ -208,15 +212,24 @@ begin
     //    dtpPay.Enabled := False;
     dtpPay.Date := dmPayment.fmTabPayAndRecord.FieldByName('date').AsDateTime;
 
-    lblEprev.Caption := dmPayment.fmTabPayAndRecord.FieldByName('lightPrev').AsString + ' Квт/час';
+    if dmPayment.fmTabPayAndRecord.FieldByName('lightPrev').AsString = fCHECK then
+      lblEprev.Caption := fCHECK
+    else
+      lblEprev.Caption := dmPayment.fmTabPayAndRecord.FieldByName('lightPrev').AsString + ' Квт/час';
     lblEnext.Caption := dmPayment.fmTabPayAndRecord.FieldByName('lightNext').AsString + ' Квт/час';
     lblEexpense.Caption := dmPayment.fmTabPayAndRecord.FieldByName('lightExpense').AsString + ' Квт/час';
 
-    lblWGoldPrev.Caption := dmPayment.fmTabPayAndRecord.FieldByName('WaterColdPrev').AsString + ' Куб.';
+    if dmPayment.fmTabPayAndRecord.FieldByName('WaterColdPrev').AsString = fCHECK then
+      lblWGoldPrev.Caption := fCHECK
+    else
+      lblWGoldPrev.Caption := dmPayment.fmTabPayAndRecord.FieldByName('WaterColdPrev').AsString + ' Куб.';
     lblWGoldNext.Caption := dmPayment.fmTabPayAndRecord.FieldByName('WaterColdNext').AsString + ' Куб.';
     lblWGoldExpense.Caption := dmPayment.fmTabPayAndRecord.FieldByName('WaterColdExpense').AsString + ' Куб.';
 
-    lblWHotPrev.Caption := dmPayment.fmTabPayAndRecord.FieldByName('WaterHotPrev').AsString + ' Куб.';
+    if dmPayment.fmTabPayAndRecord.FieldByName('WaterHotPrev').AsString = fCHECK then
+      lblWHotPrev.Caption := fCHECK
+    else
+      lblWHotPrev.Caption := dmPayment.fmTabPayAndRecord.FieldByName('WaterHotPrev').AsString + ' Куб.';
     lblWHotNext.Caption := dmPayment.fmTabPayAndRecord.FieldByName('WaterHotNext').AsString + ' Куб.';
     lblWHotExpense.Caption := dmPayment.fmTabPayAndRecord.FieldByName('WaterHotExpense').AsString + ' Куб.';
 

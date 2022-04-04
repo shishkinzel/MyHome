@@ -101,7 +101,8 @@ begin
 // флаги заполнения таблицы
   fApply := True;
   fFormFree := False;
-  dmPayment.fmTabPayAndRecord.Open;
+  dsPayAndRecord.DataSet.Open;
+  dsPayAndRecord.DataSet.Last;
   if dsPayAndRecord.DataSet.IsEmpty then
   begin
     btnStart.Visible := True;
@@ -131,8 +132,6 @@ begin
   end
   else
   begin
-
-    dsPayAndRecord.DataSet.Last;
     dtpDate.Date := dsPayAndRecord.DataSet.FieldByName('date').AsDateTime;
     fdayCorr := dtpDate.DateTime;
     fdayCorr := IncMonth(fdayCorr, 1);
@@ -144,7 +143,7 @@ begin
     edtEle.Text := dsPayAndRecord.DataSet.FieldByName('lightNext').AsString;
     edtColdWater.Text := dsPayAndRecord.DataSet.FieldByName('WaterColdNext').AsString;
     edtHotWater.Text := dsPayAndRecord.DataSet.FieldByName('WaterHotNext').AsString;
-    dmPayment.fmTabPayAndRecord.Append;
+//    dsPayAndRecord.DataSet.Append;
   end;
 end;
 
@@ -219,7 +218,8 @@ var
 begin
   if (edtEleNow.Text <> '') and (edtColdWaterNow.Text <> '') and (edtHotWaterNow.Text <> '') and (edtDez.Text <> '') and (edtMEle.Text <> '') and (edtOnLime.Text <> '') then
   begin
-    dsPayAndRecord.DataSet.Append;
+  if fdbEmpty then
+     dsPayAndRecord.DataSet.Append;
     dsPayAndRecord.DataSet.FieldByName('number').AsInteger := stepNub;
     dsPayAndRecord.DataSet.FieldByName('date').AsDateTime := dtpDate.Date;
 
