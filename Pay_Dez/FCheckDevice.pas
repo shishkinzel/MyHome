@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, Math,
   WinTypes,StdCtrls, Vcl.ComCtrls, FireDAC.Stan.StorageJSON , FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, DateUtils, Vcl.Menus;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, DateUtils, Vcl.Menus, System.ImageList,
+  Vcl.ImgList;
 
 type
   TfrmCheckDevice = class(TForm)
@@ -43,6 +44,13 @@ type
     mmAdmin_All: TMainMenu;
     mniAdmin_File: TMenuItem;
     mniAdmin_Setting: TMenuItem;
+    dlgSave_Check: TSaveDialog;
+    dlgOpen_Check: TOpenDialog;
+    mniAdmin_Open: TMenuItem;
+    mniAdmin_Save: TMenuItem;
+    mniAdmin_SeparatorFile: TMenuItem;
+    mniAdmin_Close: TMenuItem;
+    ilChecked: TImageList;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
@@ -56,6 +64,9 @@ type
     procedure FormCreate(Sender: TObject);
 //    procedure cbbNameDeviceExit(Sender: TObject);
     procedure cbbNameDeviceChange(Sender: TObject);
+    procedure mniAdmin_OpenClick(Sender: TObject);
+    procedure mniAdmin_SaveClick(Sender: TObject);
+    procedure onClose(Sender: TObject);
   private    { Private declarations }
     fdayCorr: TDate;
   public    { Public declarations }
@@ -111,7 +122,7 @@ var
   i: Integer;
 begin
 // чтение файла
-  if FileExists(fJsonFileCheckDevice) then
+  if FileExists(fJsonFileCheckDevice) and not(f_Admin) then
     dmPayment.fmTabCheckDevice.LoadFromFile(fJsonFileCheckDevice, sfJSON);
 
 
@@ -137,10 +148,35 @@ begin
   if not (f_Admin) then
   begin
     MessageBox(frmCheckDevice.Handle, 'Пожалуйста, Укажите дату поверки!!', 'Внимание', (MB_OK + MB_ICONQUESTION));
-    frmCheckDevice.BorderStyle := bsDialog;
+//    frmCheckDevice.BorderStyle := bsDialog;
+    frmCheckDevice.Menu := nil;
   end;
 end;
 
+
+// работа с главным меню - Файл
+// открытие БД поверки
+procedure TfrmCheckDevice.mniAdmin_OpenClick(Sender: TObject);
+var
+i: Integer;
+begin
+
+end;
+
+// запись БД поверки
+procedure TfrmCheckDevice.mniAdmin_SaveClick(Sender: TObject);
+var
+i: Integer;
+begin
+if True then
+
+
+end;
+
+procedure TfrmCheckDevice.onClose(Sender: TObject);
+begin
+
+end;
 
 //**************************************************************************************************
 // заполнение таблицы
@@ -299,7 +335,8 @@ end;
 // закрытие и разрушение формы
 procedure TfrmCheckDevice.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-//dmPayment.fmTabCheckDevice.SaveToFile(fJsonFileCheckDevice, sfJSON);
+  if not (f_Admin) then
+    dmPayment.fmTabCheckDevice.SaveToFile(fJsonFileCheckDevice, sfJSON);
   if (dsCheckDevice.DataSet.Modified) or (f_CountChecked > 0) then
   begin
 //    dsCheckDevice.DataSet.Post;

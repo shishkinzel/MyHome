@@ -669,7 +669,6 @@ object frmPaymentDocuments: TfrmPaymentDocuments
       end
       object mniForms_EditChecked: TMenuItem
         Caption = #1056#1077#1076#1072#1082#1090#1086#1088' '#1076#1072#1085#1085#1099#1093' "'#1055#1086#1074#1077#1088#1082#1072'"'
-        Enabled = False
         OnClick = mniForms_EditCheckedClick
       end
     end
