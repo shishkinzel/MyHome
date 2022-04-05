@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, Math,
   WinTypes,StdCtrls, Vcl.ComCtrls, FireDAC.Stan.StorageJSON , FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, DateUtils;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, DateUtils, Vcl.Menus;
 
 type
   TfrmCheckDevice = class(TForm)
@@ -40,6 +40,9 @@ type
     btnClose: TButton;
     jsonFileDbCheckDevice: TFDStanStorageJSONLink;
     dsPayAndRecord: TDataSource;
+    mmAdmin_All: TMainMenu;
+    mniAdmin_File: TMenuItem;
+    mniAdmin_Setting: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
@@ -81,11 +84,22 @@ var
   fday: Integer;
 begin
   f_CountChecked := 0;
-  dsPayAndRecord.DataSet.Last;
-  fdayCorr := IncMonth(dsPayAndRecord.DataSet.Fields[1].AsDateTime, 1);
-  dtpCheckDevice.MaxDate := EndOfTheMonth(fdayCorr);
-  dtpCheckDevice.MinDate := StartOfTheMonth(fdayCorr);
-  dtpCheckDevice.Date := fdayCorr;
+  if f_Admin then
+  begin
+    dtpCheckDevice.Date := Now;
+    btnApply.Enabled := False;
+    btnReset.Enabled := False;
+
+  end
+  else
+  begin
+    dsPayAndRecord.DataSet.Last;
+    fdayCorr := IncMonth(dsPayAndRecord.DataSet.Fields[1].AsDateTime, 1);
+    dtpCheckDevice.MaxDate := EndOfTheMonth(fdayCorr);
+    dtpCheckDevice.MinDate := StartOfTheMonth(fdayCorr);
+    dtpCheckDevice.Date := fdayCorr;
+  end;
+
 end;
 
 
@@ -120,9 +134,14 @@ begin
     grdCheckDevice.Columns[i].Title.Alignment := taCenter;
   end;
 // выставить дату поверки
-MessageBox(frmCheckDevice.Handle, 'Пожалуйста, Укажите дату поверки!!', 'Внимание', (MB_OK + MB_ICONQUESTION));
-
+  if not (f_Admin) then
+  begin
+    MessageBox(frmCheckDevice.Handle, 'Пожалуйста, Укажите дату поверки!!', 'Внимание', (MB_OK + MB_ICONQUESTION));
+    frmCheckDevice.BorderStyle := bsDialog;
+  end;
 end;
+
+
 //**************************************************************************************************
 // заполнение таблицы
 procedure TfrmCheckDevice.btnApplyClick(Sender: TObject);
@@ -159,7 +178,7 @@ begin
 
     end;
     btnReset.Enabled := True;
-    frmPaymentDocuments.fVerification := False;
+//    frmPaymentDocuments.fVerification := False;
  // заполняем таблицу grdCheckDevice
     with dsCheckDevice.DataSet do
     begin

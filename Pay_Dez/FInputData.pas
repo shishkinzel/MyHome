@@ -438,6 +438,7 @@ begin
     end;
 
   end;
+  frmPaymentDocuments.f_Checked_btn := False;
   Action := caFree;
 end;
 end.

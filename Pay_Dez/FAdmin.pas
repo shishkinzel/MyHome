@@ -42,9 +42,11 @@ begin
   fAction := caFree;
   if (lbledtLogin.Text = 'admin') and (lbledtPassoword.Text = 'admin') then
   begin
+// активируем возможность редактирования таблицы данных и таблицы "Поверка"
     frmPaymentDocuments.mniForms_EditData.Enabled := True;
-    frmPaymentDocuments.fVerification := True;
-    f_Admin := True;
+    frmPaymentDocuments.mniForms_EditChecked.Enabled := True;
+//    frmPaymentDocuments.fVerification := True;
+//    f_Admin := True;
     ShowMessage('Добро пожаловать администратор');
   end
   else
@@ -52,14 +54,8 @@ begin
     ShowMessage('У Вас нет прав доступа к редактированию данных')
   end;
   frmAdmin.Close;
-  frmAdmin.Action.Free;
-//frmAdmin.FormClose(frmAdmin, fAction);
 end;
 
-procedure TfrmAdmin.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  Action :=  caFree;
-end;
 
 procedure TfrmAdmin.FormShow(Sender: TObject);
 begin
@@ -85,4 +81,9 @@ begin
 btnApplyClick(nil);
 end;
 
+// закрытие формы
+procedure TfrmAdmin.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action :=  caFree;
+end;
 end.

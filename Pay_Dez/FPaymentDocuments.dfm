@@ -659,10 +659,18 @@ object frmPaymentDocuments: TfrmPaymentDocuments
         Caption = #1042#1074#1086#1076' '#1076#1072#1085#1085#1099#1093
         OnClick = mniForms_InputDataClick
       end
+      object mniForms_N1: TMenuItem
+        Caption = '-'
+      end
       object mniForms_EditData: TMenuItem
         Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1085#1080#1077' '#1076#1072#1085#1085#1099#1093
         Enabled = False
         OnClick = mniForms_EditDataClick
+      end
+      object mniForms_EditChecked: TMenuItem
+        Caption = #1056#1077#1076#1072#1082#1090#1086#1088' '#1076#1072#1085#1085#1099#1093' "'#1055#1086#1074#1077#1088#1082#1072'"'
+        Enabled = False
+        OnClick = mniForms_EditCheckedClick
       end
     end
     object mniSet_Show: TMenuItem

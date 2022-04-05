@@ -106,6 +106,8 @@ type
     mniShowCheck: TMenuItem;
     mniSet_Chedcked: TMenuItem;
     mniSet_Separator: TMenuItem;
+    mniForms_EditChecked: TMenuItem;
+    mniForms_N1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniTabShow_LittleClick(Sender: TObject);
     procedure mniTabShow_BigClick(Sender: TObject);
@@ -125,6 +127,7 @@ type
     procedure mniReport_Tab_Little_ShowClick(Sender: TObject);
     procedure mniShowCheckClick(Sender: TObject);
     procedure mniSet_ChedckedClick(Sender: TObject);
+    procedure mniForms_EditCheckedClick(Sender: TObject);
 
   private    { Private declarations }
   var
@@ -132,7 +135,7 @@ type
 
   public { Public declarations }
     fStatusList: Boolean;    // флаг для печати Листка учета - умолчание false
-    fVerification: Boolean;  // флаг поверки счетчиков
+//    fVerification: Boolean;  // флаг поверки счетчиков
     fDir: string;            // выбранный каталог
     fSourceDir : string;     // каталог по умолчанию
     fIniFile: TIniFile;      // файл конфигурации
@@ -148,7 +151,6 @@ const
   fJsonFile = 'any_bd.fds';               //   файл с Базой Данных по умолчанию
   fConfig_file = 'pay_config.ini';        //   конфигурационный файл
   fExe = 'ProjectPaymentDocuments.exe';   //   исполняемый файл
-//  fCHECK = 'Поверка';                     //   константа для поверки приборов
 
 var
   frmPaymentDocuments: TfrmPaymentDocuments;
@@ -175,7 +177,7 @@ begin
 //  активация флагов
   fExist_config := False;              // существование файла конфигурации
   fStatusList := False;                // флаг для печати Листка учета
-  fVerification := False;              // флаг поверки счетчиков
+//  fVerification := False;              // флаг поверки счетчиков
   f_Checked_btn := False;              // флаг активации кнопки поверки приборов
 
 // описать чтение конфигурационного файла
@@ -304,6 +306,7 @@ begin
   fExist_config := True;
 end;
 
+
 procedure TfrmPaymentDocuments.mniForms_EditDataClick(Sender: TObject);
 begin
   frmEditing := TfrmEditing.Create(nil);
@@ -313,14 +316,31 @@ end;
 procedure TfrmPaymentDocuments.mniForms_InputDataClick(Sender: TObject);
 begin
   frmInputData := TfrmInputData.Create(nil);
-//   MessageBox(0, 'Для активации кнопки "Поверка"' + #10#13 +
-//                'активируйте права администратора' + #10#13 +
-//                 '     в меню "Настройки"',  'Обратите внимание' ,
-//              (MB_OK + MB_ICONINFORMATION));
-
   frmInputData.Show;
 end;
 
+// редактирование формы "Поверка"
+ procedure TfrmPaymentDocuments.mniForms_EditCheckedClick(Sender: TObject);
+begin
+  f_Admin := True;
+  frmCheckDevice := TfrmCheckDevice.Create(nil);
+  frmCheckDevice.ShowModal;
+  // возврат из формы "Поверки"
+  if frmCheckDevice.ModalResult = mrOk then
+  begin
+    if frmCheckDevice.f_CountChecked > 0 then
+    begin
+
+  end
+  else
+  begin
+     MessageBox(0, 'Вы ничего не ввели', 'Внимание!', (MB_ICONINFORMATION));
+  end;
+
+  end;
+
+  frmCheckDevice.Free;
+end;
 // процедура открытия Базы Данных   - проект релизовать
 procedure TfrmPaymentDocuments.mniOpenDBClick(Sender: TObject);
 begin

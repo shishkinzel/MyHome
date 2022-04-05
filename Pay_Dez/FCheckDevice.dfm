@@ -2,9 +2,9 @@ object frmCheckDevice: TfrmCheckDevice
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
-  BorderStyle = bsDialog
+  BorderStyle = bsSingle
   Caption = #1055#1086#1074#1077#1088#1082#1072' '#1087#1088#1080#1073#1086#1088#1086#1074' '#1091#1095#1077#1090#1072
-  ClientHeight = 521
+  ClientHeight = 501
   ClientWidth = 794
   Color = clBtnFace
   Constraints.MaxHeight = 550
@@ -16,6 +16,7 @@ object frmCheckDevice: TfrmCheckDevice
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  Menu = mmAdmin_All
   OldCreateOrder = False
   Position = poScreenCenter
   OnClose = FormClose
@@ -25,16 +26,15 @@ object frmCheckDevice: TfrmCheckDevice
   TextHeight = 13
   object splUp: TSplitter
     Left = 0
-    Top = 100
+    Top = 80
     Width = 794
     Height = 2
     Cursor = crVSplit
     Align = alTop
-    ExplicitTop = 80
   end
   object splDown: TSplitter
     Left = 0
-    Top = 399
+    Top = 379
     Width = 794
     Height = 2
     Cursor = crVSplit
@@ -46,7 +46,7 @@ object frmCheckDevice: TfrmCheckDevice
     Left = 0
     Top = 0
     Width = 794
-    Height = 100
+    Height = 80
     Align = alTop
     Constraints.MaxHeight = 100
     Constraints.MinHeight = 80
@@ -85,13 +85,14 @@ object frmCheckDevice: TfrmCheckDevice
   end
   object pnlDown: TPanel
     Left = 0
-    Top = 401
+    Top = 381
     Width = 794
     Height = 120
     Align = alBottom
     Constraints.MaxHeight = 120
     Constraints.MinHeight = 50
     TabOrder = 1
+    ExplicitTop = 401
     object grdCheckDevice: TDBGrid
       Left = 1
       Top = 19
@@ -120,11 +121,12 @@ object frmCheckDevice: TfrmCheckDevice
   end
   object pnlCenter: TPanel
     Left = 0
-    Top = 102
+    Top = 82
     Width = 794
     Height = 297
     Align = alClient
     TabOrder = 2
+    ExplicitTop = 79
     object txtNameDevice: TStaticText
       Left = 0
       Top = 24
@@ -347,16 +349,25 @@ object frmCheckDevice: TfrmCheckDevice
   end
   object dsCheckDevice: TDataSource
     DataSet = dmPayment.fmTabCheckDevice
-    Left = 24
-    Top = 24
+    Top = 48
   end
   object jsonFileDbCheckDevice: TFDStanStorageJSONLink
-    Left = 144
-    Top = 24
+    Left = 48
+    Top = 48
   end
   object dsPayAndRecord: TDataSource
     DataSet = dmPayment.fmTabPayAndRecord
     Left = 384
     Top = 264
+  end
+  object mmAdmin_All: TMainMenu
+    Left = 8
+    Top = 10
+    object mniAdmin_File: TMenuItem
+      Caption = #1060#1072#1081#1083
+    end
+    object mniAdmin_Setting: TMenuItem
+      Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
+    end
   end
 end
