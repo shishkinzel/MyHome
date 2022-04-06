@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, Math,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids,
+   Math, FileCtrl,
   WinTypes,StdCtrls, Vcl.ComCtrls, FireDAC.Stan.StorageJSON , FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, DateUtils, Vcl.Menus, System.ImageList,
@@ -51,6 +52,9 @@ type
     mniAdmin_SeparatorFile: TMenuItem;
     mniAdmin_Close: TMenuItem;
     ilChecked: TImageList;
+    mniAdmin_Folders: TMenuItem;
+    mniAdmin_Path_Folder: TMenuItem;
+    mniAdmin_CreateFolder: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
@@ -67,11 +71,12 @@ type
     procedure mniAdmin_OpenClick(Sender: TObject);
     procedure mniAdmin_SaveClick(Sender: TObject);
     procedure onClose(Sender: TObject);
+    procedure mniAdmin_Path_FolderClick(Sender: TObject);
   private    { Private declarations }
     fdayCorr: TDate;
   public    { Public declarations }
     const
-      fJsonFileCheckDevice = 'checkdevice_bd.fds'; //   файл с Базой Данных поверки приборов
+      fJsonFileCheckDevice = 'checkdevice_bd.pv_fds'; //   файл с Базой Данных поверки приборов
     var
       f_CountChecked: Integer;
   end;
@@ -159,23 +164,49 @@ end;
 procedure TfrmCheckDevice.mniAdmin_OpenClick(Sender: TObject);
 var
 i: Integer;
+f_JsonFile : string;
 begin
+  if dlgOpen_Check.Execute then
+  begin
+    f_JsonFile := dlgOpen_Check.FileName;
+    dmPayment.fmTabCheckDevice.LoadFromFile(f_JsonFile, sfJSON);
+  end;
 
+end;
+// указываем путь к папке
+procedure TfrmCheckDevice.mniAdmin_Path_FolderClick(Sender: TObject);
+var
+f_Dir : string;
+begin
+  if SelectDirectory('Выберете каталог', '', f_Dir) then
+  begin
+    frmPaymentDocuments.f_IinPath_check := f_Dir;
+    Application.MessageBox(PChar('Вы выбрали каталог >>>' + f_Dir), 'Внимание!', (MB_OK + MB_ICONINFORMATION));
+  end
+   else
+   begin
+     Application.MessageBox('Выбор каталога прервался', 'Внимание!', (MB_OK + MB_ICONINFORMATION));
+   end;
 end;
 
 // запись БД поверки
 procedure TfrmCheckDevice.mniAdmin_SaveClick(Sender: TObject);
 var
-i: Integer;
+  i: Integer;
 begin
-if True then
-
+  if dlgSave_Check.Execute then
+  begin
+    if AnsiPos('.', dlgSave_Check.FileName) = 0 then
+      dmPayment.fmTabCheckDevice.SaveToFile(dlgSave_Check.FileName + '.pv_fds', sfJSON)
+    else
+      dmPayment.fmTabCheckDevice.SaveToFile(dlgSave_Check.FileName, sfJSON);
+  end;
 
 end;
 
 procedure TfrmCheckDevice.onClose(Sender: TObject);
 begin
-
+  Close;
 end;
 
 //**************************************************************************************************

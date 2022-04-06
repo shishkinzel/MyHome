@@ -10,7 +10,7 @@ uses
 
   funUntil, FTableAll, FTableMeteringDevice, FFRMeteringDevice, FTableEditing,
   FFRTableAll, FSelectDate, FAdmin, IniFiles, FInputData, FFRListReport,
-  FireDAC.Stan.StorageJSON;
+  FireDAC.Stan.StorageJSON, System.ImageList, Vcl.ImgList;
 
 type
   TfrmPaymentDocuments = class(TForm)
@@ -108,6 +108,8 @@ type
     mniSet_Separator: TMenuItem;
     mniForms_EditChecked: TMenuItem;
     mniForms_N1: TMenuItem;
+    ilPaymentDocuments: TImageList;
+    mniFile_Close: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniTabShow_LittleClick(Sender: TObject);
     procedure mniTabShow_BigClick(Sender: TObject);
@@ -128,6 +130,7 @@ type
     procedure mniShowCheckClick(Sender: TObject);
     procedure mniSet_ChedckedClick(Sender: TObject);
     procedure mniForms_EditCheckedClick(Sender: TObject);
+    procedure mniFile_CloseClick(Sender: TObject);
 
   private    { Private declarations }
   var
@@ -141,6 +144,7 @@ type
     fIniFile: TIniFile;      // файл конфигурации
     fExistBD : string;       // переменная для файла Базы Данных
     fPath : string;          // путь к файлу конфигурации
+    f_IinPath_check : string;  // путь к папке с файлами БД поверки
     fSourcePath : string;    // путь к исходному файлу конфигурации
     fExist_config : Boolean; // существование файла конфигурации
     fConfigFile : File;      // переменная для создания файла конфигурации
@@ -459,7 +463,10 @@ begin
 end;
 
 // закрытие формы
-
+procedure TfrmPaymentDocuments.mniFile_CloseClick(Sender: TObject);
+begin
+  Close;
+end;
 
 end.
 
