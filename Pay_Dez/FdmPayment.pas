@@ -109,8 +109,10 @@ begin
   begin
     ShowMessage('Запись файла конфигурации');
     fIniFile := TIniFile.Create(frmPaymentDocuments.fSourcePath);
-    fIniFile.WriteString(csIniSectionDIR, csDIR, frmPaymentDocuments.fDir);
-    IniOptions.SaveToFile(fConfig_file);
+//    IniOptions.SaveSettings(fIniFile);
+//    fIniFile.s
+//    IniOptions.SaveToFile(fConfig_file);
+    fIniFile.Free;
   end
   else
     fmTabPayAndRecord.SaveToFile(fJsonFile, sfJSON);

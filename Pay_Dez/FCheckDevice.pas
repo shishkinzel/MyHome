@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids,
-   Math, FileCtrl,
+   Math, FileCtrl, IniFiles,
   WinTypes,StdCtrls, Vcl.ComCtrls, FireDAC.Stan.StorageJSON , FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, DateUtils, Vcl.Menus, System.ImageList,
@@ -70,8 +70,8 @@ type
     procedure cbbNameDeviceChange(Sender: TObject);
     procedure mniAdmin_OpenClick(Sender: TObject);
     procedure mniAdmin_SaveClick(Sender: TObject);
-    procedure onClose(Sender: TObject);
     procedure mniAdmin_Path_FolderClick(Sender: TObject);
+    procedure mniAdmin_CreateFolderClick(Sender: TObject);
   private    { Private declarations }
     fdayCorr: TDate;
   public    { Public declarations }
@@ -89,7 +89,7 @@ var
 implementation
 
 uses
-  FInputData, FdmPayment, FPaymentDocuments, funUntil;
+  FInputData, FdmPayment, FPaymentDocuments, funUntil , UnitConfig;
 
 {$R *.dfm}
 
@@ -119,8 +119,6 @@ begin
 end;
 
 
-
-
 // показ формы
 procedure TfrmCheckDevice.FormShow(Sender: TObject);
 var
@@ -130,7 +128,6 @@ begin
   if FileExists(fJsonFileCheckDevice) and not(f_Admin) then
     dmPayment.fmTabCheckDevice.LoadFromFile(fJsonFileCheckDevice, sfJSON);
 
-
     if f_Admin then
     begin
      nvgCheckDevice.VisibleButtons := nvgCheckDevice.VisibleButtons + [nbInsert] + [nbDelete] +
@@ -138,12 +135,12 @@ begin
      grdCheckDevice.Enabled := True;
    end;
 // формирование таблицы
-   grdCheckDevice.Columns[0].Width := 65;
-   grdCheckDevice.Columns[1].Width := 100;
-   grdCheckDevice.Columns[2].Width := 200;
-   grdCheckDevice.Columns[3].Width := 160;
-   grdCheckDevice.Columns[4].Width := 160;
-   grdCheckDevice.Columns[5].Width := 80;
+  grdCheckDevice.Columns[0].Width := 65;
+  grdCheckDevice.Columns[1].Width := 100;
+  grdCheckDevice.Columns[2].Width := 200;
+  grdCheckDevice.Columns[3].Width := 160;
+  grdCheckDevice.Columns[4].Width := 160;
+  grdCheckDevice.Columns[5].Width := 80;
 
   for i := 0 to grdCheckDevice.Columns.Count - 6 do
   begin
@@ -159,12 +156,14 @@ begin
 end;
 
 
+
+
 // работа с главным меню - Файл
 // открытие БД поверки
 procedure TfrmCheckDevice.mniAdmin_OpenClick(Sender: TObject);
 var
-i: Integer;
-f_JsonFile : string;
+  i: Integer;
+  f_JsonFile: string;
 begin
   if dlgOpen_Check.Execute then
   begin
@@ -172,21 +171,6 @@ begin
     dmPayment.fmTabCheckDevice.LoadFromFile(f_JsonFile, sfJSON);
   end;
 
-end;
-// указываем путь к папке
-procedure TfrmCheckDevice.mniAdmin_Path_FolderClick(Sender: TObject);
-var
-f_Dir : string;
-begin
-  if SelectDirectory('Выберете каталог', '', f_Dir) then
-  begin
-    frmPaymentDocuments.f_IinPath_check := f_Dir;
-    Application.MessageBox(PChar('Вы выбрали каталог >>>' + f_Dir), 'Внимание!', (MB_OK + MB_ICONINFORMATION));
-  end
-   else
-   begin
-     Application.MessageBox('Выбор каталога прервался', 'Внимание!', (MB_OK + MB_ICONINFORMATION));
-   end;
 end;
 
 // запись БД поверки
@@ -204,10 +188,49 @@ begin
 
 end;
 
-procedure TfrmCheckDevice.onClose(Sender: TObject);
+// указываем путь к папке
+procedure TfrmCheckDevice.mniAdmin_Path_FolderClick(Sender: TObject);
+var
+  f_Dir: string;
 begin
-  Close;
+  if SelectDirectory('Выберете каталог', '', f_Dir) then
+  begin
+    frmPaymentDocuments.f_IinPath_check := f_Dir;
+    Application.MessageBox(PChar('Вы выбрали каталог >>>' + f_Dir), 'Внимание!', (MB_OK + MB_ICONINFORMATION));
+  end
+  else
+  begin
+    Application.MessageBox('Выбор каталога прервался', 'Внимание!', (MB_OK + MB_ICONINFORMATION));
+  end;
 end;
+// создание новой папки для хранения файлов типа >>>   *.pv_fds'
+
+procedure TfrmCheckDevice.mniAdmin_CreateFolderClick(Sender: TObject);
+var
+  f_Dir: string;
+  f_multiDir : TArray<string>;
+  fIniFile : TIniFile;
+begin
+  f_Dir := ExtractFilePath(Application.ExeName);
+//  if SelectDirectory(f_Dir, [sdAllowCreate, sdPerformCreate, sdPrompt], 0) then
+  if SelectDirectory(f_Dir, f_multiDir, [sdAllowMultiselect], 'Создайте новый каталог', 'Введите имя каталога', 'Да') then
+  begin
+    frmPaymentDocuments.f_IinPath_check := f_multiDir[0];
+    mniAdmin_Path_Folder.Enabled := True;
+    fIniFile := TIniFile.Create(ExtractFilePath(Application.ExeName) + fConfig_file);
+    IniOptions.fDIR_Check := f_multiDir[0];
+    IniOptions.SaveSettings(fIniFile);
+    IniOptions.SaveToFile(fConfig_file);
+    fIniFile.Free;
+    mniAdmin_CreateFolder.Enabled := False;
+  end
+  else
+  begin
+      Application.MessageBox('Вы прервали процесс создания папки', 'Внимание!', (MB_OK + MB_ICONINFORMATION));
+  end;
+ f_multiDir := nil;
+end;
+
 
 //**************************************************************************************************
 // заполнение таблицы
@@ -353,9 +376,6 @@ begin
   then
     FindNextControl(Sender as TWinControl, True, True, false).SetFocus;
 end;
-
-
-
 
 // кнопка закрытия формы
 procedure TfrmCheckDevice.btnCloseClick(Sender: TObject);

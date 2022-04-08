@@ -395,6 +395,7 @@ object frmCheckDevice: TfrmCheckDevice
       Caption = #1055#1072#1087#1082#1080
       object mniAdmin_Path_Folder: TMenuItem
         Caption = #1059#1082#1072#1079#1072#1090#1100' &'#1087#1091#1090#1100' '#1082' '#1087#1072#1087#1082#1077' ...'
+        Enabled = False
         ImageIndex = 6
         ShortCut = 16464
         OnClick = mniAdmin_Path_FolderClick
@@ -403,6 +404,7 @@ object frmCheckDevice: TfrmCheckDevice
         Caption = '&'#1057#1086#1079#1076#1072#1090#1100' '#1087#1072#1087#1082#1091
         ImageIndex = 7
         ShortCut = 16451
+        OnClick = mniAdmin_CreateFolderClick
       end
     end
   end

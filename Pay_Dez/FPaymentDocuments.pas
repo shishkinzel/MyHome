@@ -137,14 +137,15 @@ type
   f_Handle_Form : HWND;
 
   public { Public declarations }
-    fStatusList: Boolean;    // флаг для печати Листка учета - умолчание false
+    fStatusList: Boolean;             // флаг для печати Листка учета - умолчание false
 //    fVerification: Boolean;  // флаг поверки счетчиков
-    fDir: string;            // выбранный каталог
-    fSourceDir : string;     // каталог по умолчанию
+    f_FileName_BD: string;            // переменная для файла БД  PaymentDocumets
+    f_FileName_BD_Check: string;     // переменная для файла БД  CheckDevice
+    f_Path_DB: string;                // путь к каталогу с БД PaymentDocumets
+    f_DIR_Check: string;              // путь к каталогу с БД CheckDevice
+
     fIniFile: TIniFile;      // файл конфигурации
-    fExistBD : string;       // переменная для файла Базы Данных
-    fPath : string;          // путь к файлу конфигурации
-    f_IinPath_check : string;  // путь к папке с файлами БД поверки
+    f_IinPath_check: string;  // путь к папке с файлами БД поверки
     fSourcePath : string;    // путь к исходному файлу конфигурации
     fExist_config : Boolean; // существование файла конфигурации
     fConfigFile : File;      // переменная для создания файла конфигурации
@@ -177,6 +178,8 @@ begin
 
 // хендел формы
   f_Handle_Form := frmPaymentDocuments.Handle;
+// пути по умолчанию - отсутствует конфигурационный файл
+  f_IinPath_check := '';
 
 //  активация флагов
   fExist_config := False;              // существование файла конфигурации
@@ -184,7 +187,7 @@ begin
 //  fVerification := False;              // флаг поверки счетчиков
   f_Checked_btn := False;              // флаг активации кнопки поверки приборов
 
-// описать чтение конфигурационного файла
+// чтение конфигурационного файла
   fSourcePath := ExtractFilePath(Application.ExeName) + fConfig_file;
   if FileExists(fConfig_file) then
   begin
@@ -194,9 +197,9 @@ begin
     IniOptions.LoadFromFile(fSourcePath);
 
 // чтение файла конфигурации
-    fExistBD := IniOptions.fFileName;
-    fSourceDir := IniOptions.fDIR;
-    fPath := IniOptions.fPath;
+    f_FileName_BD := IniOptions.fFileName;
+    f_Path_DB := IniOptions.fPath_DB;
+    f_DIR_Check := IniOptions.fDIR_Check;
     fIniFile.Free;
   end
   else
@@ -206,6 +209,21 @@ begin
 
   end;
 
+end;
+
+// создание файла конфигурации
+procedure TfrmPaymentDocuments.mniSet_ConfigClick(Sender: TObject);
+begin
+  MessageBox(frmPaymentDocuments.Handle, 'Вы пытаетесь создать конфигурационный файл', 'Внимание', (MB_OK + MB_ICONINFORMATION));
+  fIniFile := TIniFile.Create(ExtractFilePath(Application.ExeName) + fConfig_file);
+
+// запись файла конфигурации
+  IniOptions.LoadSettings(fIniFile);
+  IniOptions.SaveSettings(fIniFile);
+  IniOptions.SaveToFile(fSourcePath);
+  fIniFile.Free;
+  mniSet_Config.Enabled := False;
+  fExist_config := True;
 end;
 
 procedure TfrmPaymentDocuments.FormShow(Sender: TObject);
@@ -291,25 +309,6 @@ begin
   frmTableAll.ShowModal;
 end;
 
-// создание файла конфигурации
-procedure TfrmPaymentDocuments.mniSet_ConfigClick(Sender: TObject);
-begin
-//  ShowMessage('Вы пытаетесь создать конфигурационный файл');
- MessageBox(frmPaymentDocuments.Handle, 'Вы пытаетесь создать конфигурационный файл', 'Внимание', (MB_OK + MB_ICONINFORMATION));
-  fIniFile := TIniFile.Create(ExtractFilePath(Application.ExeName) + fConfig_file);
-// запись файла конфигурации
-
-  IniOptions.fFileName := fJsonFile;
-  IniOptions.fDIR := '';
-  IniOptions.fPath := '';
-
-  IniOptions.SaveSettings(fIniFile);
-  IniOptions.SaveToFile(fConfig_file);
-  fIniFile.Free;
-  mniSet_Config.Enabled := False;
-  fExist_config := True;
-end;
-
 
 procedure TfrmPaymentDocuments.mniForms_EditDataClick(Sender: TObject);
 begin
@@ -378,9 +377,9 @@ procedure TfrmPaymentDocuments.mniSet_DIRClick(Sender: TObject);
 var
   i: Integer;
 begin
-  if SelectDirectory('Выберете директорию по умолчанию', '', fDir) then
+  if SelectDirectory('Выберете директорию по умолчанию', '', f_Path_DB) then
   begin
-    ShowMessage('Выбранный каталог = ' + fDir);
+    ShowMessage('Выбранный каталог = ' + f_Path_DB);
   end
 
   else
@@ -398,11 +397,11 @@ end;
 // выбор директории с Базами Данных - проект релизовать
 procedure TfrmPaymentDocuments.mniFindBDClick(Sender: TObject);
 var
-fDir : string;
+f_Path_DB : string;
 begin
-GetDir(0, fDir);
-ShowMessage(fDir);
-//ChDir(fDir);
+GetDir(0, f_Path_DB);
+ShowMessage(f_Path_DB);
+//ChDir(f_Path_DB);
 end;
 
 
@@ -469,4 +468,7 @@ begin
 end;
 
 end.
+
+
+
 
