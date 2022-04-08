@@ -6,31 +6,31 @@ uses
   Classes, SysUtils, IniFiles, Forms, Windows;
 
 const
-  csIniSectionFileName = 'SectionfFileName';    // секция для хранения файла базы данных
+  csIniSectionFileName = 'SectionfFileName_DB';    // секция для хранения файла базы данных
   csIniSectionPath = 'SectionPath_DB';          // секция для хранения пути к каталогу с БД PaymentDocumets
   csIniSectionDIR_Check = 'SectionDIR_Check';   // секция для хранения пути к каталогу с БД CheckDevice
 
 {Section : csIniSectionFileName}
-  csFileName = 'fFileName';
+  csFileName = 'fFileName_DB';
 
 {Section : csIniSectionPath_DB}
   csPath_DB = 'fPath_DB';
 
 {Section : csIniSectionDIR_Check}
-  csDIR_Check = 'fDIR_Check';
+  csDIR_Check = 'fDIR_Check_DB';
 
 type
   TIniOptions = class(TObject)
   private
   public
     {Section : csIniSectionFileName}
-    fFileName: string;
+    fFileName_DB: string;
 
 {Section : csIniSectionPath}
     fPath_DB: string;
 
 {Section : csIniSectionDIR}
-    fDIR_Check: string;
+    fDIR_Check_DB: string;
 
     procedure LoadSettings(Ini: TIniFile);
     procedure SaveSettings(Ini: TIniFile);
@@ -53,13 +53,13 @@ begin
   if Ini <> nil then
   begin
     {Section : csIniSectionFileName}
-    fFileName :=Ini.ReadString(csIniSectionFileName, csFileName, 'any_bd.fds');
+    fFileName_DB :=Ini.ReadString(csIniSectionFileName, csFileName, 'any_bd.fds');
 
   {Section : csIniSectionPath}
-    fPath_DB :=Ini.ReadString(csIniSectionPath, csPath_DB, 'C:\');
+    fPath_DB :=Ini.ReadString(csIniSectionPath, csPath_DB, cs_Path);
 
   {Section : csIniSectionDIR}
-    fDIR_Check :=Ini.ReadString(csIniSectionDIR_Check, csDIR_Check, 'C:\');
+    fDIR_Check_DB :=Ini.ReadString(csIniSectionDIR_Check, csDIR_Check, cs_Path);
   end;
 end;
 
@@ -68,13 +68,13 @@ begin
   if Ini <> nil then
   begin
   {Section : csIniSectionFileName}
-    Ini.WriteString(csIniSectionFileName, csFileName, fFileName);
+    Ini.WriteString(csIniSectionFileName, csFileName, fFileName_DB);
 
   {Section : csIniSectionPath}
     Ini.WriteString(csIniSectionPath, csPath_DB, fPath_DB);
 
   {Section : csIniSectionDIR}
-    Ini.WriteString(csIniSectionDIR_Check, csDIR_Check, fDIR_Check);
+    Ini.WriteString(csIniSectionDIR_Check, csDIR_Check, fDIR_Check_DB);
   end;
 end;
 
@@ -109,6 +109,8 @@ finalization
   IniOptions.Free;
 
 end.
+
+
 
 
 

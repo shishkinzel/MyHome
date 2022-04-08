@@ -139,10 +139,13 @@ type
   public { Public declarations }
     fStatusList: Boolean;             // флаг для печати Листка учета - умолчание false
 //    fVerification: Boolean;  // флаг поверки счетчиков
-    f_FileName_BD: string;            // переменная для файла БД  PaymentDocumets
-    f_FileName_BD_Check: string;     // переменная для файла БД  CheckDevice
-    f_Path_DB: string;                // путь к каталогу с БД PaymentDocumets
-    f_DIR_Check: string;              // путь к каталогу с БД CheckDevice
+// переменные для формирования файла ini
+    f_FileName_BD: string;                     // переменная для файла БД  PaymentDocumets
+    f_FileName_BD_Check: string;               // переменная для файла БД  CheckDevice
+    f_Path_DB: string;                         // путь к каталогу с БД PaymentDocumets
+    f_DIR_Check_DB: string;                    // путь к каталогу с БД CheckDevice
+    f_Folder_DB_PaymentDocumets: Boolean;     //  маркер наличия папки с БД для PaymentDocumets
+    f_Folder_DB_Check: Boolean;               //  маркер наличия папки с БД для CheckDevice
 
     fIniFile: TIniFile;      // файл конфигурации
     f_IinPath_check: string;  // путь к папке с файлами БД поверки
@@ -156,6 +159,9 @@ const
   fJsonFile = 'any_bd.fds';               //   файл с Базой Данных по умолчанию
   fConfig_file = 'pay_config.ini';        //   конфигурационный файл
   fExe = 'ProjectPaymentDocuments.exe';   //   исполняемый файл
+  cs_Path = 'C:\';                        //   путь по умолчанию
+  cs_db_PaymentDocumets = 'Folder_DB_PaymentDocumets'; // название папки для хранения БД PaymentDocumets
+  cs_db_Check = 'Folder_DB_Check';                     // название папки для хранения БД CheckDevice
 
 var
   frmPaymentDocuments: TfrmPaymentDocuments;
@@ -197,9 +203,9 @@ begin
     IniOptions.LoadFromFile(fSourcePath);
 
 // чтение файла конфигурации
-    f_FileName_BD := IniOptions.fFileName;
+    f_FileName_BD := IniOptions.fFileName_DB;
     f_Path_DB := IniOptions.fPath_DB;
-    f_DIR_Check := IniOptions.fDIR_Check;
+    f_DIR_Check_DB := IniOptions. fDIR_Check_DB;
     fIniFile.Free;
   end
   else
@@ -219,6 +225,11 @@ begin
 
 // запись файла конфигурации
   IniOptions.LoadSettings(fIniFile);
+// запись программных переменных для ini файла
+  f_FileName_BD := IniOptions.fFileName_DB;
+  f_Path_DB := IniOptions.fPath_DB;
+  f_DIR_Check_DB := IniOptions.fDIR_Check_DB;
+
   IniOptions.SaveSettings(fIniFile);
   IniOptions.SaveToFile(fSourcePath);
   fIniFile.Free;
@@ -468,6 +479,7 @@ begin
 end;
 
 end.
+
 
 
 

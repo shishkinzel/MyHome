@@ -825,6 +825,8 @@ object frmPaymentDocuments: TfrmPaymentDocuments
     Top = 8
   end
   object dlgOpenPay: TOpenDialog
+    InitialDir = 'f:\'#1056#1077#1079#1102#1084#1077
+    Title = #1059#1082#1072#1078#1080#1090#1077' '#1087#1072#1087#1082#1091' '#1089' '#1041#1044
     Left = 48
   end
   object dlgSavePay: TSaveDialog

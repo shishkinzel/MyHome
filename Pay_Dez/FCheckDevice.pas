@@ -44,7 +44,7 @@ type
     dsPayAndRecord: TDataSource;
     mmAdmin_All: TMainMenu;
     mniAdmin_File: TMenuItem;
-    mniAdmin_Setting: TMenuItem;
+    mniAdmin_Other: TMenuItem;
     dlgSave_Check: TSaveDialog;
     dlgOpen_Check: TOpenDialog;
     mniAdmin_Open: TMenuItem;
@@ -52,9 +52,10 @@ type
     mniAdmin_SeparatorFile: TMenuItem;
     mniAdmin_Close: TMenuItem;
     ilChecked: TImageList;
-    mniAdmin_Folders: TMenuItem;
+    mniAdmin_Setting: TMenuItem;
     mniAdmin_Path_Folder: TMenuItem;
     mniAdmin_CreateFolder: TMenuItem;
+    mniAdmin_Folder_Delete: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
@@ -72,6 +73,7 @@ type
     procedure mniAdmin_SaveClick(Sender: TObject);
     procedure mniAdmin_Path_FolderClick(Sender: TObject);
     procedure mniAdmin_CreateFolderClick(Sender: TObject);
+    procedure mniAdmin_Folder_DeleteClick(Sender: TObject);
   private    { Private declarations }
     fdayCorr: TDate;
   public    { Public declarations }
@@ -203,34 +205,47 @@ begin
     Application.MessageBox('Выбор каталога прервался', 'Внимание!', (MB_OK + MB_ICONINFORMATION));
   end;
 end;
+//*************************************
 // создание новой папки для хранения файлов типа >>>   *.pv_fds'
-
 procedure TfrmCheckDevice.mniAdmin_CreateFolderClick(Sender: TObject);
-var
-  f_Dir: string;
-  f_multiDir : TArray<string>;
-  fIniFile : TIniFile;
+//var
+//  f_Dir: string;
+//  f_multiDir : TArray<string>;
 begin
-  f_Dir := ExtractFilePath(Application.ExeName);
-//  if SelectDirectory(f_Dir, [sdAllowCreate, sdPerformCreate, sdPrompt], 0) then
-  if SelectDirectory(f_Dir, f_multiDir, [sdAllowMultiselect], 'Создайте новый каталог', 'Введите имя каталога', 'Да') then
-  begin
-    frmPaymentDocuments.f_IinPath_check := f_multiDir[0];
-    mniAdmin_Path_Folder.Enabled := True;
-    fIniFile := TIniFile.Create(ExtractFilePath(Application.ExeName) + fConfig_file);
-    IniOptions.fDIR_Check := f_multiDir[0];
-    IniOptions.SaveSettings(fIniFile);
-    IniOptions.SaveToFile(fConfig_file);
-    fIniFile.Free;
-    mniAdmin_CreateFolder.Enabled := False;
-  end
-  else
-  begin
-      Application.MessageBox('Вы прервали процесс создания папки', 'Внимание!', (MB_OK + MB_ICONINFORMATION));
-  end;
- f_multiDir := nil;
+//  f_Dir := ExtractFilePath(Application.ExeName);
+////  if SelectDirectory(f_Dir, [sdAllowCreate, sdPerformCreate, sdPrompt], 0) then
+//  if SelectDirectory(f_Dir, f_multiDir, [sdAllowMultiselect], 'Создайте новый каталог', 'Введите имя каталога', 'Да') then
+//  begin
+//    mniAdmin_Path_Folder.Enabled := True;
+//    frmPaymentDocuments. f_DIR_Check_DB := f_multiDir[0];
+//    mniAdmin_CreateFolder.Enabled := False;
+//    mniAdmin_Folder_Delete.Enabled := True;
+//  end
+//  else
+//  begin
+//      Application.MessageBox('Вы прервали процесс создания папки', 'Внимание!', (MB_OK + MB_ICONINFORMATION));
+//  end;
+// f_multiDir := nil;
+
+// записать в файл конфигурации и далее посмотреть учечку памяти!!!!!
+  ChDir(ExtractFilePath(Application.ExeName));
+  MkDir(cs_db_Check);
+    mniAdmin_Folder_Delete.Enabled := True;
 end;
 
+// удаление папки
+procedure TfrmCheckDevice.mniAdmin_Folder_DeleteClick(Sender: TObject);
+var
+  s: string;
+begin
+  ChDir(ExtractFilePath(Application.ExeName));
+  RemoveDir(cs_db_Check);
+  mniAdmin_CreateFolder.Enabled := True;
+  mniAdmin_Folder_Delete.Enabled := False;
+  frmPaymentDocuments.f_DIR_Check_DB := cs_Path;
+end;
+
+//**********************************************
 
 //**************************************************************************************************
 // заполнение таблицы

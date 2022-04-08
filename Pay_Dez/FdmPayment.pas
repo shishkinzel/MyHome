@@ -109,9 +109,11 @@ begin
   begin
     ShowMessage('Запись файла конфигурации');
     fIniFile := TIniFile.Create(frmPaymentDocuments.fSourcePath);
-//    IniOptions.SaveSettings(fIniFile);
-//    fIniFile.s
-//    IniOptions.SaveToFile(fConfig_file);
+    IniOptions.fFileName_DB := frmPaymentDocuments.f_FileName_BD;
+    IniOptions.fPath_DB := frmPaymentDocuments.f_Path_DB;
+    IniOptions. fDIR_Check_DB := frmPaymentDocuments.f_DIR_Check_DB;
+    IniOptions.SaveSettings(fIniFile);
+    IniOptions.SaveToFile(frmPaymentDocuments.fSourcePath);
     fIniFile.Free;
   end
   else
