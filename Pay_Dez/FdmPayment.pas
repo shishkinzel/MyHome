@@ -4,10 +4,10 @@ interface
 
 uses
   System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, VCl.Forms,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, FTableAll, FTableMeteringDevice, FFRMeteringDevice,
    FFRTableAll, FFRListReport, FSelectDate, FTestForm, FTableEditing, funUntil , IniFiles,
-  FireDAC.Stan.StorageJSON, FInputData, UnitConfig, VCL.Dialogs;
+  FireDAC.Stan.StorageJSON, FInputData, UnitConfig, VCL.Dialogs, Winapi.Windows;
 
 type
   TdmPayment = class(TDataModule)
@@ -92,7 +92,7 @@ begin
 
   if frmPaymentDocuments.fExist_config then
   begin
-    ShowMessage('Чтение файла конфигурации');
+ Application.MessageBox('Чтение файла конфигурации', 'Внимание', MB_OK + MB_ICONINFORMATION);
   end
   else if FileExists(fJsonFile) then
     fmTabPayAndRecord.LoadFromFile(fJsonFile, sfJSON);
@@ -107,11 +107,11 @@ var
 begin
   if frmPaymentDocuments.fExist_config then
   begin
-    ShowMessage('Запись файла конфигурации');
+    Application.MessageBox('Запись файла конфигурации', 'Внимание', MB_OK + MB_ICONINFORMATION);
     fIniFile := TIniFile.Create(frmPaymentDocuments.fSourcePath);
     IniOptions.fFileName_DB := frmPaymentDocuments.f_FileName_BD;
     IniOptions.fPath_DB := frmPaymentDocuments.f_Path_DB;
-    IniOptions. fDIR_Check_DB := frmPaymentDocuments.f_DIR_Check_DB;
+    IniOptions.fDIR_Check_DB := frmPaymentDocuments.f_DIR_Check_DB;
     IniOptions.SaveSettings(fIniFile);
     IniOptions.SaveToFile(frmPaymentDocuments.fSourcePath);
     fIniFile.Free;

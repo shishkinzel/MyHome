@@ -76,7 +76,7 @@ type
     mniSeparatorFile: TMenuItem;
     mniSaveBD: TMenuItem;
     mniSeparatorSet: TMenuItem;
-    mniSet_DIR: TMenuItem;
+    mniSet_DeleteFoderBD: TMenuItem;
     mniSeparatorConfig: TMenuItem;
     mniSet_Config: TMenuItem;
     mniReportN1: TMenuItem;
@@ -102,7 +102,7 @@ type
     mniReport_Tab_Big_DOC: TMenuItem;
     mniReport_Tab_Big_XML: TMenuItem;
     mniReport_Tab_Big_PDF: TMenuItem;
-    mniSet_Table_DB: TMenuItem;
+    mniSet_CreateBD: TMenuItem;
     mniShowCheck: TMenuItem;
     mniSet_Chedcked: TMenuItem;
     mniSet_Separator: TMenuItem;
@@ -110,6 +110,7 @@ type
     mniForms_N1: TMenuItem;
     ilPaymentDocuments: TImageList;
     mniFile_Close: TMenuItem;
+    ilPaymenNew: TImageList;
     procedure FormCreate(Sender: TObject);
     procedure mniTabShow_LittleClick(Sender: TObject);
     procedure mniTabShow_BigClick(Sender: TObject);
@@ -118,7 +119,7 @@ type
     procedure mniReport_ListReportClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure mniSet_AdminClick(Sender: TObject);
-    procedure mniSet_DIRClick(Sender: TObject);
+    procedure mniSet_DeleteFoderBDClick(Sender: TObject);
     procedure mniOpenDBClick(Sender: TObject);
     procedure mniSaveBDClick(Sender: TObject);
     procedure mniFindBDClick(Sender: TObject);
@@ -131,6 +132,7 @@ type
     procedure mniSet_ChedckedClick(Sender: TObject);
     procedure mniForms_EditCheckedClick(Sender: TObject);
     procedure mniFile_CloseClick(Sender: TObject);
+    procedure mniSet_CreateBDClick(Sender: TObject);
 
   private    { Private declarations }
   var
@@ -200,12 +202,12 @@ begin
     fExist_config := True;
     MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - существует', 'Внимание', (MB_OK + MB_ICONINFORMATION));
     fIniFile := TIniFile.Create(ExtractFilePath(Application.ExeName) + fConfig_file);
-    IniOptions.LoadFromFile(fSourcePath);
-
 // чтение файла конфигурации
+    IniOptions.LoadFromFile(fSourcePath);
+// запись в программные переменные из файла конфигурации
     f_FileName_BD := IniOptions.fFileName_DB;
     f_Path_DB := IniOptions.fPath_DB;
-    f_DIR_Check_DB := IniOptions. fDIR_Check_DB;
+    f_DIR_Check_DB := IniOptions.fDIR_Check_DB;
     fIniFile.Free;
   end
   else
@@ -223,13 +225,13 @@ begin
   MessageBox(frmPaymentDocuments.Handle, 'Вы пытаетесь создать конфигурационный файл', 'Внимание', (MB_OK + MB_ICONINFORMATION));
   fIniFile := TIniFile.Create(ExtractFilePath(Application.ExeName) + fConfig_file);
 
-// запись файла конфигурации
+// чтение конфигурации по умолчанию
   IniOptions.LoadSettings(fIniFile);
 // запись программных переменных для ini файла
   f_FileName_BD := IniOptions.fFileName_DB;
   f_Path_DB := IniOptions.fPath_DB;
   f_DIR_Check_DB := IniOptions.fDIR_Check_DB;
-
+ // запись файла конфигурации
   IniOptions.SaveSettings(fIniFile);
   IniOptions.SaveToFile(fSourcePath);
   fIniFile.Free;
@@ -310,8 +312,7 @@ begin
 f_Checked_btn := True;
  end
  else
- ShowMessage('Вы отказались активировать кнопку поверки приборов');
-
+  Application.MessageBox('Вы отказались активировать кнопку поверки приборов', 'Внимание', MB_OK + MB_ICONINFORMATION);
 end;
 
 procedure TfrmPaymentDocuments.mniTabShow_LittleClick(Sender: TObject);
@@ -381,21 +382,6 @@ begin
   begin
     ShowMessage('Вы отказываетесь от сохранения Базы Данных');
   end;
-end;
-
-// выбор директории по умолчанию
-procedure TfrmPaymentDocuments.mniSet_DIRClick(Sender: TObject);
-var
-  i: Integer;
-begin
-  if SelectDirectory('Выберете директорию по умолчанию', '', f_Path_DB) then
-  begin
-    ShowMessage('Выбранный каталог = ' + f_Path_DB);
-  end
-
-  else
-    ShowMessage('Выбор каталога прервался');
-
 end;
 
 
@@ -471,6 +457,23 @@ begin
   frmFRTableAll.Show;
   frmFRTableAll.frR_Table_Little.ShowReport();
 end;
+
+// создание и удаление папки БД
+// ***************************************************************************************
+procedure TfrmPaymentDocuments.mniSet_CreateBDClick(Sender: TObject);
+var
+i : Integer;
+begin
+
+end;
+
+procedure TfrmPaymentDocuments.mniSet_DeleteFoderBDClick(Sender: TObject);
+var
+  i: Integer;
+begin
+
+end;
+//****************************************************************************************
 
 // закрытие формы
 procedure TfrmPaymentDocuments.mniFile_CloseClick(Sender: TObject);

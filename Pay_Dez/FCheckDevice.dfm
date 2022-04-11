@@ -18,6 +18,7 @@ object frmCheckDevice: TfrmCheckDevice
   Font.Style = []
   Menu = mmAdmin_All
   OldCreateOrder = False
+  PopupMenu = pmCheckDevice
   Position = poScreenCenter
   OnClose = FormClose
   OnCreate = FormCreate
@@ -359,6 +360,7 @@ object frmCheckDevice: TfrmCheckDevice
     Top = 264
   end
   object mmAdmin_All: TMainMenu
+    AutoHotkeys = maManual
     Images = ilChecked
     Left = 8
     Top = 2
@@ -389,13 +391,13 @@ object frmCheckDevice: TfrmCheckDevice
     object mniAdmin_Setting: TMenuItem
       Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
       object mniAdmin_CreateFolder: TMenuItem
-        Caption = '&'#1057#1086#1079#1076#1072#1090#1100' '#1087#1072#1087#1082#1091
+        Caption = #1057#1086#1079#1076#1072#1090#1100' '#1087#1072#1087#1082#1091' '#1041#1044' ('#1087#1086#1074#1077#1088#1082#1072')'
         ImageIndex = 7
         ShortCut = 16451
         OnClick = mniAdmin_CreateFolderClick
       end
       object mniAdmin_Folder_Delete: TMenuItem
-        Caption = '&'#1059#1076#1072#1083#1080#1090#1100' '#1087#1072#1087#1082#1091
+        Caption = #1059#1076#1072#1083#1080#1090#1100' '#1087#1072#1087#1082#1091'  '#1041#1044' ('#1087#1086#1074#1077#1088#1082#1072')'
         Enabled = False
         ImageIndex = 8
         ShortCut = 16452
@@ -1327,5 +1329,29 @@ object frmCheckDevice: TfrmCheckDevice
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000}
+  end
+  object pmCheckDevice: TPopupMenu
+    Images = ilChecked
+    MenuAnimation = [maNone]
+    Left = 272
+    Top = 40
+    object mniAdmin_FolderOpen: TMenuItem
+      Caption = #1054#1090#1082#1088#1099#1090#1100
+      ImageIndex = 0
+      OnClick = mniAdmin_OpenClick
+    end
+    object mniAdmin_FolderSave: TMenuItem
+      Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100
+      ImageIndex = 1
+      OnClick = mniAdmin_SaveClick
+    end
+  end
+  object actlstCheckDevice: TActionList
+    Images = ilChecked
+    Left = 608
+    Top = 122
+    object actOpen: TAction
+      Caption = 'actOpen'
+    end
   end
 end
