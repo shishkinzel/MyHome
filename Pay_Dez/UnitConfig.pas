@@ -15,9 +15,11 @@ const
 
 {Section : csIniSectionPath_DB}
   csPath_DB = 'fPath_DB';
+  csFolder_DB_PaymentDocuments = 'fFolder_DB_PaymentDocuments';
 
 {Section : csIniSectionDIR_Check}
   csDIR_Check = 'fDIR_Check_DB';
+  csFolder_DB_Check = 'fFolder_DB_Check';
 
 type
   TIniOptions = class(TObject)
@@ -28,9 +30,11 @@ type
 
 {Section : csIniSectionPath}
     fPath_DB: string;
+    fFolder_DB_PaymentDocuments: Boolean;
 
 {Section : csIniSectionDIR}
     fDIR_Check_DB: string;
+    fFolder_DB_Check: Boolean;
 
     procedure LoadSettings(Ini: TIniFile);
     procedure SaveSettings(Ini: TIniFile);
@@ -53,13 +57,15 @@ begin
   if Ini <> nil then
   begin
     {Section : csIniSectionFileName}
-    fFileName_DB :=Ini.ReadString(csIniSectionFileName, csFileName, 'any_bd.fds');
+    fFileName_DB := Ini.ReadString(csIniSectionFileName, csFileName, 'any_bd.fds');
 
   {Section : csIniSectionPath}
-    fPath_DB :=Ini.ReadString(csIniSectionPath, csPath_DB, cs_Path);
+    fPath_DB := Ini.ReadString(csIniSectionPath, csPath_DB, cs_Path);
+    fFolder_DB_PaymentDocuments := Ini.ReadBool(csIniSectionPath, csFolder_DB_PaymentDocuments, True);
 
   {Section : csIniSectionDIR}
-    fDIR_Check_DB :=Ini.ReadString(csIniSectionDIR_Check, csDIR_Check, cs_Path);
+    fDIR_Check_DB := Ini.ReadString(csIniSectionDIR_Check, csDIR_Check, cs_Path);
+    fFolder_DB_Check := Ini.ReadBool(csIniSectionDIR_Check, csFolder_DB_Check, True);
   end;
 end;
 
@@ -72,9 +78,11 @@ begin
 
   {Section : csIniSectionPath}
     Ini.WriteString(csIniSectionPath, csPath_DB, fPath_DB);
+    Ini.WriteBool(csIniSectionPath, csFolder_DB_PaymentDocuments, fFolder_DB_PaymentDocuments);
 
   {Section : csIniSectionDIR}
     Ini.WriteString(csIniSectionDIR_Check, csDIR_Check, fDIR_Check_DB);
+    Ini.WriteBool(csIniSectionDIR_Check, csFolder_DB_Check, fFolder_DB_Check);
   end;
 end;
 

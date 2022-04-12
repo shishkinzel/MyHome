@@ -6,8 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, Vcl.Dialogs, Data.DB,
   Vcl.Menus, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Controls, Vcl.ExtCtrls,
   System.Classes, Vcl.Graphics,  Vcl.FileCtrl,  Vcl.Forms,
-   UnitConfig, FdmPayment, FCheckDevice,// убрать потом
-
+   UnitConfig, FdmPayment, FCheckDevice,
   funUntil, FTableAll, FTableMeteringDevice, FFRMeteringDevice, FTableEditing,
   FFRTableAll, FSelectDate, FAdmin, IniFiles, FInputData, FFRListReport,
   FireDAC.Stan.StorageJSON, System.ImageList, Vcl.ImgList;
@@ -63,22 +62,21 @@ type
     mniTabShow_Forms: TMenuItem;
     mniForms_InputData: TMenuItem;
     mniForms_EditData: TMenuItem;
-    mniSet_Show: TMenuItem;
+    mniAccess_Show: TMenuItem;
     mniReport_ListReport: TMenuItem;
     dsPayAndRecord: TDataSource;
     dsListReport: TDataSource;
     lblWHotPrev: TLabel;
     lblWHotNext: TLabel;
     lblWHotExpense: TLabel;
-    mniSet_Admin: TMenuItem;
+    mniAccess_Admin: TMenuItem;
     dlgOpenPay: TOpenDialog;
     dlgSavePay: TSaveDialog;
     mniSeparatorFile: TMenuItem;
     mniSaveBD: TMenuItem;
-    mniSeparatorSet: TMenuItem;
     mniSet_DeleteFoderBD: TMenuItem;
     mniSeparatorConfig: TMenuItem;
-    mniSet_Config: TMenuItem;
+    mniAccess_Config: TMenuItem;
     mniReportN1: TMenuItem;
     mniReport_ListReport_Apply: TMenuItem;
     mniReportN2: TMenuItem;
@@ -104,13 +102,16 @@ type
     mniReport_Tab_Big_PDF: TMenuItem;
     mniSet_CreateBD: TMenuItem;
     mniShowCheck: TMenuItem;
-    mniSet_Chedcked: TMenuItem;
+    mniAccess_Checked: TMenuItem;
     mniSet_Separator: TMenuItem;
     mniForms_EditChecked: TMenuItem;
     mniForms_N1: TMenuItem;
     ilPaymentDocuments: TImageList;
     mniFile_Close: TMenuItem;
     ilPaymenNew: TImageList;
+    mniSet_Show: TMenuItem;
+    mniSet_Exit: TMenuItem;
+    mniSet_N1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniTabShow_LittleClick(Sender: TObject);
     procedure mniTabShow_BigClick(Sender: TObject);
@@ -118,18 +119,18 @@ type
     procedure mniForms_EditDataClick(Sender: TObject);
     procedure mniReport_ListReportClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure mniSet_AdminClick(Sender: TObject);
+    procedure mniAccess_AdminClick(Sender: TObject);
     procedure mniSet_DeleteFoderBDClick(Sender: TObject);
     procedure mniOpenDBClick(Sender: TObject);
     procedure mniSaveBDClick(Sender: TObject);
     procedure mniFindBDClick(Sender: TObject);
-    procedure mniSet_ConfigClick(Sender: TObject);
+    procedure mniAccess_ConfigClick(Sender: TObject);
     procedure mniReport_ListReport_ApplyClick(Sender: TObject);
     procedure mniReport_ResetClick(Sender: TObject);
     procedure mniReport_Tab_Big_ShowClick(Sender: TObject);
     procedure mniReport_Tab_Little_ShowClick(Sender: TObject);
     procedure mniShowCheckClick(Sender: TObject);
-    procedure mniSet_ChedckedClick(Sender: TObject);
+    procedure mniAccess_CheckedClick(Sender: TObject);
     procedure mniForms_EditCheckedClick(Sender: TObject);
     procedure mniFile_CloseClick(Sender: TObject);
     procedure mniSet_CreateBDClick(Sender: TObject);
@@ -150,7 +151,7 @@ type
     f_Folder_DB_Check: Boolean;               //  маркер наличия папки с БД для CheckDevice
 
     fIniFile: TIniFile;      // файл конфигурации
-    f_IinPath_check: string;  // путь к папке с файлами БД поверки
+//    f_IinPath_check: string;  // путь к папке с файлами БД поверки
     fSourcePath : string;    // путь к исходному файлу конфигурации
     fExist_config : Boolean; // существование файла конфигурации
     fConfigFile : File;      // переменная для создания файла конфигурации
@@ -187,7 +188,7 @@ begin
 // хендел формы
   f_Handle_Form := frmPaymentDocuments.Handle;
 // пути по умолчанию - отсутствует конфигурационный файл
-  f_IinPath_check := '';
+//  f_IinPath_check := '';
 
 //  активация флагов
   fExist_config := False;              // существование файла конфигурации
@@ -207,12 +208,14 @@ begin
 // запись в программные переменные из файла конфигурации
     f_FileName_BD := IniOptions.fFileName_DB;
     f_Path_DB := IniOptions.fPath_DB;
+    f_Folder_DB_PaymentDocumets := IniOptions.fFolder_DB_PaymentDocuments;
     f_DIR_Check_DB := IniOptions.fDIR_Check_DB;
+    f_Folder_DB_Check := IniOptions.fFolder_DB_Check;
     fIniFile.Free;
   end
   else
   begin
-    mniSet_Config.Enabled := True;
+    mniAccess_Config.Enabled := True;
     MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - отсутствует!!!', 'Внимание', (MB_OK + MB_ICONWARNING));
 
   end;
@@ -220,7 +223,7 @@ begin
 end;
 
 // создание файла конфигурации
-procedure TfrmPaymentDocuments.mniSet_ConfigClick(Sender: TObject);
+procedure TfrmPaymentDocuments.mniAccess_ConfigClick(Sender: TObject);
 begin
   MessageBox(frmPaymentDocuments.Handle, 'Вы пытаетесь создать конфигурационный файл', 'Внимание', (MB_OK + MB_ICONINFORMATION));
   fIniFile := TIniFile.Create(ExtractFilePath(Application.ExeName) + fConfig_file);
@@ -230,12 +233,14 @@ begin
 // запись программных переменных для ini файла
   f_FileName_BD := IniOptions.fFileName_DB;
   f_Path_DB := IniOptions.fPath_DB;
+  f_Folder_DB_PaymentDocumets := IniOptions.fFolder_DB_PaymentDocuments;
   f_DIR_Check_DB := IniOptions.fDIR_Check_DB;
+  f_Folder_DB_Check := IniOptions.fFolder_DB_Check;
  // запись файла конфигурации
   IniOptions.SaveSettings(fIniFile);
   IniOptions.SaveToFile(fSourcePath);
   fIniFile.Free;
-  mniSet_Config.Enabled := False;
+  mniAccess_Config.Enabled := False;
   fExist_config := True;
 end;
 
@@ -297,14 +302,14 @@ begin
 
 end;
 // активация формы прав администратора
-procedure TfrmPaymentDocuments.mniSet_AdminClick(Sender: TObject);
+procedure TfrmPaymentDocuments.mniAccess_AdminClick(Sender: TObject);
 begin
   frmAdmin := TfrmAdmin.Create(nil);
   frmAdmin.ShowModal;
 end;
 
 // активация кнопки поверки приборов
-procedure TfrmPaymentDocuments.mniSet_ChedckedClick(Sender: TObject);
+procedure TfrmPaymentDocuments.mniAccess_CheckedClick(Sender: TObject);
 begin
  if MessageBox(f_Handle_Form, 'Вы пытаетесь активировать режим поверки приборов учета', 'Обратите внимание',
  (MB_OKCANCEL + MB_ICONQUESTION)) = 1 then
@@ -359,6 +364,8 @@ end;
 // процедура открытия Базы Данных   - проект релизовать
 procedure TfrmPaymentDocuments.mniOpenDBClick(Sender: TObject);
 begin
+// задаем начальную папку открытия  опции OpenDialog
+   dlgOpenPay.InitialDir := f_Path_DB;
   if dlgOpenPay.Execute then
   begin
     ShowMessage('Вы хотите открыть Базу Данных');
@@ -374,6 +381,7 @@ end;
 // процедура сохранения Базы Данных - проект релизовать
 procedure TfrmPaymentDocuments.mniSaveBDClick(Sender: TObject);
 begin
+  dlgOpenPay.InitialDir := f_Path_DB;
   if dlgSavePay.Execute then
   begin
     ShowMessage('Вы хотите сохранить Базу Данных');
@@ -460,18 +468,21 @@ end;
 
 // создание и удаление папки БД
 // ***************************************************************************************
+// создание новой папки для хранения файлов типа >>>   *.pd_fds'
 procedure TfrmPaymentDocuments.mniSet_CreateBDClick(Sender: TObject);
 var
-i : Integer;
+  i: Integer;
 begin
-
+  ChDir(ExtractFilePath(Application.ExeName));
+  MkDir(cs_db_PaymentDocumets);
 end;
 
 procedure TfrmPaymentDocuments.mniSet_DeleteFoderBDClick(Sender: TObject);
 var
   i: Integer;
 begin
-
+  ChDir(ExtractFilePath(Application.ExeName));
+  RemoveDir(cs_db_PaymentDocumets);
 end;
 //****************************************************************************************
 

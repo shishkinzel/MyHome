@@ -366,30 +366,25 @@ object frmCheckDevice: TfrmCheckDevice
     Top = 2
     object mniAdmin_File: TMenuItem
       Caption = #1060#1072#1081#1083
-      object mniAdmin_Open: TMenuItem
-        Caption = #1054#1090#1082#1088#1099#1090#1100' '#1073#1072#1079#1091
-        ImageIndex = 0
-        ShortCut = 16463
-        OnClick = mniAdmin_OpenClick
+      object mniSet_Open: TMenuItem
+        Action = actOpen
+        Caption = #1054#1090#1082#1088#1099#1090#1100' '#1041#1044' - '#1087#1086#1074#1077#1088#1082#1072
       end
-      object mniAdmin_Save: TMenuItem
-        Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1073#1072#1079#1091
-        ImageIndex = 1
-        ShortCut = 16467
-        OnClick = mniAdmin_SaveClick
+      object mniSet_Save: TMenuItem
+        Action = actSave
+        Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1041#1044' - '#1087#1086#1074#1077#1088#1082#1072
       end
       object mniAdmin_SeparatorFile: TMenuItem
         Caption = '-'
       end
-      object mniAdmin_Close: TMenuItem
-        Caption = #1047#1072#1082#1088#1099#1090#1100
-        ImageIndex = 2
-        ShortCut = 16453
-        OnClick = btnCloseClick
+      object mniSet_Close: TMenuItem
+        Action = actClose
+        Caption = #1047#1072#1082#1088#1099#1090#1100' '#1092#1086#1088#1084#1091' '#1087#1086#1074#1077#1088#1082#1080
       end
     end
     object mniAdmin_Setting: TMenuItem
       Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
+      Enabled = False
       object mniAdmin_CreateFolder: TMenuItem
         Caption = #1057#1086#1079#1076#1072#1090#1100' '#1087#1072#1087#1082#1091' '#1041#1044' ('#1087#1086#1074#1077#1088#1082#1072')'
         ImageIndex = 7
@@ -418,11 +413,13 @@ object frmCheckDevice: TfrmCheckDevice
   object dlgSave_Check: TSaveDialog
     Filter = #1060#1072#1081#1083' '#1041#1044' '#1087#1086#1074#1077#1088#1082#1080'(*.pv_fds)|*.pv_fds'
     Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
+    Title = #1057#1086#1093#1088#1072#1085#1077#1085#1080#1077' '#1092#1072#1081#1083#1086#1074' '#1074' '#1087#1072#1087#1082#1091' '#1041#1044'  '#1087#1088#1080#1073#1086#1088#1086#1074' '#1091#1095#1077#1090#1072
     Left = 104
     Top = 24
   end
   object dlgOpen_Check: TOpenDialog
     Filter = #1060#1072#1081#1083' '#1041#1044' '#1087#1086#1074#1077#1088#1082#1080'(*.pv_fds)|*.pv_fds'
+    Title = #1059#1082#1072#1078#1080#1090#1077' '#1087#1072#1087#1082#1091' '#1041#1044' '#1089' '#1092#1072#1081#1083#1072#1084#1080' '#1087#1086#1074#1077#1088#1082#1080' '#1087#1088#1080#1073#1086#1088#1086#1074' '#1091#1095#1077#1090#1072
     Left = 200
     Top = 24
   end
@@ -1351,7 +1348,30 @@ object frmCheckDevice: TfrmCheckDevice
     Left = 608
     Top = 122
     object actOpen: TAction
+      Category = 'JobFile'
       Caption = 'actOpen'
+      Hint = #1054#1090#1082#1088#1099#1074#1072#1077#1090' '#1041#1044'|'#1054#1082#1088#1099#1074#1072#1077#1090' '#1092#1072#1081#1083' '#1041#1044' '#1089' '#1090#1072#1073#1083#1080#1094#1077#1081' '#1087#1086#1074#1077#1088#1082#1080' '#1087#1088#1080#1073#1086#1088#1086#1074
+      ImageIndex = 0
+      ShortCut = 16463
+      OnExecute = mniAdmin_OpenClick
+    end
+    object actSave: TAction
+      Category = 'JobFile'
+      Caption = 'actSave'
+      ImageIndex = 1
+      ShortCut = 16467
+      OnExecute = mniAdmin_SaveClick
+    end
+    object actClose: TAction
+      Category = 'JobFile'
+      Caption = 'actClose'
+      ImageIndex = 2
+      ShortCut = 16453
+      OnExecute = btnCloseClick
+    end
+    object actOpenReport: TAction
+      Category = 'JobReport'
+      Caption = 'actOpenReport'
     end
   end
 end

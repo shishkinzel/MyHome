@@ -47,10 +47,10 @@ type
     mniAdmin_Other: TMenuItem;
     dlgSave_Check: TSaveDialog;
     dlgOpen_Check: TOpenDialog;
-    mniAdmin_Open: TMenuItem;
-    mniAdmin_Save: TMenuItem;
+    mniSet_Open: TMenuItem;
+    mniSet_Save: TMenuItem;
     mniAdmin_SeparatorFile: TMenuItem;
-    mniAdmin_Close: TMenuItem;
+    mniSet_Close: TMenuItem;
     ilChecked: TImageList;
     mniAdmin_Setting: TMenuItem;
     mniAdmin_Path_Folder: TMenuItem;
@@ -61,6 +61,9 @@ type
     mniAdmin_FolderSave: TMenuItem;
     actlstCheckDevice: TActionList;
     actOpen: TAction;
+    actClose: TAction;
+    actSave: TAction;
+    actOpenReport: TAction;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
@@ -107,6 +110,24 @@ var
   fday: Integer;
 begin
   f_CountChecked := 0;
+// проверка наличия файла конфигурации
+  if frmPaymentDocuments.fExist_config then
+  begin
+    mniAdmin_Setting.Enabled := True;
+    if frmPaymentDocuments.f_Folder_DB_Check then
+    begin
+      mniAdmin_CreateFolder.Enabled := True;
+      mniAdmin_Folder_Delete.Enabled := False;
+    end
+    else
+    begin
+      mniAdmin_CreateFolder.Enabled := False;
+      mniAdmin_Folder_Delete.Enabled := True;
+    end;
+
+  end;
+
+
   if f_Admin then
   begin
     dtpCheckDevice.Date := Now;
@@ -172,6 +193,7 @@ var
   i: Integer;
   f_JsonFile: string;
 begin
+  dlgOpen_Check.InitialDir := frmPaymentDocuments.f_DIR_Check_DB;
   if dlgOpen_Check.Execute then
   begin
     f_JsonFile := dlgOpen_Check.FileName;
@@ -185,6 +207,7 @@ procedure TfrmCheckDevice.mniAdmin_SaveClick(Sender: TObject);
 var
   i: Integer;
 begin
+  dlgSave_Check.InitialDir := frmPaymentDocuments.f_DIR_Check_DB;
   if dlgSave_Check.Execute then
   begin
     if AnsiPos('.', dlgSave_Check.FileName) = 0 then
@@ -202,7 +225,7 @@ var
 begin
   if SelectDirectory('Выберете каталог', '', f_Dir) then
   begin
-    frmPaymentDocuments.f_IinPath_check := f_Dir;
+//    frmPaymentDocuments.f_IinPath_check := f_Dir;
     Application.MessageBox(PChar('Вы выбрали каталог >>>' + f_Dir), 'Внимание!', (MB_OK + MB_ICONINFORMATION));
   end
   else
@@ -212,6 +235,7 @@ begin
 end;
 //****************************************************************************************
 // создание новой папки для хранения файлов типа >>>   *.pv_fds'
+
 procedure TfrmCheckDevice.mniAdmin_CreateFolderClick(Sender: TObject);
 begin
 // записать в файл конфигурации и далее посмотреть учечку памяти!!!!!
@@ -219,7 +243,9 @@ begin
   ChDir(ExtractFilePath(Application.ExeName));
   MkDir(cs_db_Check);
   mniAdmin_Folder_Delete.Enabled := True;
-end;
+  frmPaymentDocuments.f_DIR_Check_DB := ExtractFilePath(Application.ExeName) +  cs_db_Check;
+  frmPaymentDocuments.f_Folder_DB_Check := False;
+  end;
 // удаление папки
 procedure TfrmCheckDevice.mniAdmin_Folder_DeleteClick(Sender: TObject);
 var
@@ -230,6 +256,7 @@ begin
   mniAdmin_CreateFolder.Enabled := True;
   mniAdmin_Folder_Delete.Enabled := False;
   frmPaymentDocuments.f_DIR_Check_DB := cs_Path;
+   frmPaymentDocuments.f_Folder_DB_Check := True;
 end;
 
 
