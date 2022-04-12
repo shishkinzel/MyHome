@@ -5,11 +5,11 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids,
-   Math, FileCtrl, IniFiles,
-  WinTypes,StdCtrls, Vcl.ComCtrls, FireDAC.Stan.StorageJSON , FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, DateUtils, Vcl.Menus, System.ImageList,
-  Vcl.ImgList, System.Actions, Vcl.ActnList;
+   Math, FileCtrl, IniFiles, Data.DB, System.Actions, Vcl.ActnList, Vcl.Menus, System.ImageList,
+  Vcl.ImgList, FireDAC.Stan.StorageJSON, Vcl.StdCtrls, Vcl.ComCtrls,IOUtils,
+  WinTypes, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, DateUtils;
 
 type
   TfrmCheckDevice = class(TForm)
@@ -235,17 +235,29 @@ begin
 end;
 //****************************************************************************************
 // создание новой папки для хранения файлов типа >>>   *.pv_fds'
-
 procedure TfrmCheckDevice.mniAdmin_CreateFolderClick(Sender: TObject);
+var
+  b: Boolean;
 begin
-// записать в файл конфигурации и далее посмотреть учечку памяти!!!!!
+// заменить на TDirectory?
   mniAdmin_CreateFolder.Enabled := False;
   ChDir(ExtractFilePath(Application.ExeName));
-  MkDir(cs_db_Check);
-  mniAdmin_Folder_Delete.Enabled := True;
-  frmPaymentDocuments.f_DIR_Check_DB := ExtractFilePath(Application.ExeName) +  cs_db_Check;
-  frmPaymentDocuments.f_Folder_DB_Check := False;
+  if TDirectory.Exists(cs_db_Check) then
+  begin
+     Application.MessageBox('Директория существует!!', 'Внимание', (MB_OK + MB_ICONWARNING));
+    mniAdmin_Folder_Delete.Enabled := True;
+    frmPaymentDocuments.f_DIR_Check_DB := ExtractFilePath(Application.ExeName) + cs_db_Check;
+    frmPaymentDocuments.f_Folder_DB_Check := False;
+  end
+  else
+  begin
+    MkDir(cs_db_Check);
+    mniAdmin_Folder_Delete.Enabled := True;
+    frmPaymentDocuments.f_DIR_Check_DB := ExtractFilePath(Application.ExeName) + cs_db_Check;
+    frmPaymentDocuments.f_Folder_DB_Check := False;
   end;
+
+end;
 // удаление папки
 procedure TfrmCheckDevice.mniAdmin_Folder_DeleteClick(Sender: TObject);
 var
@@ -256,8 +268,10 @@ begin
   mniAdmin_CreateFolder.Enabled := True;
   mniAdmin_Folder_Delete.Enabled := False;
   frmPaymentDocuments.f_DIR_Check_DB := cs_Path;
-   frmPaymentDocuments.f_Folder_DB_Check := True;
+  frmPaymentDocuments.f_Folder_DB_Check := True;
 end;
+
+
 
 
 //****************************************************************************************
