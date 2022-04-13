@@ -9,32 +9,41 @@ const
   csIniSectionFileName = 'SectionfFileName_DB';    // секция для хранения файла базы данных
   csIniSectionPath = 'SectionPath_DB';          // секция для хранения пути к каталогу с БД PaymentDocumets
   csIniSectionDIR_Check = 'SectionDIR_Check';   // секция для хранения пути к каталогу с БД CheckDevice
+  csIniSectionSaveFileName_Path_DB = 'SectionSaveFileName_Path_DB'; // секция для хранения имен файлов БД и пути к ним
 
-{Section : csIniSectionFileName}
+     {Section : csIniSectionFileName}
   csFileName = 'fFileName_DB';
 
-{Section : csIniSectionPath_DB}
+     {Section : csIniSectionPath}
   csPath_DB = 'fPath_DB';
   csFolder_DB_PaymentDocuments = 'fFolder_DB_PaymentDocuments';
 
-{Section : csIniSectionDIR_Check}
+     {Section : csIniSectionDIR}
   csDIR_Check = 'fDIR_Check_DB';
   csFolder_DB_Check = 'fFolder_DB_Check';
+
+     {Section : csIniSectionSaveFileName_Path_DB}
+  csFile_DB_PaymentDocuments = 'fFile_DB_PaymentDocuments';
+  csFile_DB_CheckDevice = 'fFile_DB_CheckDevice';
 
 type
   TIniOptions = class(TObject)
   private
   public
-    {Section : csIniSectionFileName}
+      {Section : csIniSectionFileName}
     fFileName_DB: string;
 
-{Section : csIniSectionPath}
+      {Section : csIniSectionPath}
     fPath_DB: string;
     fFolder_DB_PaymentDocuments: Boolean;
 
-{Section : csIniSectionDIR}
+      {Section : csIniSectionDIR}
     fDIR_Check_DB: string;
     fFolder_DB_Check: Boolean;
+
+      {Section : csIniSectionSaveFileName_Path_DB}
+     fFile_DB_PaymentDocuments : string;
+     fFile_DB_CheckDevice : string;
 
     procedure LoadSettings(Ini: TIniFile);
     procedure SaveSettings(Ini: TIniFile);

@@ -333,7 +333,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
         BevelWidth = 2
         Date = 44545.000000000000000000
         Format = 'MM.yyyy'
-        Time = 0.470083738422545100
+        Time = 0.470083738422545200
         Color = clBlue
         DateMode = dmUpDown
         Enabled = False
@@ -655,6 +655,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
     end
     object mniSet_Show: TMenuItem
       Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
+      Enabled = False
       object mniSet_CreateBD: TMenuItem
         Caption = #1057#1086#1079#1076#1072#1090#1100' '#1087#1072#1087#1082#1091' '#1041#1044
         ImageIndex = 10
@@ -662,6 +663,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
       end
       object mniSet_DeleteFoderBD: TMenuItem
         Caption = #1059#1076#1072#1083#1080#1090#1100' '#1087#1072#1087#1082#1091'  '#1041#1044
+        Enabled = False
         ImageIndex = 11
         OnClick = mniSet_DeleteFoderBDClick
       end
@@ -862,6 +864,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
     Left = 48
   end
   object dlgSavePay: TSaveDialog
+    Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
     Title = #1057#1086#1093#1088#1072#1085#1077#1085#1080#1077' '#1087#1072#1087#1082#1080' '#1089' '#1092#1072#1081#1083#1072#1084#1080' '#1041#1044' '#1087#1083#1072#1090#1077#1078#1085#1099#1093' '#1076#1086#1082#1091#1084#1077#1085#1090#1086#1074' '
     Left = 88
   end

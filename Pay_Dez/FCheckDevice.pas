@@ -177,7 +177,7 @@ begin
 // выставить дату поверки
   if not (f_Admin) then
   begin
-    MessageBox(frmCheckDevice.Handle, 'Пожалуйста, Укажите дату поверки!!', 'Внимание', (MB_OK + MB_ICONQUESTION));
+    Application.MessageBox('Пожалуйста, Укажите дату поверки!!', 'Внимание', (MB_OK + MB_ICONQUESTION));
 //    frmCheckDevice.BorderStyle := bsDialog;
     frmCheckDevice.Menu := nil;
   end;
@@ -235,46 +235,48 @@ begin
 end;
 //****************************************************************************************
 // создание новой папки для хранения файлов типа >>>   *.pv_fds'
+
 procedure TfrmCheckDevice.mniAdmin_CreateFolderClick(Sender: TObject);
 var
-  b: Boolean;
+  fPath: string;
 begin
-// заменить на TDirectory?
+  fPath := f_Path + cs_db_Check;
   mniAdmin_CreateFolder.Enabled := False;
-  ChDir(ExtractFilePath(Application.ExeName));
-  if TDirectory.Exists(cs_db_Check) then
+// проверяем на наличие директории
+  if TDirectory.Exists(fPath) then
   begin
-     Application.MessageBox('Директория существует!!', 'Внимание', (MB_OK + MB_ICONWARNING));
-    mniAdmin_Folder_Delete.Enabled := True;
-    frmPaymentDocuments.f_DIR_Check_DB := ExtractFilePath(Application.ExeName) + cs_db_Check;
-    frmPaymentDocuments.f_Folder_DB_Check := False;
+    Application.MessageBox('Директория существует!!', 'Внимание', (MB_OK + MB_ICONWARNING));
   end
   else
   begin
-    MkDir(cs_db_Check);
-    mniAdmin_Folder_Delete.Enabled := True;
-    frmPaymentDocuments.f_DIR_Check_DB := ExtractFilePath(Application.ExeName) + cs_db_Check;
-    frmPaymentDocuments.f_Folder_DB_Check := False;
+    TDirectory.CreateDirectory(fPath);
   end;
-
+  mniAdmin_Folder_Delete.Enabled := True;
+  frmPaymentDocuments.f_DIR_Check_DB := fPath;
+  frmPaymentDocuments.f_Folder_DB_Check := False;
 end;
 // удаление папки
+
 procedure TfrmCheckDevice.mniAdmin_Folder_DeleteClick(Sender: TObject);
 var
-  s: string;
+  fPath: string;
 begin
-  ChDir(ExtractFilePath(Application.ExeName));
-  RemoveDir(cs_db_Check);
+  fPath := f_Path + cs_db_Check;
   mniAdmin_CreateFolder.Enabled := True;
+// проверяем на наличие директории
+  if not (TDirectory.Exists(fPath)) then
+  begin
+    Application.MessageBox('Директория не существует!!', 'Внимание', (MB_OK + MB_ICONWARNING));
+  end
+  else
+  begin
+    TDirectory.Delete(fPath);
+  end;
   mniAdmin_Folder_Delete.Enabled := False;
   frmPaymentDocuments.f_DIR_Check_DB := cs_Path;
   frmPaymentDocuments.f_Folder_DB_Check := True;
 end;
-
-
-
-
-//****************************************************************************************
+//**************************************************************************************************
 
 //**************************************************************************************************
 // заполнение таблицы
@@ -287,7 +289,7 @@ begin
 
   if (cbbNameDevice.Text = '') and (edtNumOldDevice.Text = '') and (edtNumNewDevice.Text = '') and (edtShowOldBefore.Text = '') and (edtShowNewBefore.Text = '') and (edtShowOldNow.Text = '') and (edtShowNewNow.Text = '') then
   begin
-    MessageBox(frmCheckDevice.Handle, 'Пожалуйста, заполните все поля!!', 'Внимание', (MB_OK + MB_ICONWARNING));
+    Application.MessageBox('Пожалуйста, заполните все поля!!', 'Внимание', (MB_OK + MB_ICONWARNING));
     Exit;
   end
   else
@@ -298,14 +300,14 @@ begin
     fcheckNewNow := funUntil.MyStrToFloatDef(edtShowNewNow.Text, -1);
     if (fcheckOldPrev < 0) or (fcheckOldNow < 0) or (fcheckNewPrev < 0) or (fcheckNewNow < 0) then
     begin
-      MessageBox(frmCheckDevice.Handle, 'Пожалуйста, проверти корректность введённых данных!!', 'Внимание, ошибка!!!!', (MB_OK + MB_ICONWARNING));
+      Application.MessageBox('Пожалуйста, проверти корректность введённых данных!!', 'Внимание, ошибка!!!!', (MB_OK + MB_ICONWARNING));
       Exit;
     end
     else
     begin
       if ((fcheckOldNow - fcheckOldPrev) < 0) or ((fcheckNewNow - fcheckNewPrev) < 0) then
       begin
-        MessageBox(frmCheckDevice.Handle, 'Пожалуйста, проверти корректность введённых данных!!', 'Внимание, ошибка!!!!', (MB_OK + MB_ICONWARNING));
+        Application.MessageBox('Пожалуйста, проверти корректность введённых данных!!', 'Внимание, ошибка!!!!', (MB_OK + MB_ICONWARNING));
         Exit;
       end;
       allSum := Ceil((fcheckOldNow - fcheckOldPrev) + (fcheckNewNow - fcheckNewPrev));

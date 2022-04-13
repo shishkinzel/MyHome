@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, Vcl.Dialogs, Data.DB,
   Vcl.Menus, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Controls, Vcl.ExtCtrls,
   System.Classes, Vcl.Graphics,  Vcl.FileCtrl,  Vcl.Forms,
-   UnitConfig, FdmPayment, FCheckDevice,
+   UnitConfig, FdmPayment, FCheckDevice,IOUtils,
   funUntil, FTableAll, FTableMeteringDevice, FFRMeteringDevice, FTableEditing,
   FFRTableAll, FSelectDate, FAdmin, IniFiles, FInputData, FFRListReport,
   FireDAC.Stan.StorageJSON, System.ImageList, Vcl.ImgList;
@@ -136,8 +136,8 @@ type
     procedure mniSet_CreateBDClick(Sender: TObject);
 
   private    { Private declarations }
-  var
-  f_Handle_Form : HWND;
+//  var
+//  f_Handle_Form : HWND;
 
   public { Public declarations }
     fStatusList: Boolean;             // флаг для печати Листка учета - умолчание false
@@ -152,7 +152,7 @@ type
 
     fIniFile: TIniFile;      // файл конфигурации
 //    f_IinPath_check: string;  // путь к папке с файлами БД поверки
-    fSourcePath : string;    // путь к исходному файлу конфигурации
+//    fSourcePath : string;    // путь к исходному файлу конфигурации
     fExist_config : Boolean; // существование файла конфигурации
     fConfigFile : File;      // переменная для создания файла конфигурации
     f_Checked_btn : Boolean; // флаг активации кнопки поверки приборов
@@ -170,7 +170,8 @@ var
   frmPaymentDocuments: TfrmPaymentDocuments;
 
   f_Admin: Boolean;          // включение режима администрирования
-
+  f_iniPath : string;        // путь до файла конфигурации
+  f_Path : string;           // путь до файла  ProjectPaymentDocuments.exe
 const
   fCHECK = 'Поверка';                     //   константа для поверки приборов
 
@@ -183,12 +184,12 @@ var
   i: Integer;
 begin
 // установка глобальных переменных
-  f_Admin := False;
-
+  f_Admin := False;                              // включение режима администрирования
+  f_Path :=  ExtractFilePath(Application.ExeName); // путь до файла  ProjectPaymentDocuments.exe
+  f_iniPath := f_Path + fConfig_file;              // путь до файла конфигурации
 // хендел формы
-  f_Handle_Form := frmPaymentDocuments.Handle;
+//  f_Handle_Form := frmPaymentDocuments.Handle;
 // пути по умолчанию - отсутствует конфигурационный файл
-//  f_IinPath_check := '';
 
 //  активация флагов
   fExist_config := False;              // существование файла конфигурации
@@ -197,14 +198,14 @@ begin
   f_Checked_btn := False;              // флаг активации кнопки поверки приборов
 
 // чтение конфигурационного файла
-  fSourcePath := ExtractFilePath(Application.ExeName) + fConfig_file;
+//  fSourcePath := ExtractFilePath(Application.ExeName) + fConfig_file;
   if FileExists(fConfig_file) then
   begin
     fExist_config := True;
     MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - существует', 'Внимание', (MB_OK + MB_ICONINFORMATION));
-    fIniFile := TIniFile.Create(ExtractFilePath(Application.ExeName) + fConfig_file);
+    fIniFile := TIniFile.Create(f_iniPath);
 // чтение файла конфигурации
-    IniOptions.LoadFromFile(fSourcePath);
+    IniOptions.LoadFromFile(f_iniPath);
 // запись в программные переменные из файла конфигурации
     f_FileName_BD := IniOptions.fFileName_DB;
     f_Path_DB := IniOptions.fPath_DB;
@@ -212,6 +213,20 @@ begin
     f_DIR_Check_DB := IniOptions.fDIR_Check_DB;
     f_Folder_DB_Check := IniOptions.fFolder_DB_Check;
     fIniFile.Free;
+
+   // обработка пункта главного меню "Настройка"
+    mniSet_Show.Enabled := True;
+    if f_Folder_DB_PaymentDocumets then
+    begin
+      mniSet_CreateBD.Enabled := True;
+      mniSet_DeleteFoderBD.Enabled := False;
+    end
+    else
+    begin
+      mniSet_CreateBD.Enabled := False;
+      mniSet_DeleteFoderBD.Enabled := True;
+    end;
+
   end
   else
   begin
@@ -226,7 +241,7 @@ end;
 procedure TfrmPaymentDocuments.mniAccess_ConfigClick(Sender: TObject);
 begin
   MessageBox(frmPaymentDocuments.Handle, 'Вы пытаетесь создать конфигурационный файл', 'Внимание', (MB_OK + MB_ICONINFORMATION));
-  fIniFile := TIniFile.Create(ExtractFilePath(Application.ExeName) + fConfig_file);
+  fIniFile := TIniFile.Create(f_iniPath);
 
 // чтение конфигурации по умолчанию
   IniOptions.LoadSettings(fIniFile);
@@ -238,10 +253,11 @@ begin
   f_Folder_DB_Check := IniOptions.fFolder_DB_Check;
  // запись файла конфигурации
   IniOptions.SaveSettings(fIniFile);
-  IniOptions.SaveToFile(fSourcePath);
+  IniOptions.SaveToFile(f_iniPath);
   fIniFile.Free;
   mniAccess_Config.Enabled := False;
   fExist_config := True;
+  mniSet_Show.Enabled := True;
 end;
 
 procedure TfrmPaymentDocuments.FormShow(Sender: TObject);
@@ -311,7 +327,7 @@ end;
 // активация кнопки поверки приборов
 procedure TfrmPaymentDocuments.mniAccess_CheckedClick(Sender: TObject);
 begin
- if MessageBox(f_Handle_Form, 'Вы пытаетесь активировать режим поверки приборов учета', 'Обратите внимание',
+ if Application.MessageBox('Вы пытаетесь активировать режим поверки приборов учета', 'Обратите внимание',
  (MB_OKCANCEL + MB_ICONQUESTION)) = 1 then
  begin
 f_Checked_btn := True;
@@ -471,18 +487,42 @@ end;
 // создание новой папки для хранения файлов типа >>>   *.pd_fds'
 procedure TfrmPaymentDocuments.mniSet_CreateBDClick(Sender: TObject);
 var
-  i: Integer;
+  fPath: string;
 begin
-  ChDir(ExtractFilePath(Application.ExeName));
-  MkDir(cs_db_PaymentDocumets);
+  fPath := f_Path + cs_db_PaymentDocumets;
+  mniSet_CreateBD.Enabled := False;
+// проверяем на наличие директории
+  if TDirectory.Exists(fPath) then
+  begin
+    Application.MessageBox('Директория существует!!', 'Внимание', (MB_OK + MB_ICONWARNING));
+  end
+  else
+  begin
+    TDirectory.CreateDirectory(fPath);
+  end;
+  f_Path_DB := fPath;
+  f_Folder_DB_PaymentDocumets := False;
+  mniSet_DeleteFoderBD.Enabled := True;
 end;
 
 procedure TfrmPaymentDocuments.mniSet_DeleteFoderBDClick(Sender: TObject);
 var
-  i: Integer;
+  fPath: string;
 begin
-  ChDir(ExtractFilePath(Application.ExeName));
-  RemoveDir(cs_db_PaymentDocumets);
+  fPath := f_Path + cs_db_PaymentDocumets;
+  mniSet_CreateBD.Enabled := True;
+// проверяем на наличие директории
+  if not (TDirectory.Exists(fPath)) then
+  begin
+    Application.MessageBox('Директория не существует!!', 'Внимание', (MB_OK + MB_ICONWARNING));
+  end
+  else
+  begin
+    TDirectory.Delete(fPath);
+  end;
+  f_Path_DB := cs_Path;
+  f_Folder_DB_PaymentDocumets := True;
+  mniSet_DeleteFoderBD.Enabled := False;
 end;
 //****************************************************************************************
 
@@ -493,7 +533,6 @@ begin
 end;
 
 end.
-
 
 
 

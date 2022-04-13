@@ -108,14 +108,14 @@ begin
   if frmPaymentDocuments.fExist_config then
   begin
     Application.MessageBox('Запись файла конфигурации', 'Внимание', MB_OK + MB_ICONINFORMATION);
-    fIniFile := TIniFile.Create(frmPaymentDocuments.fSourcePath);
+    fIniFile := TIniFile.Create(f_iniPath);
     IniOptions.fFileName_DB := frmPaymentDocuments.f_FileName_BD;
     IniOptions.fPath_DB := frmPaymentDocuments.f_Path_DB;
-    IniOptions.fFolder_DB_Check := frmPaymentDocuments.f_Folder_DB_PaymentDocumets;
+    IniOptions.fFolder_DB_PaymentDocuments:= frmPaymentDocuments.f_Folder_DB_PaymentDocumets;
     IniOptions.fDIR_Check_DB := frmPaymentDocuments.f_DIR_Check_DB;
     IniOptions.fFolder_DB_Check := frmPaymentDocuments.f_Folder_DB_Check;
     IniOptions.SaveSettings(fIniFile);
-    IniOptions.SaveToFile(frmPaymentDocuments.fSourcePath);
+    IniOptions.SaveToFile(f_iniPath);
     fIniFile.Free;
   end
   else
