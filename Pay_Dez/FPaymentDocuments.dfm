@@ -333,7 +333,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
         BevelWidth = 2
         Date = 44545.000000000000000000
         Format = 'MM.yyyy'
-        Time = 0.470083738422545200
+        Time = 0.470083738422545100
         Color = clBlue
         DateMode = dmUpDown
         Enabled = False

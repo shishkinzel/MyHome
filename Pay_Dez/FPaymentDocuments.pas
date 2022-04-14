@@ -9,7 +9,7 @@ uses
    UnitConfig, FdmPayment, FCheckDevice,IOUtils,
   funUntil, FTableAll, FTableMeteringDevice, FFRMeteringDevice, FTableEditing,
   FFRTableAll, FSelectDate, FAdmin, IniFiles, FInputData, FFRListReport,
-  FireDAC.Stan.StorageJSON, System.ImageList, Vcl.ImgList;
+  System.ImageList, Vcl.ImgList;
 
 type
   TfrmPaymentDocuments = class(TForm)
@@ -143,8 +143,8 @@ type
     fStatusList: Boolean;             // флаг для печати Листка учета - умолчание false
 //    fVerification: Boolean;  // флаг поверки счетчиков
 // переменные для формирования файла ini
-    f_FileName_BD: string;                     // переменная для файла БД  PaymentDocumets
-    f_FileName_BD_Check: string;               // переменная для файла БД  CheckDevice
+    f_FileName_DB: string;                     // переменная для файла БД  PaymentDocumets
+    f_FileName_DB_Check: string;               // переменная для файла БД  CheckDevice
     f_Path_DB: string;                         // путь к каталогу с БД PaymentDocumets
     f_DIR_Check_DB: string;                    // путь к каталогу с БД CheckDevice
     f_Folder_DB_PaymentDocumets: Boolean;     //  маркер наличия папки с БД для PaymentDocumets
@@ -159,9 +159,9 @@ type
   end;
 
 const
-  fJsonFile = 'any_bd.fds';               //   файл с Базой Данных по умолчанию
-  fConfig_file = 'pay_config.ini';        //   конфигурационный файл
-  fExe = 'ProjectPaymentDocuments.exe';   //   исполняемый файл
+  cs_JsonFile = 'any_bd.fds';               //   файл с Базой Данных по умолчанию
+  cs_Config_file = 'pay_config.ini';        //   конфигурационный файл
+  cs_Exe = 'ProjectPaymentDocuments.exe';   //   исполняемый файл
   cs_Path = 'C:\';                        //   путь по умолчанию
   cs_db_PaymentDocumets = 'Folder_DB_PaymentDocumets'; // название папки для хранения БД PaymentDocumets
   cs_db_Check = 'Folder_DB_Check';                     // название папки для хранения БД CheckDevice
@@ -186,20 +186,16 @@ begin
 // установка глобальных переменных
   f_Admin := False;                              // включение режима администрирования
   f_Path :=  ExtractFilePath(Application.ExeName); // путь до файла  ProjectPaymentDocuments.exe
-  f_iniPath := f_Path + fConfig_file;              // путь до файла конфигурации
-// хендел формы
-//  f_Handle_Form := frmPaymentDocuments.Handle;
-// пути по умолчанию - отсутствует конфигурационный файл
+  f_iniPath := f_Path + cs_Config_file;              // путь до файла конфигурации
 
 //  активация флагов
   fExist_config := False;              // существование файла конфигурации
   fStatusList := False;                // флаг для печати Листка учета
 //  fVerification := False;              // флаг поверки счетчиков
   f_Checked_btn := False;              // флаг активации кнопки поверки приборов
-
+  f_FileName_DB := f_Path + cs_JsonFile;  // путь к файлу по умолчанию  <any_bd.fds>
 // чтение конфигурационного файла
-//  fSourcePath := ExtractFilePath(Application.ExeName) + fConfig_file;
-  if FileExists(fConfig_file) then
+  if FileExists(cs_Config_file) then
   begin
     fExist_config := True;
     MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - существует', 'Внимание', (MB_OK + MB_ICONINFORMATION));
@@ -207,14 +203,19 @@ begin
 // чтение файла конфигурации
     IniOptions.LoadFromFile(f_iniPath);
 // запись в программные переменные из файла конфигурации
-    f_FileName_BD := IniOptions.fFileName_DB;
+    f_FileName_DB := IniOptions.fFileName_DB;
     f_Path_DB := IniOptions.fPath_DB;
     f_Folder_DB_PaymentDocumets := IniOptions.fFolder_DB_PaymentDocuments;
     f_DIR_Check_DB := IniOptions.fDIR_Check_DB;
     f_Folder_DB_Check := IniOptions.fFolder_DB_Check;
-    fIniFile.Free;
+    if not (f_Folder_DB_PaymentDocumets) and not (TDirectory.IsEmpty(f_Path_DB)) then
+     // сдесь прочитать название и путь сохраненого файла БД
+    begin
+      f_FileName_DB := IniOptions.fFile_DB_PaymentDocuments;
+    end;
 
-   // обработка пункта главного меню "Настройка"
+    fIniFile.Free;
+      // обработка пункта главного меню "Настройка"
     mniSet_Show.Enabled := True;
     if f_Folder_DB_PaymentDocumets then
     begin
@@ -232,10 +233,10 @@ begin
   begin
     mniAccess_Config.Enabled := True;
     MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - отсутствует!!!', 'Внимание', (MB_OK + MB_ICONWARNING));
-
   end;
 
 end;
+
 
 // создание файла конфигурации
 procedure TfrmPaymentDocuments.mniAccess_ConfigClick(Sender: TObject);
@@ -246,7 +247,7 @@ begin
 // чтение конфигурации по умолчанию
   IniOptions.LoadSettings(fIniFile);
 // запись программных переменных для ini файла
-  f_FileName_BD := IniOptions.fFileName_DB;
+  f_FileName_DB := IniOptions.fFileName_DB;
   f_Path_DB := IniOptions.fPath_DB;
   f_Folder_DB_PaymentDocumets := IniOptions.fFolder_DB_PaymentDocuments;
   f_DIR_Check_DB := IniOptions.fDIR_Check_DB;
@@ -258,6 +259,7 @@ begin
   mniAccess_Config.Enabled := False;
   fExist_config := True;
   mniSet_Show.Enabled := True;
+  f_FileName_DB := f_Path + cs_JsonFile;
 end;
 
 procedure TfrmPaymentDocuments.FormShow(Sender: TObject);
@@ -370,7 +372,7 @@ begin
   end
   else
   begin
-     MessageBox(0, 'Вы ничего не ввели', 'Внимание!', (MB_ICONINFORMATION));
+     Application.MessageBox('Вы ничего не ввели', 'Внимание!', (MB_ICONINFORMATION));
   end;
 
   end;
@@ -378,10 +380,33 @@ begin
   frmCheckDevice.Free;
 end;
 // процедура открытия Базы Данных   - проект релизовать
+
 procedure TfrmPaymentDocuments.mniOpenDBClick(Sender: TObject);
+var
+  f_exist_boolean: Boolean;
+  fPath, fFile: string;
+  a,b,c,d : Boolean;
 begin
 // задаем начальную папку открытия  опции OpenDialog
-   dlgOpenPay.InitialDir := f_Path_DB;
+  f_exist_boolean := True;
+  fPath := f_Path + cs_db_PaymentDocumets;
+  fFile := f_Path + cs_JsonFile;
+  if FileExists(fFile) or (TDirectory.Exists(fPath) and not (TDirectory.IsEmpty(fPath))) then
+    f_exist_boolean := False;
+
+  if f_exist_boolean  then
+  begin
+   Application.MessageBox('У Вас не файлов БД', 'Внимание!', (MB_ICONINFORMATION));
+   Abort;
+  end;
+  if TDirectory.Exists(fPath) and not (TDirectory.IsEmpty(fPath)) then
+    dlgOpenPay.InitialDir := fPath
+  else
+  begin
+    dlgOpenPay.InitialDir := f_Path;
+    dlgOpenPay.Filter := 'Все файлы json|*.fds';
+  end;
+
   if dlgOpenPay.Execute then
   begin
     ShowMessage('Вы хотите открыть Базу Данных');
@@ -533,6 +558,7 @@ begin
 end;
 
 end.
+
 
 
 
