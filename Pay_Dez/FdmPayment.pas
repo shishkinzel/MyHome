@@ -3,8 +3,10 @@ unit FdmPayment;
 interface
 
 uses
-  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, VCl.Forms,
+  System.SysUtils, System.Classes,
+   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  Data.DB, VCl.Forms,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, FTableAll, FTableMeteringDevice, FFRMeteringDevice,
    FFRTableAll, FFRListReport, FSelectDate, FTestForm, FTableEditing, funUntil , IniFiles,
   FireDAC.Stan.StorageJSON, FInputData, UnitConfig, VCL.Dialogs, Winapi.Windows;
@@ -93,7 +95,7 @@ begin
   if frmPaymentDocuments.fExist_config then
   begin
     Application.MessageBox('Чтение файла конфигурации', 'Внимание', MB_OK + MB_ICONINFORMATION);
-    fmTabPayAndRecord.LoadFromFile(frmPaymentDocuments.f_FileName_DB);
+    fmTabPayAndRecord.LoadFromFile(frmPaymentDocuments.f_FileName_DB, sfJSON);
   end
   else if FileExists(frmPaymentDocuments.f_FileName_DB) then
     fmTabPayAndRecord.LoadFromFile(frmPaymentDocuments.f_FileName_DB, sfJSON);
@@ -112,12 +114,15 @@ begin
     fIniFile := TIniFile.Create(f_iniPath);
     IniOptions.fFileName_DB := frmPaymentDocuments.f_FileName_DB;
     IniOptions.fPath_DB := frmPaymentDocuments.f_Path_DB;
-    IniOptions.fFolder_DB_PaymentDocuments:= frmPaymentDocuments.f_Folder_DB_PaymentDocumets;
+    IniOptions.fFolder_DB_PaymentDocuments := frmPaymentDocuments.f_Folder_DB_PaymentDocumets;
     IniOptions.fDIR_Check_DB := frmPaymentDocuments.f_DIR_Check_DB;
     IniOptions.fFolder_DB_Check := frmPaymentDocuments.f_Folder_DB_Check;
+    IniOptions.fFile_DB_PaymentDocuments := frmPaymentDocuments.f_FileName_DB;
+    IniOptions.fFile_DB_CheckDevice := frmPaymentDocuments.f_FileName_DB_Check;
     IniOptions.SaveSettings(fIniFile);
     IniOptions.SaveToFile(f_iniPath);
     fIniFile.Free;
+    fmTabPayAndRecord.SaveToFile(frmPaymentDocuments.f_FileName_DB, sfJSON);
   end
   else
     fmTabPayAndRecord.SaveToFile(frmPaymentDocuments.f_FileName_DB, sfJSON);

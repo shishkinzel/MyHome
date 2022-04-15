@@ -84,9 +84,8 @@ type
     procedure mniAdmin_Folder_DeleteClick(Sender: TObject);
   private    { Private declarations }
     fdayCorr: TDate;
+    f_FileName_DB_Check_T : string;  // переменная для файла БД  CheckDevice в классе TfrmCheckDevice
   public    { Public declarations }
-    const
-      fJsonFileCheckDevice = 'checkdevice_bd.pv_fds'; //   файл с Базой Данных поверки приборов
     var
       f_CountChecked: Integer;
   end;
@@ -110,7 +109,9 @@ var
   fday: Integer;
 begin
   f_CountChecked := 0;
-// проверка наличия файла конфигурации
+  f_FileName_DB_Check_T := frmPaymentDocuments.f_FileName_DB_Check; // путь к файлу по умолчанию  <checkdevice_bd.fds>
+                          // псевдоним для  <f_FileName_DB_Check>
+  // проверка наличия файла конфигурации
   if frmPaymentDocuments.fExist_config then
   begin
     mniAdmin_Setting.Enabled := True;
@@ -153,8 +154,8 @@ var
   i: Integer;
 begin
 // чтение файла
-  if FileExists(fJsonFileCheckDevice) and not(f_Admin) then
-    dmPayment.fmTabCheckDevice.LoadFromFile(fJsonFileCheckDevice, sfJSON);
+  if FileExists(f_FileName_DB_Check_T) and not(f_Admin) then
+    dmPayment.fmTabCheckDevice.LoadFromFile(f_FileName_DB_Check_T, sfJSON);
 
     if f_Admin then
     begin
@@ -433,7 +434,7 @@ end;
 procedure TfrmCheckDevice.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if not (f_Admin) then
-    dmPayment.fmTabCheckDevice.SaveToFile(fJsonFileCheckDevice, sfJSON);
+    dmPayment.fmTabCheckDevice.SaveToFile(f_FileName_DB_Check_T, sfJSON);
   if (dsCheckDevice.DataSet.Modified) or (f_CountChecked > 0) then
   begin
 //    dsCheckDevice.DataSet.Post;
@@ -464,4 +465,5 @@ end.
 //      Application.MessageBox('Вы прервали процесс создания папки', 'Внимание!', (MB_OK + MB_ICONINFORMATION));
 //  end;
 // f_multiDir := nil;
+
 

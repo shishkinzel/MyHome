@@ -9,7 +9,10 @@ uses
    UnitConfig, FdmPayment, FCheckDevice,IOUtils,
   funUntil, FTableAll, FTableMeteringDevice, FFRMeteringDevice, FTableEditing,
   FFRTableAll, FSelectDate, FAdmin, IniFiles, FInputData, FFRListReport,
-  System.ImageList, Vcl.ImgList;
+  System.ImageList, Vcl.ImgList,
+    FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf
+  ,System.Types;
 
 type
   TfrmPaymentDocuments = class(TForm)
@@ -159,7 +162,8 @@ type
   end;
 
 const
-  cs_JsonFile = 'any_bd.fds';               //   файл с Базой Данных по умолчанию
+  cs_JsonFile = 'any_bd.fds';               //   файл с БД  PaymentDocumets
+  cs_JsonFile_Check = 'checkdevice_bd.ch_fds';  //   файл с БД  CheckDevice
   cs_Config_file = 'pay_config.ini';        //   конфигурационный файл
   cs_Exe = 'ProjectPaymentDocuments.exe';   //   исполняемый файл
   cs_Path = 'C:\';                        //   путь по умолчанию
@@ -194,6 +198,7 @@ begin
 //  fVerification := False;              // флаг поверки счетчиков
   f_Checked_btn := False;              // флаг активации кнопки поверки приборов
   f_FileName_DB := f_Path + cs_JsonFile;  // путь к файлу по умолчанию  <any_bd.fds>
+  f_FileName_DB_Check := f_Path + cs_JsonFile_Check; // путь к файлу по умолчанию  <checkdevice_bd.fds>
 // чтение конфигурационного файла
   if FileExists(cs_Config_file) then
   begin
@@ -383,18 +388,12 @@ end;
 
 procedure TfrmPaymentDocuments.mniOpenDBClick(Sender: TObject);
 var
-  f_exist_boolean: Boolean;
   fPath, fFile: string;
-  a,b,c,d : Boolean;
 begin
 // задаем начальную папку открытия  опции OpenDialog
-  f_exist_boolean := True;
   fPath := f_Path + cs_db_PaymentDocumets;
   fFile := f_Path + cs_JsonFile;
-  if FileExists(fFile) or (TDirectory.Exists(fPath) and not (TDirectory.IsEmpty(fPath))) then
-    f_exist_boolean := False;
-
-  if f_exist_boolean  then
+if not(FileExists(fFile)) and not(TDirectory.Exists(fPath) and not(TDirectory.IsEmpty(fPath))) then
   begin
    Application.MessageBox('У Вас не файлов БД', 'Внимание!', (MB_ICONINFORMATION));
    Abort;
@@ -406,14 +405,30 @@ begin
     dlgOpenPay.InitialDir := f_Path;
     dlgOpenPay.Filter := 'Все файлы json|*.fds';
   end;
+// установка имени начального файла
+  if f_FileName_DB <> '' then
+ dlgOpenPay.FileName := ExtractFileName(f_FileName_DB);
+
+
 
   if dlgOpenPay.Execute then
   begin
-    ShowMessage('Вы хотите открыть Базу Данных');
+//    ShowMessage('Вы хотите открыть Базу Данных');
+    if dlgOpenPay.FileName <> '' then
+    begin
+      dmPayment.fmTabPayAndRecord.Close;
+      dmPayment.fmTabSummaryTable.Close;
+      dmPayment.fmTabPayAndRecord.Open;
+      dmPayment.fmTabSummaryTable.Open;
+      dmPayment.fmTabPayAndRecord.LoadFromFile(dlgOpenPay.FileName, sfJSON);
+      funUntil.CorrectionTable(dmPayment.fmTabPayAndRecord, dmPayment.fmTabSummaryTable);
+      f_FileName_DB := dlgOpenPay.FileName;
+    end;
+
   end
   else
   begin
-    ShowMessage('Вы отказываетесь от открытия Базы Данных');
+   Application.MessageBox('Вы отменили загрузку БД', 'Внимание!', (MB_ICONINFORMATION));
   end;
 
 end;
@@ -421,15 +436,33 @@ end;
 
 // процедура сохранения Базы Данных - проект релизовать
 procedure TfrmPaymentDocuments.mniSaveBDClick(Sender: TObject);
+var
+  fPath, fFile: string;
 begin
-  dlgOpenPay.InitialDir := f_Path_DB;
+// задаем начальную папку открытия  опции OpenDialog
+  fPath := f_Path + cs_db_PaymentDocumets;
+//  fFile := f_Path + cs_JsonFile;
+// проверка на наличие папки с БД
+if not(TDirectory.Exists(fPath)) then
+begin
+  Application.MessageBox('Создайте директорию с БД', 'Внимание!', (MB_ICONINFORMATION));
+  Abort;
+  end;
+  dlgSavePay.InitialDir := fPath;
+  dlgSavePay.FileName := 'temp.pd_fds';
+
   if dlgSavePay.Execute then
   begin
-    ShowMessage('Вы хотите сохранить Базу Данных');
+    if dlgSavePay.FileName <> '' then
+    begin
+      f_FileName_DB := dlgSavePay.FileName;
+      dmPayment.fmTabPayAndRecord.SaveToFile(f_FileName_DB, sfJSON);
+    end;
+
   end
   else
   begin
-    ShowMessage('Вы отказываетесь от сохранения Базы Данных');
+   Application.MessageBox('Вы отменили сохранение БД', 'Внимание!', (MB_ICONINFORMATION));
   end;
 end;
 
