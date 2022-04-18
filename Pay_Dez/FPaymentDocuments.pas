@@ -115,6 +115,7 @@ type
     mniSet_Show: TMenuItem;
     mniSet_Exit: TMenuItem;
     mniSet_N1: TMenuItem;
+    mniAccess_NoAdmin: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniTabShow_LittleClick(Sender: TObject);
     procedure mniTabShow_BigClick(Sender: TObject);
@@ -137,6 +138,7 @@ type
     procedure mniForms_EditCheckedClick(Sender: TObject);
     procedure mniFile_CloseClick(Sender: TObject);
     procedure mniSet_CreateBDClick(Sender: TObject);
+    procedure mniAccess_NoAdminClick(Sender: TObject);
 
   private    { Private declarations }
 //  var
@@ -176,6 +178,7 @@ var
   f_Admin: Boolean;          // включение режима администрирования
   f_iniPath : string;        // путь до файла конфигурации
   f_Path : string;           // путь до файла  ProjectPaymentDocuments.exe
+
 const
   fCHECK = 'Поверка';                     //   константа для поверки приборов
 
@@ -198,7 +201,7 @@ begin
 //  fVerification := False;              // флаг поверки счетчиков
   f_Checked_btn := False;              // флаг активации кнопки поверки приборов
   f_FileName_DB := f_Path + cs_JsonFile;  // путь к файлу по умолчанию  <any_bd.fds>
-  f_FileName_DB_Check := f_Path + cs_JsonFile_Check; // путь к файлу по умолчанию  <checkdevice_bd.fds>
+  f_FileName_DB_Check := f_Path + cs_JsonFile_Check; // путь к файлу по умолчанию  <checkdevice_bd.ch_fds>
 // чтение конфигурационного файла
   if FileExists(cs_Config_file) then
   begin
@@ -267,6 +270,14 @@ begin
   f_FileName_DB := f_Path + cs_JsonFile;
 end;
 
+procedure TfrmPaymentDocuments.mniAccess_NoAdminClick(Sender: TObject);
+begin
+  mniAccess_Admin.Visible := False;
+  mniAccess_NoAdmin.Visible := True;
+  mniForms_EditChecked.Enabled := False;
+  f_Admin := False;
+end;
+
 procedure TfrmPaymentDocuments.FormShow(Sender: TObject);
 begin
   dmPayment.fmTabPayAndRecord.Open;
@@ -331,6 +342,7 @@ begin
   frmAdmin.ShowModal;
 end;
 
+
 // активация кнопки поверки приборов
 procedure TfrmPaymentDocuments.mniAccess_CheckedClick(Sender: TObject);
 begin
@@ -384,7 +396,7 @@ begin
 
   frmCheckDevice.Free;
 end;
-// процедура открытия Базы Данных   - проект релизовать
+// процедура открытия Базы Данных
 
 procedure TfrmPaymentDocuments.mniOpenDBClick(Sender: TObject);
 var
@@ -434,7 +446,7 @@ if not(FileExists(fFile)) and not(TDirectory.Exists(fPath) and not(TDirectory.Is
 end;
 
 
-// процедура сохранения Базы Данных - проект релизовать
+// процедура сохранения Базы Данных
 procedure TfrmPaymentDocuments.mniSaveBDClick(Sender: TObject);
 var
   fPath, fFile: string;
@@ -443,10 +455,10 @@ begin
   fPath := f_Path + cs_db_PaymentDocumets;
 //  fFile := f_Path + cs_JsonFile;
 // проверка на наличие папки с БД
-if not(TDirectory.Exists(fPath)) then
-begin
-  Application.MessageBox('Создайте директорию с БД', 'Внимание!', (MB_ICONINFORMATION));
-  Abort;
+  if not (TDirectory.Exists(fPath)) then
+  begin
+    Application.MessageBox('Создайте директорию с БД', 'Внимание!', (MB_ICONINFORMATION));
+    Abort;
   end;
   dlgSavePay.InitialDir := fPath;
   dlgSavePay.FileName := 'temp.pd_fds';
@@ -456,7 +468,11 @@ begin
     if dlgSavePay.FileName <> '' then
     begin
       f_FileName_DB := dlgSavePay.FileName;
-      dmPayment.fmTabPayAndRecord.SaveToFile(f_FileName_DB, sfJSON);
+      if AnsiPos('.', dlgSavePay.FileName) = 0 then
+        dmPayment.fmTabPayAndRecord.SaveToFile(f_FileName_DB + '.pd_fds', sfJSON)
+      else
+        dmPayment.fmTabPayAndRecord.SaveToFile(f_FileName_DB, sfJSON);
+
     end;
 
   end

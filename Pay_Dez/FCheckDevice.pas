@@ -40,7 +40,6 @@ type
     btnApply: TButton;
     btnReset: TButton;
     btnClose: TButton;
-    jsonFileDbCheckDevice: TFDStanStorageJSONLink;
     dsPayAndRecord: TDataSource;
     mmAdmin_All: TMainMenu;
     mniAdmin_File: TMenuItem;
@@ -131,6 +130,8 @@ begin
 
   if f_Admin then
   begin
+    dsCheckDevice.DataSet.Close;
+    dsCheckDevice.DataSet.Open;
     dtpCheckDevice.Date := Now;
     btnApply.Enabled := False;
     btnReset.Enabled := False;
@@ -191,33 +192,110 @@ end;
 // открытие БД поверки
 procedure TfrmCheckDevice.mniAdmin_OpenClick(Sender: TObject);
 var
-  i: Integer;
   f_JsonFile: string;
+  fPath: string;
+  f_question: Integer;
 begin
-  dlgOpen_Check.InitialDir := frmPaymentDocuments.f_DIR_Check_DB;
-  if dlgOpen_Check.Execute then
+  fPath := f_Path + cs_db_Check;
+
+  if not (FileExists(f_FileName_DB_Check_T)) and not(TDirectory.Exists(fPath)) then
   begin
-    f_JsonFile := dlgOpen_Check.FileName;
-    dmPayment.fmTabCheckDevice.LoadFromFile(f_JsonFile, sfJSON);
+    Application.MessageBox('У Вас не файлов или папки БД архива поверки ', 'Внимание!', (MB_ICONINFORMATION));
+    Abort;
   end;
+  if TDirectory.Exists(fPath) then
+  begin
+    f_question := Application.MessageBox('Вы хотите открыть папку с архивом БД поверки ', 'Вопрос!', (MB_ICONQUESTION + MB_YESNO));
+    case f_question of
+      6:
+        begin
+          dlgOpen_Check.InitialDir := fPath;
+          dlgOpen_Check.Filter := 'Каталог БД поверки(*.pv_fds)|*.pv_fds|Файл БД поверки (*.ch_fds)|*.ch_fds';
+        end;
+      7:
+        begin
+          dlgOpen_Check.InitialDir := f_Path;
+          dlgOpen_Check.Filter := 'Файл БД поверки (*.ch_fds)|*.ch_fds|Каталог БД поверки(*.pv_fds)|*.pv_fds';
+        end;
 
+    else
+      ShowMessage('Вы прервали ввод');
+    end;
+  end
+  else
+    dlgOpen_Check.InitialDir := f_Path;
+  try
+    if dlgOpen_Check.Execute then
+    begin
+      f_JsonFile := dlgOpen_Check.FileName;
+      dmPayment.fmTabCheckDevice.LoadFromFile(f_JsonFile, sfJSON);
+      f_FileName_DB_Check_T := f_JsonFile;
+    end
+    else
+    begin
+      Application.MessageBox('Вы отказались от открытия файла ', 'Внимание!', MB_ICONINFORMATION);
+    end;
+  except
+  // описать действие при возникновение исключительной ситуации
+
+  end;
 end;
-
 // запись БД поверки
 procedure TfrmCheckDevice.mniAdmin_SaveClick(Sender: TObject);
 var
-  i: Integer;
+  f_JsonFile: string;
+  fPath: string;
+  fExt: string;
+  f_question: Integer;
 begin
-  dlgSave_Check.InitialDir := frmPaymentDocuments.f_DIR_Check_DB;
+  fPath := f_Path + cs_db_Check;
+ // необходимо проверить файл на пустоту!!!!
+  if dsCheckDevice.DataSet.IsEmpty then
+  begin
+    Application.MessageBox('У Вас пустая таблица', 'Внимание!', MB_ICONINFORMATION);
+    Abort;
+  end;
+
+  if TDirectory.Exists(fPath) then
+  begin
+    f_question := Application.MessageBox('Вы хотите сохранить файл в папку с архивом БД поверки ', 'Вопрос!', (MB_ICONQUESTION + MB_YESNO));
+    case f_question of
+      6:
+        begin
+          dlgSave_Check.InitialDir := fPath;
+          dlgSave_Check.FileName := 'temp.pv_fds';
+          fExt := '.pv_fds';
+        end;
+
+      7:
+        begin
+          dlgSave_Check.InitialDir := f_Path;
+          dlgSave_Check.FileName := 'temp.ch_fds';
+          fExt := '.ch_fds';
+        end;
+    else
+      ShowMessage('Вы прервали ввод');
+    end;
+  end;
+
   if dlgSave_Check.Execute then
   begin
+      f_JsonFile := dlgSave_Check.FileName;
     if AnsiPos('.', dlgSave_Check.FileName) = 0 then
-      dmPayment.fmTabCheckDevice.SaveToFile(dlgSave_Check.FileName + '.pv_fds', sfJSON)
+      dmPayment.fmTabCheckDevice.SaveToFile(f_JsonFile + fExt, sfJSON)
     else
-      dmPayment.fmTabCheckDevice.SaveToFile(dlgSave_Check.FileName, sfJSON);
+      dmPayment.fmTabCheckDevice.SaveToFile(f_JsonFile, sfJSON);
+    f_FileName_DB_Check_T := f_JsonFile;
+  end
+  else
+  begin
+    Application.MessageBox('Вы отказались от сохранения файла ', 'Внимание!', MB_ICONINFORMATION);
   end;
 
 end;
+
+
+
 
 // указываем путь к папке
 procedure TfrmCheckDevice.mniAdmin_Path_FolderClick(Sender: TObject);
@@ -433,6 +511,7 @@ end;
 // закрытие и разрушение формы
 procedure TfrmCheckDevice.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+// при закрытие очистить таблицу
   if not (f_Admin) then
     dmPayment.fmTabCheckDevice.SaveToFile(f_FileName_DB_Check_T, sfJSON);
   if (dsCheckDevice.DataSet.Modified) or (f_CountChecked > 0) then

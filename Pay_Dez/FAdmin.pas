@@ -45,6 +45,8 @@ begin
 // активируем возможность редактировани€ таблицы данных и таблицы "ѕоверка"
     frmPaymentDocuments.mniForms_EditData.Enabled := True;
     frmPaymentDocuments.mniForms_EditChecked.Enabled := True;
+    frmPaymentDocuments.mniAccess_Admin.Visible := False;
+    frmPaymentDocuments.mniAccess_NoAdmin.Visible := True;
 //    frmPaymentDocuments.fVerification := True;
 //    f_Admin := True;
     ShowMessage('ƒобро пожаловать администратор');
