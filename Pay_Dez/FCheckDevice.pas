@@ -81,6 +81,9 @@ type
     procedure mniAdmin_Path_FolderClick(Sender: TObject);
     procedure mniAdmin_CreateFolderClick(Sender: TObject);
     procedure mniAdmin_Folder_DeleteClick(Sender: TObject);
+    procedure grdCheckDeviceCellClick(Column: TColumn);
+    procedure nvgCheckDeviceClick(Sender: TObject; Button: TNavigateBtn);
+
   private    { Private declarations }
     fdayCorr: TDate;
     f_FileName_DB_Check_T : string;  // переменная для файла БД  CheckDevice в классе TfrmCheckDevice
@@ -97,7 +100,7 @@ var
 implementation
 
 uses
-  FInputData, FdmPayment, FPaymentDocuments, funUntil , UnitConfig;
+FdmPayment, FPaymentDocuments, funUntil ;
 
 {$R *.dfm}
 
@@ -183,8 +186,19 @@ begin
 //    frmCheckDevice.BorderStyle := bsDialog;
     frmCheckDevice.Menu := nil;
   end;
-end;
 
+end;
+// перемещение по таблице
+procedure TfrmCheckDevice.grdCheckDeviceCellClick(Column: TColumn);
+begin
+  funUntil.MyF_Fill(frmCheckDevice, dsCheckDevice);
+end;
+// навигатор
+
+procedure TfrmCheckDevice.nvgCheckDeviceClick(Sender: TObject; Button: TNavigateBtn);
+begin
+   funUntil.MyF_Fill(frmCheckDevice, dsCheckDevice);
+end;
 
 
 
@@ -195,6 +209,7 @@ var
   f_JsonFile: string;
   fPath: string;
   f_question: Integer;
+  i : Integer;
 begin
   fPath := f_Path + cs_db_Check;
 
@@ -224,19 +239,32 @@ begin
   end
   else
     dlgOpen_Check.InitialDir := f_Path;
+
   try
     if dlgOpen_Check.Execute then
     begin
       f_JsonFile := dlgOpen_Check.FileName;
       dmPayment.fmTabCheckDevice.LoadFromFile(f_JsonFile, sfJSON);
       f_FileName_DB_Check_T := f_JsonFile;
+//  пытаемся заполнить данными из таблицы
+      dsCheckDevice.DataSet.First;
+     funUntil.MyF_Fill(frmCheckDevice, dsCheckDevice);      // процедура из funUntil
     end
     else
     begin
       Application.MessageBox('Вы отказались от открытия файла ', 'Внимание!', MB_ICONINFORMATION);
     end;
   except
-  // описать действие при возникновение исключительной ситуации
+    on E: EFDException do
+    begin
+      Application.MessageBox(PWideChar(E.ClassName + '  - Ошибка открытия файла json'), 'Ошибка', MB_ICONWARNING);
+// стираем все значения в TEdit и устанавливаем время в Now а TComboBox в -1
+      funUntil.MyF_Clear(frmCheckDevice, Now);
+    end;
+    on E: Exception do
+    begin
+      ShowMessage(E.ClassName + ' - Другая ошибка');
+    end;
 
   end;
 end;
@@ -293,8 +321,6 @@ begin
   end;
 
 end;
-
-
 
 
 // указываем путь к папке
@@ -416,18 +442,13 @@ begin
   end;
 
  // стираем все значения в TEdit и устанавливаем время в Now а TComboBox в -1
-for I := 0 to frmCheckDevice.ComponentCount -1 do
-begin
-  if Components[i] is TEdit then
-  (Components[i] as TEdit).Text := '';
-   if Components[i] is TComboBox then
-  (Components[i] as TComboBox).ItemIndex := -1;
-   if Components[i] is TDateTimePicker then
-  (Components[i] as TDateTimePicker).DateTime := fdayCorr;
-end;
+
+ funUntil.MyF_Clear(frmCheckDevice, fdayCorr);     // процедура из модуля funUntil
+
   if f_CountChecked = 3 then
     btnApply.Enabled := False;
 end;
+
 
 // сброс значений из таблицы если она не пустая
 procedure TfrmCheckDevice.btnResetClick(Sender: TObject);
@@ -526,23 +547,6 @@ end;
 //**************************************************************************************************
 
 end.
-// всякий хлам !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//var
-//  f_Dir: string;
-//  f_multiDir : TArray<string>;
-//  f_Dir := ExtractFilePath(Application.ExeName);
-////  if SelectDirectory(f_Dir, [sdAllowCreate, sdPerformCreate, sdPrompt], 0) then
-//  if SelectDirectory(f_Dir, f_multiDir, [sdAllowMultiselect], 'Создайте новый каталог', 'Введите имя каталога', 'Да') then
-//  begin
-//    mniAdmin_Path_Folder.Enabled := True;
-//    frmPaymentDocuments. f_DIR_Check_DB := f_multiDir[0];
-//    mniAdmin_CreateFolder.Enabled := False;
-//    mniAdmin_Folder_Delete.Enabled := True;
-//  end
-//  else
-//  begin
-//      Application.MessageBox('Вы прервали процесс создания папки', 'Внимание!', (MB_OK + MB_ICONINFORMATION));
-//  end;
-// f_multiDir := nil;
+
 
 

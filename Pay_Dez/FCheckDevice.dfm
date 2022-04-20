@@ -68,6 +68,7 @@ object frmCheckDevice: TfrmCheckDevice
       TabOrder = 1
     end
     object dtpCheckDevice: TDateTimePicker
+      Tag = 1
       Left = 561
       Top = 41
       Width = 180
@@ -107,6 +108,7 @@ object frmCheckDevice: TfrmCheckDevice
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
+      OnCellClick = grdCheckDeviceCellClick
     end
     object nvgCheckDevice: TDBNavigator
       Left = 1
@@ -117,6 +119,7 @@ object frmCheckDevice: TfrmCheckDevice
       VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
       Align = alTop
       TabOrder = 1
+      OnClick = nvgCheckDeviceClick
     end
   end
   object pnlCenter: TPanel
@@ -143,7 +146,7 @@ object frmCheckDevice: TfrmCheckDevice
       TabOrder = 0
     end
     object cbbNameDevice: TComboBox
-      Tag = 1
+      Tag = 2
       Left = 135
       Top = 32
       Width = 180
@@ -173,7 +176,7 @@ object frmCheckDevice: TfrmCheckDevice
       TabOrder = 11
     end
     object edtNumOldDevice: TEdit
-      Tag = 1
+      Tag = 3
       Left = 135
       Top = 96
       Width = 180
@@ -183,7 +186,7 @@ object frmCheckDevice: TfrmCheckDevice
       OnKeyDown = dtpCheckDeviceKeyDown
     end
     object edtNumNewDevice: TEdit
-      Tag = 1
+      Tag = 4
       Left = 561
       Top = 96
       Width = 180
@@ -241,7 +244,7 @@ object frmCheckDevice: TfrmCheckDevice
       TabOrder = 14
     end
     object edtShowOldBefore: TEdit
-      Tag = 1
+      Tag = 5
       Left = 235
       Top = 152
       Width = 80
@@ -253,7 +256,7 @@ object frmCheckDevice: TfrmCheckDevice
       OnKeyPress = edtShowOldBeforeKeyPress
     end
     object edtShowOldNow: TEdit
-      Tag = 1
+      Tag = 6
       Left = 235
       Top = 208
       Width = 80
@@ -264,7 +267,7 @@ object frmCheckDevice: TfrmCheckDevice
       OnKeyPress = edtShowOldNowKeyPress
     end
     object edtShowNewBefore: TEdit
-      Tag = 1
+      Tag = 7
       Left = 661
       Top = 152
       Width = 80
@@ -275,7 +278,7 @@ object frmCheckDevice: TfrmCheckDevice
       OnKeyPress = edtShowNewBeforeKeyPress
     end
     object edtShowNewNow: TEdit
-      Tag = 1
+      Tag = 8
       Left = 661
       Top = 200
       Width = 80
@@ -348,18 +351,17 @@ object frmCheckDevice: TfrmCheckDevice
   end
   object dsCheckDevice: TDataSource
     DataSet = dmPayment.fmTabCheckDevice
-    Top = 48
+    Left = 640
   end
   object dsPayAndRecord: TDataSource
     DataSet = dmPayment.fmTabPayAndRecord
-    Left = 384
-    Top = 264
+    Left = 680
   end
   object mmAdmin_All: TMainMenu
     AutoHotkeys = maManual
     Images = ilChecked
-    Left = 8
-    Top = 2
+    Left = 32
+    Top = 10
     object mniAdmin_File: TMenuItem
       Caption = #1060#1072#1081#1083
       object mniSet_Open: TMenuItem
@@ -412,22 +414,22 @@ object frmCheckDevice: TfrmCheckDevice
       ')|*.ch_fds'
     Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
     Title = #1057#1086#1093#1088#1072#1085#1077#1085#1080#1077' '#1092#1072#1081#1083#1086#1074' '#1074' '#1087#1072#1087#1082#1091' '#1041#1044'  '#1087#1088#1080#1073#1086#1088#1086#1074' '#1091#1095#1077#1090#1072
-    Left = 104
-    Top = 24
+    Left = 88
+    Top = 8
   end
   object dlgOpen_Check: TOpenDialog
     Filter = 
       #1060#1072#1081#1083' '#1041#1044' '#1087#1086#1074#1077#1088#1082#1080' (*.ch_fds)|*.ch_fds| '#1050#1072#1090#1072#1083#1086#1075' '#1041#1044' '#1087#1086#1074#1077#1088#1082#1080'(*.pv_fds' +
       ')|*.pv_fds'
     Title = #1059#1082#1072#1078#1080#1090#1077' '#1087#1072#1087#1082#1091' '#1041#1044' '#1089' '#1092#1072#1081#1083#1086#1084' '#1087#1086#1074#1077#1088#1082#1080' '#1087#1088#1080#1073#1086#1088#1086#1074' '#1091#1095#1077#1090#1072
-    Left = 200
-    Top = 24
+    Left = 144
+    Top = 8
   end
   object ilChecked: TImageList
     Height = 24
     Width = 24
-    Left = 24
-    Top = 461
+    Left = 632
+    Top = 133
     Bitmap = {
       494C010109001400040018001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000060000000480000000100200000000000006C
@@ -1330,8 +1332,8 @@ object frmCheckDevice: TfrmCheckDevice
   object pmCheckDevice: TPopupMenu
     Images = ilChecked
     MenuAnimation = [maNone]
-    Left = 272
-    Top = 40
+    Left = 24
+    Top = 56
     object mniAdmin_FolderOpen: TMenuItem
       Caption = #1054#1090#1082#1088#1099#1090#1100
       ImageIndex = 0
@@ -1345,8 +1347,8 @@ object frmCheckDevice: TfrmCheckDevice
   end
   object actlstCheckDevice: TActionList
     Images = ilChecked
-    Left = 608
-    Top = 122
+    Left = 632
+    Top = 90
     object actOpen: TAction
       Category = 'JobFile'
       Caption = 'actOpen'

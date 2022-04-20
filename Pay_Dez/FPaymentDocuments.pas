@@ -272,8 +272,8 @@ end;
 
 procedure TfrmPaymentDocuments.mniAccess_NoAdminClick(Sender: TObject);
 begin
-  mniAccess_Admin.Visible := False;
-  mniAccess_NoAdmin.Visible := True;
+  mniAccess_Admin.Visible := True;
+  mniAccess_NoAdmin.Visible := False;
   mniForms_EditChecked.Enabled := False;
   f_Admin := False;
 end;
@@ -393,8 +393,8 @@ begin
   end;
 
   end;
+    frmCheckDevice.Free;
 
-  frmCheckDevice.Free;
 end;
 // процедура открытия Базы Данных
 
@@ -420,30 +420,41 @@ if not(FileExists(fFile)) and not(TDirectory.Exists(fPath) and not(TDirectory.Is
 // установка имени начального файла
   if f_FileName_DB <> '' then
  dlgOpenPay.FileName := ExtractFileName(f_FileName_DB);
-
-
-
-  if dlgOpenPay.Execute then
-  begin
-//    ShowMessage('Вы хотите открыть Базу Данных');
-    if dlgOpenPay.FileName <> '' then
+  try
+    if dlgOpenPay.Execute then
     begin
-      dmPayment.fmTabPayAndRecord.Close;
-      dmPayment.fmTabSummaryTable.Close;
-      dmPayment.fmTabPayAndRecord.Open;
-      dmPayment.fmTabSummaryTable.Open;
-      dmPayment.fmTabPayAndRecord.LoadFromFile(dlgOpenPay.FileName, sfJSON);
-      funUntil.CorrectionTable(dmPayment.fmTabPayAndRecord, dmPayment.fmTabSummaryTable);
-      f_FileName_DB := dlgOpenPay.FileName;
+//    ShowMessage('Вы хотите открыть Базу Данных');
+      if dlgOpenPay.FileName <> '' then
+      begin
+        dmPayment.fmTabPayAndRecord.Close;
+        dmPayment.fmTabSummaryTable.Close;
+        dmPayment.fmTabPayAndRecord.Open;
+        dmPayment.fmTabSummaryTable.Open;
+        dmPayment.fmTabPayAndRecord.LoadFromFile(dlgOpenPay.FileName, sfJSON);
+        funUntil.CorrectionTable(dmPayment.fmTabPayAndRecord, dmPayment.fmTabSummaryTable);
+        f_FileName_DB := dlgOpenPay.FileName;
+      end;
+
+    end
+    else
+    begin
+      Application.MessageBox('Вы отменили загрузку БД', 'Внимание!', (MB_ICONINFORMATION));
+    end;
+  except
+    on E: EFDException do
+    begin
+      Application.MessageBox(PWideChar(E.ClassName + '  - Ошибка открытия файла json'), 'Ошибка', MB_ICONWARNING);
+      Abort;
+    end;
+    on E: Exception do
+    begin
+      ShowMessage(E.ClassName + ' - Другая ошибка');
     end;
 
-  end
-  else
-  begin
-   Application.MessageBox('Вы отменили загрузку БД', 'Внимание!', (MB_ICONINFORMATION));
   end;
-
 end;
+
+
 
 
 // процедура сохранения Базы Данных
