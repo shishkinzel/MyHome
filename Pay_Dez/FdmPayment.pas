@@ -68,6 +68,7 @@ type
     strngfldTabPayAndRecordlightPrev: TStringField;
     strngfldTabPayAndRecordWaterColdPrev: TStringField;
     strngfldTabPayAndRecordWaterHotPrev: TStringField;
+    dlgOpen_dmPayment: TOpenDialog;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private
@@ -81,25 +82,71 @@ var
 
 implementation
 uses
-  FPaymentDocuments;
+  FPaymentDocuments, IOUtils;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 {$R *.dfm}
 procedure TdmPayment.DataModuleCreate(Sender: TObject);
 var
   fIniFile: TIniFile;
+  fPath, fFile: string;
+  fquestion : Integer;
 begin
   fmTabPayAndRecord.Open;
   fmTabSummaryTable.Open;
+  fPath := f_Path + cs_db_PaymentDocumets;
 
   if frmPaymentDocuments.fExist_config then
   begin
-    Application.MessageBox('Чтение файла конфигурации', 'Внимание', MB_OK + MB_ICONINFORMATION);
-    fmTabPayAndRecord.LoadFromFile(frmPaymentDocuments.f_FileName_DB, sfJSON);
+//    Application.MessageBox('Чтение ', 'Внимание', MB_OK + MB_ICONINFORMATION);
+//    fmTabPayAndRecord.LoadFromFile(frmPaymentDocuments.f_FileName_DB, sfJSON);
+// доработка с учетом флага с дефолтными настройками
+    if frmPaymentDocuments.f_DefaultSettingReadFile then
+      fmTabPayAndRecord.LoadFromFile(frmPaymentDocuments.f_FileName_DB, sfJSON)
+    else
+    begin
+      ShowMessage('Отказ от дефолтных настроек');
+    end;
   end
-  else if FileExists(frmPaymentDocuments.f_FileName_DB) then
-    fmTabPayAndRecord.LoadFromFile(frmPaymentDocuments.f_FileName_DB, sfJSON);
+  else
+  begin
+// здесь все нужно переделать - когда нет файла конфигурации
+    fquestion := Application.MessageBox('Вы хотите загрузить файл из папки БД ?', 'Внимание, Вопрос', MB_ICONQUESTION + MB_YESNO);
+    case fquestion of
+      6:
+        begin
+          if TDirectory.Exists(fPath) then
+          begin
+            dlgOpen_dmPayment.InitialDir := fPath;
+            dlgOpen_dmPayment.Filter := 'Файл БД платёжных документов (*.pd_fds)|*.pd_fds';
+            if TDirectory.IsEmpty(fPath) then
+              dlgOpen_dmPayment.Filter := 'Все файлы json|*.fds';
+          end
+          else
+          begin
+            dlgOpen_dmPayment.InitialDir := f_Path;
+            dlgOpen_dmPayment.Filter := 'Все файлы json|*.fds';
+          end;
 
+        end;
+      7:
+        begin
+          dlgOpen_dmPayment.InitialDir := f_Path;
+          dlgOpen_dmPayment.Filter := 'Все файлы json|*.fds';
+        end;
+    else
+      begin
+        ShowMessage('Внимание - сбой!!!');
+      end;
+    end;
+// запуск диалога
+    if dlgOpen_dmPayment.Execute then
+    begin
+      fmTabPayAndRecord.LoadFromFile(dlgOpen_dmPayment.FileName, sfJSON);
+    end;
+
+
+  end;
   funUntil.CorrectionTable(dmPayment.fmTabPayAndRecord, dmPayment.fmTabSummaryTable);
 
 end;
@@ -112,13 +159,14 @@ begin
   begin
     Application.MessageBox('Запись файла конфигурации', 'Внимание', MB_OK + MB_ICONINFORMATION);
     fIniFile := TIniFile.Create(f_iniPath);
-    IniOptions.fFileName_DB := frmPaymentDocuments.f_FileName_DB;
+//    IniOptions.fFileName_DB := frmPaymentDocuments.f_FileName_DB;
     IniOptions.fPath_DB := frmPaymentDocuments.f_Path_DB;
     IniOptions.fFolder_DB_PaymentDocuments := frmPaymentDocuments.f_Folder_DB_PaymentDocumets;
     IniOptions.fDIR_Check_DB := frmPaymentDocuments.f_DIR_Check_DB;
     IniOptions.fFolder_DB_Check := frmPaymentDocuments.f_Folder_DB_Check;
     IniOptions.fFile_DB_PaymentDocuments := frmPaymentDocuments.f_FileName_DB;
     IniOptions.fFile_DB_CheckDevice := frmPaymentDocuments.f_FileName_DB_Check;
+    IniOptions.fDefaultSettingReadFile := frmPaymentDocuments.f_DefaultSettingReadFile;
     IniOptions.SaveSettings(fIniFile);
     IniOptions.SaveToFile(f_iniPath);
     fIniFile.Free;

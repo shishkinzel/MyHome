@@ -10,6 +10,7 @@ const
   csIniSectionPath = 'SectionPath_DB';          // секция для хранения пути к каталогу с БД PaymentDocumets
   csIniSectionDIR_Check = 'SectionDIR_Check';   // секция для хранения пути к каталогу с БД CheckDevice
   csIniSectionSaveFileName_Path_DB = 'SectionSaveFileName_Path_DB'; // секция для хранения имен файлов БД и пути к ним
+  csIniSectionDefaultSettings   = 'SectionDefaultSettings';   // секция для хранения настроек по умолчанию
     {Section : csIniSectionFileName}
   csFileName = 'fFileName_DB';
 
@@ -24,6 +25,10 @@ const
     {Section : csIniSectionSaveFileName_Path_DB}
   csFile_DB_PaymentDocuments = 'fFile_DB_PaymentDocuments';
   csFile_DB_CheckDevice = 'fFile_DB_CheckDevice';
+
+      {Section : csIniSectionDefaultSettings}
+  csDefaultSettingReadFile = 'fDefaultSettingReadFile';
+
 
 type
   TIniOptions = class(TObject)
@@ -43,6 +48,9 @@ type
     {Section : csIniSectionSaveFileName_Path_DB}
     fFile_DB_PaymentDocuments: string;
     fFile_DB_CheckDevice: string;
+
+    {Section : csIniSectionDefaultSettings}
+     fDefaultSettingReadFile : Boolean;
 
     procedure LoadSettings(Ini: TIniFile);
     procedure SaveSettings(Ini: TIniFile);
@@ -79,6 +87,8 @@ begin
     fFile_DB_PaymentDocuments := Ini.ReadString(csIniSectionSaveFileName_Path_DB, csFile_DB_PaymentDocuments, '');
     fFile_DB_CheckDevice := Ini.ReadString(csIniSectionSaveFileName_Path_DB, csFile_DB_CheckDevice, '');
 
+    {Section : csIniSectionDefaultSettings}
+    fDefaultSettingReadFile := Ini.ReadBool(csIniSectionDefaultSettings, csDefaultSettingReadFile, False);
   end;
 end;
 
@@ -100,6 +110,9 @@ begin
     {Section : csIniSectionSaveFileName_Path_DB}
     Ini.WriteString(csIniSectionSaveFileName_Path_DB, csFile_DB_PaymentDocuments, fFile_DB_PaymentDocuments);
     Ini.WriteString(csIniSectionSaveFileName_Path_DB, csFile_DB_CheckDevice, fFile_DB_CheckDevice);
+
+     {Section : csIniSectionDefaultSettings}
+    Ini.WriteBool(csIniSectionDefaultSettings, csDefaultSettingReadFile, fDefaultSettingReadFile);
   end;
 end;
 

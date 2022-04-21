@@ -116,6 +116,8 @@ type
     mniSet_Exit: TMenuItem;
     mniSet_N1: TMenuItem;
     mniAccess_NoAdmin: TMenuItem;
+    mniSet_Default: TMenuItem;
+    mniSet_N2: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniTabShow_LittleClick(Sender: TObject);
     procedure mniTabShow_BigClick(Sender: TObject);
@@ -139,6 +141,7 @@ type
     procedure mniFile_CloseClick(Sender: TObject);
     procedure mniSet_CreateBDClick(Sender: TObject);
     procedure mniAccess_NoAdminClick(Sender: TObject);
+    procedure mniSet_DefaultClick(Sender: TObject);
 
   private    { Private declarations }
 //  var
@@ -154,6 +157,7 @@ type
     f_DIR_Check_DB: string;                    // путь к каталогу с БД CheckDevice
     f_Folder_DB_PaymentDocumets: Boolean;     //  маркер наличия папки с БД для PaymentDocumets
     f_Folder_DB_Check: Boolean;               //  маркер наличия папки с БД для CheckDevice
+    f_DefaultSettingReadFile : Boolean;       // флаг чтения файла БД по умочанию без диалога
 
     fIniFile: TIniFile;      // файл конфигурации
 //    f_IinPath_check: string;  // путь к папке с файлами БД поверки
@@ -211,20 +215,15 @@ begin
 // чтение файла конфигурации
     IniOptions.LoadFromFile(f_iniPath);
 // запись в программные переменные из файла конфигурации
-    f_FileName_DB := IniOptions.fFileName_DB;
+//    f_FileName_DB := IniOptions.fFileName_DB;      // нужно ли ????
     f_Path_DB := IniOptions.fPath_DB;
     f_Folder_DB_PaymentDocumets := IniOptions.fFolder_DB_PaymentDocuments;
     f_DIR_Check_DB := IniOptions.fDIR_Check_DB;
     f_Folder_DB_Check := IniOptions.fFolder_DB_Check;
-    if not (f_Folder_DB_PaymentDocumets) and not (TDirectory.IsEmpty(f_Path_DB)) then
-     // сдесь прочитать название и путь сохраненого файла БД
-    begin
-      f_FileName_DB := IniOptions.fFile_DB_PaymentDocuments;
-    end;
-
+    f_DefaultSettingReadFile := IniOptions.fDefaultSettingReadFile;
     fIniFile.Free;
       // обработка пункта главного меню "Настройка"
-    mniSet_Show.Enabled := True;
+    mniSet_Show.Enabled := True;      //  включения в главном меню пункта "Настройки" по умолчанию False
     if f_Folder_DB_PaymentDocumets then
     begin
       mniSet_CreateBD.Enabled := True;
@@ -235,6 +234,14 @@ begin
       mniSet_CreateBD.Enabled := False;
       mniSet_DeleteFoderBD.Enabled := True;
     end;
+// установка дефолтных настроек из файла ini
+    if f_DefaultSettingReadFile then
+    begin
+      mniSet_Default.Checked := True;
+      f_FileName_DB := IniOptions.fFile_DB_PaymentDocuments;    // записываем файл из ini для дефолтных настроек
+    end
+    else
+      mniSet_Default.Checked := False;
 
   end
   else
@@ -248,28 +255,143 @@ end;
 
 // создание файла конфигурации
 procedure TfrmPaymentDocuments.mniAccess_ConfigClick(Sender: TObject);
+var
+ fLocal_FileName_DB : string;
 begin
   MessageBox(frmPaymentDocuments.Handle, 'Вы пытаетесь создать конфигурационный файл', 'Внимание', (MB_OK + MB_ICONINFORMATION));
+  fLocal_FileName_DB := f_Path + cs_JsonFile;  // путь к файлу по умолчанию  <any_bd.fds>
   fIniFile := TIniFile.Create(f_iniPath);
+// запишем путь и имя файл в переменную fFileName_DB в файл конфигурации
+  IniOptions.fFileName_DB := fLocal_FileName_DB;
+  IniOptions.SaveSettings(fIniFile);
 
 // чтение конфигурации по умолчанию
   IniOptions.LoadSettings(fIniFile);
 // запись программных переменных для ini файла
-  f_FileName_DB := IniOptions.fFileName_DB;
   f_Path_DB := IniOptions.fPath_DB;
   f_Folder_DB_PaymentDocumets := IniOptions.fFolder_DB_PaymentDocuments;
   f_DIR_Check_DB := IniOptions.fDIR_Check_DB;
   f_Folder_DB_Check := IniOptions.fFolder_DB_Check;
+  f_DefaultSettingReadFile := IniOptions.fDefaultSettingReadFile;
  // запись файла конфигурации
   IniOptions.SaveSettings(fIniFile);
   IniOptions.SaveToFile(f_iniPath);
   fIniFile.Free;
+// гасим "создать конфигурацию" и выставляем флаг о наличии файла конфигурации
   mniAccess_Config.Enabled := False;
   fExist_config := True;
-  mniSet_Show.Enabled := True;
-  f_FileName_DB := f_Path + cs_JsonFile;
+  mniSet_Show.Enabled := True;    //  включения в главном меню пункта "Настройки"
+end;
+//**************************************************************************************************
+ // процедура открытия Базы Данных
+procedure TfrmPaymentDocuments.mniOpenDBClick(Sender: TObject);
+var
+  fPath, fFile: string;
+begin
+// задаем начальную папку открытия  опции OpenDialog
+  fPath := f_Path + cs_db_PaymentDocumets;
+  fFile := f_Path + cs_JsonFile;
+if not(FileExists(fFile)) and not(TDirectory.Exists(fPath) and not(TDirectory.IsEmpty(fPath))) then
+  begin
+   Application.MessageBox('У Вас не файлов БД', 'Внимание!', (MB_ICONINFORMATION));
+   Abort;
+  end;
+  if TDirectory.Exists(fPath) and not (TDirectory.IsEmpty(fPath)) then
+    dlgOpenPay.InitialDir := fPath
+  else
+  begin
+    dlgOpenPay.InitialDir := f_Path;
+    dlgOpenPay.Filter := 'Все файлы json|*.fds';
+  end;
+// установка имени начального файла
+  if f_FileName_DB <> '' then
+ dlgOpenPay.FileName := ExtractFileName(f_FileName_DB);
+  try
+    if dlgOpenPay.Execute then
+    begin
+//    ShowMessage('Вы хотите открыть Базу Данных');
+      if dlgOpenPay.FileName <> '' then
+      begin
+        dmPayment.fmTabPayAndRecord.Close;
+        dmPayment.fmTabSummaryTable.Close;
+        dmPayment.fmTabPayAndRecord.Open;
+        dmPayment.fmTabSummaryTable.Open;
+        dmPayment.fmTabPayAndRecord.LoadFromFile(dlgOpenPay.FileName, sfJSON);
+        funUntil.CorrectionTable(dmPayment.fmTabPayAndRecord, dmPayment.fmTabSummaryTable);
+        f_FileName_DB := dlgOpenPay.FileName;
+      end;
+
+    end
+    else
+    begin
+      Application.MessageBox('Вы отменили загрузку БД', 'Внимание!', (MB_ICONINFORMATION));
+    end;
+  except
+    on E: EFDException do
+    begin
+      Application.MessageBox(PWideChar(E.ClassName + '  - Ошибка открытия файла json'), 'Ошибка', MB_ICONWARNING);
+      Abort;
+    end;
+    on E: Exception do
+    begin
+      ShowMessage(E.ClassName + ' - Другая ошибка');
+    end;
+
+  end;
 end;
 
+// процедура сохранения Базы Данных
+procedure TfrmPaymentDocuments.mniSaveBDClick(Sender: TObject);
+var
+  fPath, fFile: string;
+  fquestion: Integer;
+begin
+// задаем начальную папку открытия  опции OpenDialog
+  fPath := f_Path + cs_db_PaymentDocumets;
+//  fFile := f_Path + cs_JsonFile;
+// проверка на наличие папки с БД
+  if not (TDirectory.Exists(fPath)) then
+  begin
+    Application.MessageBox('Создайте директорию с БД', 'Внимание!', (MB_ICONINFORMATION));
+    Abort;
+  end;
+  dlgSavePay.InitialDir := fPath;
+  dlgSavePay.FileName := 'temp.pd_fds';
+
+  if dlgSavePay.Execute then
+  begin
+    if dlgSavePay.FileName <> '' then
+    begin
+      if AnsiPos('.', dlgSavePay.FileName) = 0 then
+        dmPayment.fmTabPayAndRecord.SaveToFile(dlgSavePay.FileName + '.pd_fds', sfJSON)
+      else
+        dmPayment.fmTabPayAndRecord.SaveToFile(dlgSavePay.FileName, sfJSON);
+// запрос на запись в дефолтную переменную
+      fquestion := Application.MessageBox('Вы хотите записать этот файл как Default ?', 'Внимание, Вопрос', MB_ICONQUESTION + MB_YESNO);
+       case fquestion of
+       6 :     f_FileName_DB := dlgSavePay.FileName;
+       7 : ;
+       end;
+    end;
+
+  end
+  else
+  begin
+   Application.MessageBox('Вы отменили сохранение БД', 'Внимание!', (MB_ICONINFORMATION));
+  end;
+end;
+// *************************************************************************************************
+
+// установка флага чтения файла БД по умолчанию из ini файла
+procedure TfrmPaymentDocuments.mniSet_DefaultClick(Sender: TObject);
+begin
+  if mniSet_Default.Checked then
+    f_DefaultSettingReadFile := True
+    else
+    f_DefaultSettingReadFile := False;
+end;
+
+// отключение функции администратора
 procedure TfrmPaymentDocuments.mniAccess_NoAdminClick(Sender: TObject);
 begin
   mniAccess_Admin.Visible := True;
@@ -396,102 +518,7 @@ begin
     frmCheckDevice.Free;
 
 end;
-// процедура открытия Базы Данных
 
-procedure TfrmPaymentDocuments.mniOpenDBClick(Sender: TObject);
-var
-  fPath, fFile: string;
-begin
-// задаем начальную папку открытия  опции OpenDialog
-  fPath := f_Path + cs_db_PaymentDocumets;
-  fFile := f_Path + cs_JsonFile;
-if not(FileExists(fFile)) and not(TDirectory.Exists(fPath) and not(TDirectory.IsEmpty(fPath))) then
-  begin
-   Application.MessageBox('У Вас не файлов БД', 'Внимание!', (MB_ICONINFORMATION));
-   Abort;
-  end;
-  if TDirectory.Exists(fPath) and not (TDirectory.IsEmpty(fPath)) then
-    dlgOpenPay.InitialDir := fPath
-  else
-  begin
-    dlgOpenPay.InitialDir := f_Path;
-    dlgOpenPay.Filter := 'Все файлы json|*.fds';
-  end;
-// установка имени начального файла
-  if f_FileName_DB <> '' then
- dlgOpenPay.FileName := ExtractFileName(f_FileName_DB);
-  try
-    if dlgOpenPay.Execute then
-    begin
-//    ShowMessage('Вы хотите открыть Базу Данных');
-      if dlgOpenPay.FileName <> '' then
-      begin
-        dmPayment.fmTabPayAndRecord.Close;
-        dmPayment.fmTabSummaryTable.Close;
-        dmPayment.fmTabPayAndRecord.Open;
-        dmPayment.fmTabSummaryTable.Open;
-        dmPayment.fmTabPayAndRecord.LoadFromFile(dlgOpenPay.FileName, sfJSON);
-        funUntil.CorrectionTable(dmPayment.fmTabPayAndRecord, dmPayment.fmTabSummaryTable);
-        f_FileName_DB := dlgOpenPay.FileName;
-      end;
-
-    end
-    else
-    begin
-      Application.MessageBox('Вы отменили загрузку БД', 'Внимание!', (MB_ICONINFORMATION));
-    end;
-  except
-    on E: EFDException do
-    begin
-      Application.MessageBox(PWideChar(E.ClassName + '  - Ошибка открытия файла json'), 'Ошибка', MB_ICONWARNING);
-      Abort;
-    end;
-    on E: Exception do
-    begin
-      ShowMessage(E.ClassName + ' - Другая ошибка');
-    end;
-
-  end;
-end;
-
-
-
-
-// процедура сохранения Базы Данных
-procedure TfrmPaymentDocuments.mniSaveBDClick(Sender: TObject);
-var
-  fPath, fFile: string;
-begin
-// задаем начальную папку открытия  опции OpenDialog
-  fPath := f_Path + cs_db_PaymentDocumets;
-//  fFile := f_Path + cs_JsonFile;
-// проверка на наличие папки с БД
-  if not (TDirectory.Exists(fPath)) then
-  begin
-    Application.MessageBox('Создайте директорию с БД', 'Внимание!', (MB_ICONINFORMATION));
-    Abort;
-  end;
-  dlgSavePay.InitialDir := fPath;
-  dlgSavePay.FileName := 'temp.pd_fds';
-
-  if dlgSavePay.Execute then
-  begin
-    if dlgSavePay.FileName <> '' then
-    begin
-      f_FileName_DB := dlgSavePay.FileName;
-      if AnsiPos('.', dlgSavePay.FileName) = 0 then
-        dmPayment.fmTabPayAndRecord.SaveToFile(f_FileName_DB + '.pd_fds', sfJSON)
-      else
-        dmPayment.fmTabPayAndRecord.SaveToFile(f_FileName_DB, sfJSON);
-
-    end;
-
-  end
-  else
-  begin
-   Application.MessageBox('Вы отменили сохранение БД', 'Внимание!', (MB_ICONINFORMATION));
-  end;
-end;
 
 
 procedure TfrmPaymentDocuments.mniShowCheckClick(Sender: TObject);
@@ -589,6 +616,7 @@ begin
   f_Folder_DB_PaymentDocumets := False;
   mniSet_DeleteFoderBD.Enabled := True;
 end;
+
 
 procedure TfrmPaymentDocuments.mniSet_DeleteFoderBDClick(Sender: TObject);
 var

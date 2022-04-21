@@ -670,6 +670,14 @@ object frmPaymentDocuments: TfrmPaymentDocuments
       object mniSet_N1: TMenuItem
         Caption = '-'
       end
+      object mniSet_Default: TMenuItem
+        AutoCheck = True
+        Caption = #1047#1072#1075#1088#1091#1079#1082#1072' '#1092#1072#1081#1083#1072' '#1041#1044' - '#1087#1086' '#1091#1084#1086#1083#1095#1072#1085#1080#1102
+        OnClick = mniSet_DefaultClick
+      end
+      object mniSet_N2: TMenuItem
+        Caption = '-'
+      end
       object mniSet_Exit: TMenuItem
         Caption = #1042#1099#1093#1086#1076
         ImageIndex = 25
