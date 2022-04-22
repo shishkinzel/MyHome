@@ -101,8 +101,18 @@ begin
 //    Application.MessageBox('Чтение ', 'Внимание', MB_OK + MB_ICONINFORMATION);
 //    fmTabPayAndRecord.LoadFromFile(frmPaymentDocuments.f_FileName_DB, sfJSON);
 // доработка с учетом флага с дефолтными настройками
+
     if frmPaymentDocuments.f_DefaultSettingReadFile then
-      fmTabPayAndRecord.LoadFromFile(frmPaymentDocuments.f_FileName_DB, sfJSON)
+    try
+      fmTabPayAndRecord.LoadFromFile(frmPaymentDocuments.f_FileName_DB, sfJSON);
+    except
+      on E: Exception do
+      begin
+        Application.MessageBox('Файл БД не найден!', 'Внимание!', MB_ICONWARNING);
+        Abort;
+      end;
+
+    end
     else
     begin
       ShowMessage('Отказ от дефолтных настроек');

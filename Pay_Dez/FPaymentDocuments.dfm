@@ -323,8 +323,21 @@ object frmPaymentDocuments: TfrmPaymentDocuments
       Color = 6219504
       ParentBackground = False
       TabOrder = 0
+      object lblNameFile: TLabel
+        Left = 438
+        Top = 5
+        Width = 5
+        Height = 19
+        Alignment = taCenter
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
       object dtpPay: TDateTimePicker
-        Left = 170
+        Left = 80
         Top = 3
         Width = 208
         Height = 27
@@ -347,7 +360,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
       end
       object txtDate: TStaticText
         AlignWithMargins = True
-        Left = 102
+        Left = 12
         Top = 3
         Width = 62
         Height = 30
@@ -367,6 +380,26 @@ object frmPaymentDocuments: TfrmPaymentDocuments
         ParentColor = False
         ParentFont = False
         TabOrder = 1
+      end
+      object txtNameDB: TStaticText
+        AlignWithMargins = True
+        Left = 306
+        Top = 5
+        Width = 126
+        Height = 23
+        Alignment = taCenter
+        AutoSize = False
+        BevelKind = bkTile
+        BevelOuter = bvRaised
+        BorderStyle = sbsSunken
+        Caption = #1048#1084#1103' '#1092#1072#1081#1083#1072' '#1041#1044':'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 2
       end
     end
     object pnlApply: TPanel
@@ -684,6 +717,10 @@ object frmPaymentDocuments: TfrmPaymentDocuments
         ShortCut = 16453
         OnClick = mniFile_CloseClick
       end
+      object mniSet_Clear_Any: TMenuItem
+        Caption = #1054#1095#1080#1089#1090#1082#1072' '#1092#1072#1081#1083#1072' "any_bd.fds"'
+        OnClick = mniSet_Clear_AnyClick
+      end
     end
     object mniShow: TMenuItem
       Caption = #1055#1086#1082#1072#1079#1072#1090#1100
@@ -863,13 +900,13 @@ object frmPaymentDocuments: TfrmPaymentDocuments
   end
   object dsPayAndRecord: TDataSource
     DataSet = dmPayment.fmTabPayAndRecord
-    Left = 545
-    Top = 5
+    Left = 393
+    Top = 381
   end
   object dsListReport: TDataSource
     DataSet = dmPayment.fmTabListReport
-    Left = 592
-    Top = 8
+    Left = 440
+    Top = 376
   end
   object dlgOpenPay: TOpenDialog
     Filter = 
@@ -886,8 +923,8 @@ object frmPaymentDocuments: TfrmPaymentDocuments
   object ilPaymentDocuments: TImageList
     Height = 24
     Width = 24
-    Left = 457
-    Top = 45
+    Left = 441
+    Top = 85
     Bitmap = {
       494C010117002400040018001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       00000000000036000000280000006000000090000000010020000000000000D8
@@ -2681,8 +2718,8 @@ object frmPaymentDocuments: TfrmPaymentDocuments
   object ilPaymenNew: TImageList
     Height = 24
     Width = 24
-    Left = 537
-    Top = 69
+    Left = 545
+    Top = 85
     Bitmap = {
       494C01011B005800040018001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000060000000A8000000010020000000000000FC

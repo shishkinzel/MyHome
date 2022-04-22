@@ -118,6 +118,9 @@ type
     mniAccess_NoAdmin: TMenuItem;
     mniSet_Default: TMenuItem;
     mniSet_N2: TMenuItem;
+    mniSet_Clear_Any: TMenuItem;
+    txtNameDB: TStaticText;
+    lblNameFile: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure mniTabShow_LittleClick(Sender: TObject);
     procedure mniTabShow_BigClick(Sender: TObject);
@@ -142,6 +145,7 @@ type
     procedure mniSet_CreateBDClick(Sender: TObject);
     procedure mniAccess_NoAdminClick(Sender: TObject);
     procedure mniSet_DefaultClick(Sender: TObject);
+    procedure mniSet_Clear_AnyClick(Sender: TObject);
 
   private    { Private declarations }
 //  var
@@ -182,12 +186,13 @@ var
   f_Admin: Boolean;          // включение режима администрирования
   f_iniPath : string;        // путь до файла конфигурации
   f_Path : string;           // путь до файла  ProjectPaymentDocuments.exe
-
 const
   fCHECK = 'Поверка';                     //   константа для поверки приборов
 
 implementation
 
+uses
+  System.StrUtils;
 
 {$R *.dfm}
 procedure TfrmPaymentDocuments.FormCreate(Sender: TObject);
@@ -249,7 +254,7 @@ begin
     mniAccess_Config.Enabled := True;
     MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - отсутствует!!!', 'Внимание', (MB_OK + MB_ICONWARNING));
   end;
-
+   lblNameFile.Caption := ExtractFileName(f_FileName_DB);
 end;
 
 
@@ -284,17 +289,26 @@ begin
 end;
 //**************************************************************************************************
  // процедура открытия Базы Данных
+
 procedure TfrmPaymentDocuments.mniOpenDBClick(Sender: TObject);
 var
   fPath, fFile: string;
+  fquestion: Integer;
 begin
 // задаем начальную папку открытия  опции OpenDialog
   fPath := f_Path + cs_db_PaymentDocumets;
   fFile := f_Path + cs_JsonFile;
-if not(FileExists(fFile)) and not(TDirectory.Exists(fPath) and not(TDirectory.IsEmpty(fPath))) then
+if not(FileExists(fFile)) {and not(TDirectory.Exists(fPath) and not(TDirectory.IsEmpty(fPath)))} then
   begin
-   Application.MessageBox('У Вас не файлов БД', 'Внимание!', (MB_ICONINFORMATION));
-   Abort;
+    fquestion := Application.MessageBox('У Вас осутствует файл' + #10#13 + '  "any_bd.fds"' + #10#13 + 'Вы хотите его создать?', 'Внимание!', MB_ICONQUESTION + MB_YESNO);
+    case fquestion of
+      6:
+        begin
+          dmPayment.fmTabPayAndRecord.SaveToFile(fFile, sfJSON);
+        end;
+      7:
+        ;
+    end;
   end;
   if TDirectory.Exists(fPath) and not (TDirectory.IsEmpty(fPath)) then
     dlgOpenPay.InitialDir := fPath
@@ -319,6 +333,7 @@ if not(FileExists(fFile)) and not(TDirectory.Exists(fPath) and not(TDirectory.Is
         dmPayment.fmTabPayAndRecord.LoadFromFile(dlgOpenPay.FileName, sfJSON);
         funUntil.CorrectionTable(dmPayment.fmTabPayAndRecord, dmPayment.fmTabSummaryTable);
         f_FileName_DB := dlgOpenPay.FileName;
+        lblNameFile.Caption := ExtractFileName(f_FileName_DB);
       end;
 
     end
@@ -345,33 +360,50 @@ procedure TfrmPaymentDocuments.mniSaveBDClick(Sender: TObject);
 var
   fPath, fFile: string;
   fquestion: Integer;
+  f_ext : string;
 begin
 // задаем начальную папку открытия  опции OpenDialog
   fPath := f_Path + cs_db_PaymentDocumets;
 //  fFile := f_Path + cs_JsonFile;
+// куда хотим записать файл- релизовать
+
+
+
 // проверка на наличие папки с БД
   if not (TDirectory.Exists(fPath)) then
   begin
-    Application.MessageBox('Создайте директорию с БД', 'Внимание!', (MB_ICONINFORMATION));
-    Abort;
+    Application.MessageBox('У Вас отсутствует директория ' + #10#13 + '"Folder_DB_PaymentDocumets"', 'Внимание!', (MB_ICONINFORMATION));
+    dlgSavePay.InitialDir := f_Path;
+    dlgSavePay.FileName := 'temp.fds';
+    f_ext := '.fds';
+  end
+  else
+  begin
+    dlgSavePay.InitialDir := fPath;
+    dlgSavePay.FileName := 'temp.pd_fds';
+    f_ext := '.pd_fds';
   end;
-  dlgSavePay.InitialDir := fPath;
-  dlgSavePay.FileName := 'temp.pd_fds';
-
   if dlgSavePay.Execute then
   begin
-    if dlgSavePay.FileName <> '' then
+  fFile := ExtractFileName(dlgSavePay.FileName);
+       if Length( fFile) > 15 then
+       begin
+                fFile := LeftStr( fFile, 15);
+                dlgSavePay.FileName := dlgSavePay.InitialDir +'\'+ fFile;
+       end;
+
     begin
       if AnsiPos('.', dlgSavePay.FileName) = 0 then
-        dmPayment.fmTabPayAndRecord.SaveToFile(dlgSavePay.FileName + '.pd_fds', sfJSON)
-      else
-        dmPayment.fmTabPayAndRecord.SaveToFile(dlgSavePay.FileName, sfJSON);
+        dlgSavePay.FileName := dlgSavePay.FileName + f_ext;
+      dmPayment.fmTabPayAndRecord.SaveToFile(dlgSavePay.FileName, sfJSON);
 // запрос на запись в дефолтную переменную
       fquestion := Application.MessageBox('Вы хотите записать этот файл как Default ?', 'Внимание, Вопрос', MB_ICONQUESTION + MB_YESNO);
-       case fquestion of
-       6 :     f_FileName_DB := dlgSavePay.FileName;
-       7 : ;
-       end;
+      case fquestion of
+        6:
+          f_FileName_DB := dlgSavePay.FileName;
+        7:
+          ;
+      end;
     end;
 
   end
@@ -597,6 +629,7 @@ end;
 // создание и удаление папки БД
 // ***************************************************************************************
 // создание новой папки для хранения файлов типа >>>   *.pd_fds'
+
 procedure TfrmPaymentDocuments.mniSet_CreateBDClick(Sender: TObject);
 var
   fPath: string;
@@ -638,6 +671,29 @@ begin
   mniSet_DeleteFoderBD.Enabled := False;
 end;
 //****************************************************************************************
+
+// очистка файла 'any_bd.fds'
+
+procedure TfrmPaymentDocuments.mniSet_Clear_AnyClick(Sender: TObject);
+var
+  i: Integer;
+  fPath: string;
+begin
+  fPath := f_Path + cs_JsonFile;
+
+  try
+    dmPayment.fmTabPayAndRecord.EmptyDataset;;
+    dmPayment.fmTabPayAndRecord.SaveToFile(fPath, sfJSON);
+    funUntil.CorrectionTable(dmPayment.fmTabPayAndRecord, dmPayment.fmTabSummaryTable);
+  except
+    on E: Exception do
+    begin
+      ShowMessage(E.ClassName + '  - Класс ошибки');
+      Abort;
+    end;
+  end;
+
+end;
 
 // закрытие формы
 procedure TfrmPaymentDocuments.mniFile_CloseClick(Sender: TObject);
