@@ -315,7 +315,8 @@ if not(FileExists(fFile)) {and not(TDirectory.Exists(fPath) and not(TDirectory.I
   else
   begin
     dlgOpenPay.InitialDir := f_Path;
-    dlgOpenPay.Filter := 'Все файлы json|*.fds';
+//    dlgOpenPay.Filter := 'Все файлы json|*.fds';
+    dlgOpenPay.FilterIndex := 2;
   end;
 // установка имени начального файла
   if f_FileName_DB <> '' then
@@ -376,6 +377,7 @@ begin
     dlgSavePay.InitialDir := f_Path;
     dlgSavePay.FileName := 'temp.fds';
     f_ext := '.fds';
+    dlgSavePay.FilterIndex := 2;
   end
   else
   begin

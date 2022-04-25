@@ -128,21 +128,21 @@ begin
           if TDirectory.Exists(fPath) then
           begin
             dlgOpen_dmPayment.InitialDir := fPath;
-            dlgOpen_dmPayment.Filter := 'Файл БД платёжных документов (*.pd_fds)|*.pd_fds';
+            dlgOpen_dmPayment.FilterIndex := 1;
             if TDirectory.IsEmpty(fPath) then
-              dlgOpen_dmPayment.Filter := 'Все файлы json|*.fds';
+              dlgOpen_dmPayment.FilterIndex := 2;
           end
           else
           begin
             dlgOpen_dmPayment.InitialDir := f_Path;
-            dlgOpen_dmPayment.Filter := 'Все файлы json|*.fds';
+            dlgOpen_dmPayment.FilterIndex := 2;
           end;
 
         end;
       7:
         begin
           dlgOpen_dmPayment.InitialDir := f_Path;
-          dlgOpen_dmPayment.Filter := 'Все файлы json|*.fds';
+          dlgOpen_dmPayment.FilterIndex := 2;
         end;
     else
       begin
