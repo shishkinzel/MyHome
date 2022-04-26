@@ -16,7 +16,8 @@ uses
   FTableEditing in 'FTableEditing.pas' {frmEditing},
   FAdmin in 'FAdmin.pas' {frmAdmin},
   UnitConfig in 'UnitConfig.pas',
-  FCheckDevice in 'FCheckDevice.pas' {frmCheckDevice};
+  FCheckDevice in 'FCheckDevice.pas' {frmCheckDevice},
+  FMessage in 'FMessage.pas' {frmMsg};
 
 {$R *.res}
 

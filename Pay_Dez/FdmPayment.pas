@@ -9,7 +9,7 @@ uses
   Data.DB, VCl.Forms,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, FTableAll, FTableMeteringDevice, FFRMeteringDevice,
    FFRTableAll, FFRListReport, FSelectDate, FTestForm, FTableEditing, funUntil , IniFiles,
-  FireDAC.Stan.StorageJSON, FInputData, UnitConfig, VCL.Dialogs, Winapi.Windows;
+  FireDAC.Stan.StorageJSON, FInputData, UnitConfig, VCL.Dialogs, Winapi.Windows, Vcl.ExtCtrls;
 
 type
   TdmPayment = class(TDataModule)
@@ -95,7 +95,7 @@ begin
   fmTabPayAndRecord.Open;
   fmTabSummaryTable.Open;
   fPath := f_Path + cs_db_PaymentDocumets;
-
+  fquestion := -1;
   if frmPaymentDocuments.fExist_config then
   begin
 //    Application.MessageBox('Чтение ', 'Внимание', MB_OK + MB_ICONINFORMATION);
@@ -153,6 +153,7 @@ begin
     if dlgOpen_dmPayment.Execute then
     begin
       fmTabPayAndRecord.LoadFromFile(dlgOpen_dmPayment.FileName, sfJSON);
+      frmPaymentDocuments.lblNameFile.Caption := ExtractFileName(dlgOpen_dmPayment.FileName);
     end;
 
 

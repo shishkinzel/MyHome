@@ -121,6 +121,7 @@ type
     mniSet_Clear_Any: TMenuItem;
     txtNameDB: TStaticText;
     lblNameFile: TLabel;
+    tmrPaymentDocument: TTimer;
     procedure FormCreate(Sender: TObject);
     procedure mniTabShow_LittleClick(Sender: TObject);
     procedure mniTabShow_BigClick(Sender: TObject);
@@ -172,7 +173,7 @@ type
   end;
 
 const
-  cs_JsonFile = 'any_bd.fds';               //   файл с БД  PaymentDocumets
+  cs_JsonFile = 'any_bd.pd_fds';               //   файл с БД  PaymentDocumets
   cs_JsonFile_Check = 'checkdevice_bd.ch_fds';  //   файл с БД  CheckDevice
   cs_Config_file = 'pay_config.ini';        //   конфигурационный файл
   cs_Exe = 'ProjectPaymentDocuments.exe';   //   исполняемый файл
@@ -180,10 +181,16 @@ const
   cs_db_PaymentDocumets = 'Folder_DB_PaymentDocumets'; // название папки для хранения БД PaymentDocumets
   cs_db_Check = 'Folder_DB_Check';                     // название папки для хранения БД CheckDevice
 
+// константы для сообщений
+cs_MsgTitleAttention = 'Внимание';
+cs_Msg_ExistINI ='Конфигурационный файл - существует';
+cs_Msg_NoExistINI ='Конфигурационный файл - отсутствует!!!';
+
 var
   frmPaymentDocuments: TfrmPaymentDocuments;
 
   f_Admin: Boolean;          // включение режима администрирования
+  f_flagMsg : Integer;       // флаг для всплывающих сообщений по таймеру
   f_iniPath : string;        // путь до файла конфигурации
   f_Path : string;           // путь до файла  ProjectPaymentDocuments.exe
 const
@@ -192,7 +199,7 @@ const
 implementation
 
 uses
-  System.StrUtils;
+  System.StrUtils, FMessage;
 
 {$R *.dfm}
 procedure TfrmPaymentDocuments.FormCreate(Sender: TObject);
@@ -204,18 +211,28 @@ begin
   f_Path :=  ExtractFilePath(Application.ExeName); // путь до файла  ProjectPaymentDocuments.exe
   f_iniPath := f_Path + cs_Config_file;              // путь до файла конфигурации
 
+
 //  активация флагов
   fExist_config := False;              // существование файла конфигурации
   fStatusList := False;                // флаг для печати Листка учета
+  f_flagMsg := 0;
 //  fVerification := False;              // флаг поверки счетчиков
   f_Checked_btn := False;              // флаг активации кнопки поверки приборов
-  f_FileName_DB := f_Path + cs_JsonFile;  // путь к файлу по умолчанию  <any_bd.fds>
+  f_FileName_DB := f_Path + cs_JsonFile;  // путь к файлу по умолчанию  <any_bd.pd_fds>
   f_FileName_DB_Check := f_Path + cs_JsonFile_Check; // путь к файлу по умолчанию  <checkdevice_bd.ch_fds>
 // чтение конфигурационного файла
   if FileExists(cs_Config_file) then
   begin
     fExist_config := True;
-    MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - существует', 'Внимание', (MB_OK + MB_ICONINFORMATION));
+
+
+//    MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - существует', 'Внимание', (MB_OK + MB_ICONINFORMATION));
+    f_flagMsg := 1;
+    frmMsg := TfrmMsg.Create(nil);
+    frmMsg.ShowModal;
+    f_flagMsg := 0;
+    Application.ProcessMessages;
+
     fIniFile := TIniFile.Create(f_iniPath);
 // чтение файла конфигурации
     IniOptions.LoadFromFile(f_iniPath);
@@ -252,7 +269,12 @@ begin
   else
   begin
     mniAccess_Config.Enabled := True;
-    MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - отсутствует!!!', 'Внимание', (MB_OK + MB_ICONWARNING));
+//    MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - отсутствует!!!', 'Внимание', MB_ICONWARNING);
+    f_flagMsg := 1;
+    frmMsg := TfrmMsg.Create(nil);
+    frmMsg.ShowModal;
+    f_flagMsg := 0;
+    Application.ProcessMessages;
   end;
    lblNameFile.Caption := ExtractFileName(f_FileName_DB);
 end;
@@ -264,7 +286,7 @@ var
  fLocal_FileName_DB : string;
 begin
   MessageBox(frmPaymentDocuments.Handle, 'Вы пытаетесь создать конфигурационный файл', 'Внимание', (MB_OK + MB_ICONINFORMATION));
-  fLocal_FileName_DB := f_Path + cs_JsonFile;  // путь к файлу по умолчанию  <any_bd.fds>
+  fLocal_FileName_DB := f_Path + cs_JsonFile;  // путь к файлу по умолчанию  <any_bd.pv_fds>
   fIniFile := TIniFile.Create(f_iniPath);
 // запишем путь и имя файл в переменную fFileName_DB в файл конфигурации
   IniOptions.fFileName_DB := fLocal_FileName_DB;
@@ -298,12 +320,14 @@ begin
 // задаем начальную папку открытия  опции OpenDialog
   fPath := f_Path + cs_db_PaymentDocumets;
   fFile := f_Path + cs_JsonFile;
-if not(FileExists(fFile)) {and not(TDirectory.Exists(fPath) and not(TDirectory.IsEmpty(fPath)))} then
+if not(FileExists(fFile)) then
   begin
-    fquestion := Application.MessageBox('У Вас осутствует файл' + #10#13 + '  "any_bd.fds"' + #10#13 + 'Вы хотите его создать?', 'Внимание!', MB_ICONQUESTION + MB_YESNO);
+    fquestion := Application.MessageBox('У Вас осутствует файл' + #10#13 + '  "any_bd.pv_fds"' + #10#13 + 'Вы хотите его создать?', 'Внимание!', MB_ICONQUESTION + MB_YESNO);
     case fquestion of
       6:
         begin
+          dmPayment.fmTabPayAndRecord.Close;
+          dmPayment.fmTabPayAndRecord.Open;
           dmPayment.fmTabPayAndRecord.SaveToFile(fFile, sfJSON);
         end;
       7:
@@ -315,7 +339,6 @@ if not(FileExists(fFile)) {and not(TDirectory.Exists(fPath) and not(TDirectory.I
   else
   begin
     dlgOpenPay.InitialDir := f_Path;
-//    dlgOpenPay.Filter := 'Все файлы json|*.fds';
     dlgOpenPay.FilterIndex := 2;
   end;
 // установка имени начального файла
@@ -375,15 +398,15 @@ begin
   begin
     Application.MessageBox('У Вас отсутствует директория ' + #10#13 + '"Folder_DB_PaymentDocumets"', 'Внимание!', (MB_ICONINFORMATION));
     dlgSavePay.InitialDir := f_Path;
-    dlgSavePay.FileName := 'temp.fds';
-    f_ext := '.fds';
+    dlgSavePay.FileName := 'temp.pd_fds';
+    f_ext := '.pd_fds';
     dlgSavePay.FilterIndex := 2;
   end
   else
   begin
     dlgSavePay.InitialDir := fPath;
-    dlgSavePay.FileName := 'temp.pd_fds';
-    f_ext := '.pd_fds';
+    dlgSavePay.FileName := 'temp.par_fds';
+    f_ext := '.par_fds';
   end;
   if dlgSavePay.Execute then
   begin
@@ -399,15 +422,18 @@ begin
         dlgSavePay.FileName := dlgSavePay.FileName + f_ext;
       dmPayment.fmTabPayAndRecord.SaveToFile(dlgSavePay.FileName, sfJSON);
 // запрос на запись в дефолтную переменную
-      fquestion := Application.MessageBox('Вы хотите записать этот файл как Default ?', 'Внимание, Вопрос', MB_ICONQUESTION + MB_YESNO);
-      case fquestion of
-        6:
-          f_FileName_DB := dlgSavePay.FileName;
-        7:
-          ;
+      if fExist_config then
+      begin
+        fquestion := Application.MessageBox('Вы хотите записать этот файл как Default ?', 'Внимание, Вопрос', MB_ICONQUESTION + MB_YESNO);
+        case fquestion of
+          6:
+            f_FileName_DB := dlgSavePay.FileName;
+          7:
+            ;
+        end;
       end;
-    end;
 
+    end;
   end
   else
   begin
@@ -557,8 +583,8 @@ end;
 
 procedure TfrmPaymentDocuments.mniShowCheckClick(Sender: TObject);
 begin
-  frmCheckDevice := TfrmCheckDevice.Create(nil);
-  frmCheckDevice.ShowModal;
+frmMsg.ShowModal;
+
 end;
 
 // выбор директории с Базами Данных - проект релизовать

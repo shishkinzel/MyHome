@@ -89,7 +89,7 @@ type
     f_FileName_DB_Check_T : string;  // переменная для файла БД  CheckDevice в классе TfrmCheckDevice
   public    { Public declarations }
     var
-      f_CountChecked: Integer;
+      f_CountChecked: Integer;       // количество поверяемых приборов не более 3
   end;
 
 
