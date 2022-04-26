@@ -4,7 +4,7 @@ object frmMsg: TfrmMsg
   AlphaBlendValue = 150
   BorderStyle = bsNone
   Caption = 'frmMsg'
-  ClientHeight = 116
+  ClientHeight = 150
   ClientWidth = 478
   Color = clGradientActiveCaption
   Font.Charset = DEFAULT_CHARSET
@@ -19,10 +19,10 @@ object frmMsg: TfrmMsg
   PixelsPerInch = 96
   TextHeight = 13
   object lblMsg: TLabel
-    Left = 79
-    Top = 46
-    Width = 6
-    Height = 23
+    Left = 88
+    Top = 50
+    Width = 9
+    Height = 39
     Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
     Font.Height = -19
@@ -32,7 +32,7 @@ object frmMsg: TfrmMsg
   end
   object imgMsg: TImage
     Left = 24
-    Top = 38
+    Top = 50
     Width = 49
     Height = 49
     Picture.Data = {
@@ -344,7 +344,7 @@ object frmMsg: TfrmMsg
     Left = 24
     Top = 8
     Width = 6
-    Height = 25
+    Height = 33
     Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
     Font.Height = -21
@@ -356,16 +356,16 @@ object frmMsg: TfrmMsg
     Enabled = False
     Interval = 3000
     OnTimer = tmrMsgTimer
-    Left = 296
-    Top = 8
+    Left = 16
+    Top = 112
   end
   object ilMsg: TImageList
     Height = 48
     Width = 48
-    Left = 352
-    Top = 8
+    Left = 48
+    Top = 112
     Bitmap = {
-      494C010107001C00040030003000FFFFFFFFFF00FFFFFFFFFFFFFFFF424D3600
+      494C010107001C00040030003000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000C00000006000000001002000000000000020
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2745,6 +2745,7 @@ object frmMsg: TfrmMsg
       C001FFFFFF80000003FFFFC0000003FFFFFFFC7FFFFFFFFFE003FFFFFFC00000
       07FFFFF000000FFFFFFFFFFFFFFFFFFFF003FFFFFFF800001FFFFFFC00003FFF
       FFFFFFFFFFFFFFFFF80FFFFFFFFC00007FFFFFFF0000FFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFF8001FFFFFFFFF00FFFFF}
+      FFFFFFFFFFFF8001FFFFFFFFF00FFFFF00000000000000000000000000000000
+      000000000000}
   end
 end

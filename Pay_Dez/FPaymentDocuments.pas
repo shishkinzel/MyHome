@@ -182,9 +182,11 @@ const
   cs_db_Check = 'Folder_DB_Check';                     // название папки для хранения БД CheckDevice
 
 // константы для сообщений
-cs_MsgTitleAttention = 'Внимание';
-cs_Msg_ExistINI ='Конфигурационный файл - существует';
-cs_Msg_NoExistINI ='Конфигурационный файл - отсутствует!!!';
+  cs_MsgTitleAttention = 'Внимание';
+  cs_Msg_ExistINI    = 'Конфигурационный файл - существует';
+  cs_Msg_NoExistINI  = 'Конфигурационный файл - отсутствует!!!';
+  cs_Msg_NoLoadingBD = 'Вы отменили загрузку БД';
+  cs_Msg_CreateINI   = 'Вы пытаетесь создать конфигурационный файл';
 
 var
   frmPaymentDocuments: TfrmPaymentDocuments;
@@ -225,8 +227,6 @@ begin
   begin
     fExist_config := True;
 
-
-//    MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - существует', 'Внимание', (MB_OK + MB_ICONINFORMATION));
     f_flagMsg := 1;
     frmMsg := TfrmMsg.Create(nil);
     frmMsg.ShowModal;
@@ -237,7 +237,6 @@ begin
 // чтение файла конфигурации
     IniOptions.LoadFromFile(f_iniPath);
 // запись в программные переменные из файла конфигурации
-//    f_FileName_DB := IniOptions.fFileName_DB;      // нужно ли ????
     f_Path_DB := IniOptions.fPath_DB;
     f_Folder_DB_PaymentDocumets := IniOptions.fFolder_DB_PaymentDocuments;
     f_DIR_Check_DB := IniOptions.fDIR_Check_DB;
@@ -269,7 +268,6 @@ begin
   else
   begin
     mniAccess_Config.Enabled := True;
-//    MessageBox(frmPaymentDocuments.Handle, 'Конфигурационный файл - отсутствует!!!', 'Внимание', MB_ICONWARNING);
     f_flagMsg := 1;
     frmMsg := TfrmMsg.Create(nil);
     frmMsg.ShowModal;
@@ -285,7 +283,14 @@ procedure TfrmPaymentDocuments.mniAccess_ConfigClick(Sender: TObject);
 var
  fLocal_FileName_DB : string;
 begin
-  MessageBox(frmPaymentDocuments.Handle, 'Вы пытаетесь создать конфигурационный файл', 'Внимание', (MB_OK + MB_ICONINFORMATION));
+//  MessageBox(frmPaymentDocuments.Handle, 'Вы пытаетесь создать конфигурационный файл', 'Внимание', (MB_OK + MB_ICONINFORMATION));
+
+  f_flagMsg := 3;
+  frmMsg := TfrmMsg.Create(nil);
+  frmMsg.ShowModal;
+  f_flagMsg := 0;
+  Application.ProcessMessages;
+
   fLocal_FileName_DB := f_Path + cs_JsonFile;  // путь к файлу по умолчанию  <any_bd.pv_fds>
   fIniFile := TIniFile.Create(f_iniPath);
 // запишем путь и имя файл в переменную fFileName_DB в файл конфигурации
@@ -363,7 +368,13 @@ if not(FileExists(fFile)) then
     end
     else
     begin
-      Application.MessageBox('Вы отменили загрузку БД', 'Внимание!', (MB_ICONINFORMATION));
+//      Application.MessageBox('Вы отменили загрузку БД', 'Внимание!', (MB_ICONINFORMATION));
+      f_flagMsg := 2;
+      frmMsg := TfrmMsg.Create(nil);
+      frmMsg.ShowModal;
+      f_flagMsg := 0;
+      Application.ProcessMessages;
+
     end;
   except
     on E: EFDException do
