@@ -13,13 +13,15 @@ uses
 procedure CorrectionTable(tabIn, tabOut: TFDMemTable);
 procedure MyF_Clear(frm : TForm; date : TDateTime);
 procedure MyF_Fill(frm : TForm; ds : TDataSource);
+procedure MyFloatingMessage(f_flag: Integer; frm: TForm);
 function MyStrToFloatDef(s : string; i : ShortInt) : Float32;
 
 
 implementation
 
 uses
-  FPaymentDocuments, FTableEditing, FdmPayment, VCL.StdCtrls, vcl.ComCtrls;
+  FPaymentDocuments, FTableEditing, FdmPayment, FMessage,
+  VCL.StdCtrls, vcl.ComCtrls;
 
 procedure CorrectionTable(tabIn, tabOut: TFDMemTable);
 begin
@@ -90,11 +92,25 @@ begin
   end;
 end;
 
+// процедура для всплывающих сообщений
+procedure MyFloatingMessage(f_flag: Integer; frm: TForm);
+begin
+  f_flagMsg := f_flag;
+  frm := TfrmMsg.Create(nil);
+  frm.ShowModal;
+  f_flagMsg := 0;
+  Application.ProcessMessages;
+end;
+
+
+
 function MyStrToFloatDef(s: string; i: ShortInt): Float32;
 begin
   s := StringReplace(s, '.', ',', []);
   Result := StrToFloatDef(s, i);
 end;
+
+
 
 end.
 

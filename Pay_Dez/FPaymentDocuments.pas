@@ -133,13 +133,12 @@ type
     procedure mniSet_DeleteFoderBDClick(Sender: TObject);
     procedure mniOpenDBClick(Sender: TObject);
     procedure mniSaveBDClick(Sender: TObject);
-    procedure mniFindBDClick(Sender: TObject);
+//    procedure mniFindBDClick(Sender: TObject);
     procedure mniAccess_ConfigClick(Sender: TObject);
     procedure mniReport_ListReport_ApplyClick(Sender: TObject);
     procedure mniReport_ResetClick(Sender: TObject);
     procedure mniReport_Tab_Big_ShowClick(Sender: TObject);
     procedure mniReport_Tab_Little_ShowClick(Sender: TObject);
-    procedure mniShowCheckClick(Sender: TObject);
     procedure mniAccess_CheckedClick(Sender: TObject);
     procedure mniForms_EditCheckedClick(Sender: TObject);
     procedure mniFile_CloseClick(Sender: TObject);
@@ -183,10 +182,15 @@ const
 
 // константы для сообщений
   cs_MsgTitleAttention = 'Внимание';
-  cs_Msg_ExistINI    = 'Конфигурационный файл - существует';
-  cs_Msg_NoExistINI  = 'Конфигурационный файл - отсутствует!!!';
+  cs_Msg_ExistINI = 'Конфигурационный файл - существует';
+  cs_Msg_NoExistINI = 'Конфигурационный файл - отсутствует!!!';
   cs_Msg_NoLoadingBD = 'Вы отменили загрузку БД';
-  cs_Msg_CreateINI   = 'Вы пытаетесь создать конфигурационный файл';
+  cs_Msg_CreateINI = 'Вы пытаетесь создать конфигурационный файл!!!';
+  cs_Msg_NoDir = 'У Вас отсутствует директория' + #10#13 + '"Folder_DB_PaymentDocumets"';
+  cs_Msg_NoSaveDB = 'Вы отменили сохранение БД';
+  cs_Msg_NoActiveDivece = 'Вы отказались активировать кнопку поверки приборов';
+  cs_Msg_DIR_NoExist = 'Директория не существует!!';
+  cs_Msg_DIR_Exist = 'Директория существует!!';
 
 var
   frmPaymentDocuments: TfrmPaymentDocuments;
@@ -227,11 +231,7 @@ begin
   begin
     fExist_config := True;
 
-    f_flagMsg := 1;
-    frmMsg := TfrmMsg.Create(nil);
-    frmMsg.ShowModal;
-    f_flagMsg := 0;
-    Application.ProcessMessages;
+    funUntil.MyFloatingMessage(1, frmMsg);      // сообщение о наличии файла конфигурации
 
     fIniFile := TIniFile.Create(f_iniPath);
 // чтение файла конфигурации
@@ -268,11 +268,7 @@ begin
   else
   begin
     mniAccess_Config.Enabled := True;
-    f_flagMsg := 1;
-    frmMsg := TfrmMsg.Create(nil);
-    frmMsg.ShowModal;
-    f_flagMsg := 0;
-    Application.ProcessMessages;
+    funUntil.MyFloatingMessage(1, frmMsg);  // сообщение об отсутствии файла конфигурации
   end;
    lblNameFile.Caption := ExtractFileName(f_FileName_DB);
 end;
@@ -283,13 +279,8 @@ procedure TfrmPaymentDocuments.mniAccess_ConfigClick(Sender: TObject);
 var
  fLocal_FileName_DB : string;
 begin
-//  MessageBox(frmPaymentDocuments.Handle, 'Вы пытаетесь создать конфигурационный файл', 'Внимание', (MB_OK + MB_ICONINFORMATION));
 
-  f_flagMsg := 3;
-  frmMsg := TfrmMsg.Create(nil);
-  frmMsg.ShowModal;
-  f_flagMsg := 0;
-  Application.ProcessMessages;
+  funUntil.MyFloatingMessage(3, frmMsg);   // сообщение о создании файла конфигурации
 
   fLocal_FileName_DB := f_Path + cs_JsonFile;  // путь к файлу по умолчанию  <any_bd.pv_fds>
   fIniFile := TIniFile.Create(f_iniPath);
@@ -346,13 +337,13 @@ if not(FileExists(fFile)) then
     dlgOpenPay.InitialDir := f_Path;
     dlgOpenPay.FilterIndex := 2;
   end;
+
 // установка имени начального файла
   if f_FileName_DB <> '' then
  dlgOpenPay.FileName := ExtractFileName(f_FileName_DB);
   try
     if dlgOpenPay.Execute then
     begin
-//    ShowMessage('Вы хотите открыть Базу Данных');
       if dlgOpenPay.FileName <> '' then
       begin
         dmPayment.fmTabPayAndRecord.Close;
@@ -367,15 +358,7 @@ if not(FileExists(fFile)) then
 
     end
     else
-    begin
-//      Application.MessageBox('Вы отменили загрузку БД', 'Внимание!', (MB_ICONINFORMATION));
-      f_flagMsg := 2;
-      frmMsg := TfrmMsg.Create(nil);
-      frmMsg.ShowModal;
-      f_flagMsg := 0;
-      Application.ProcessMessages;
-
-    end;
+      funUntil.MyFloatingMessage(2, frmMsg);  // сообщение - 'Вы отменили загрузку БД'
   except
     on E: EFDException do
     begin
@@ -386,28 +369,28 @@ if not(FileExists(fFile)) then
     begin
       ShowMessage(E.ClassName + ' - Другая ошибка');
     end;
-
   end;
 end;
+
 
 // процедура сохранения Базы Данных
 procedure TfrmPaymentDocuments.mniSaveBDClick(Sender: TObject);
 var
   fPath, fFile: string;
   fquestion: Integer;
-  f_ext : string;
+  f_ext: string;
 begin
 // задаем начальную папку открытия  опции OpenDialog
   fPath := f_Path + cs_db_PaymentDocumets;
 //  fFile := f_Path + cs_JsonFile;
 // куда хотим записать файл- релизовать
 
-
-
 // проверка на наличие папки с БД
   if not (TDirectory.Exists(fPath)) then
   begin
-    Application.MessageBox('У Вас отсутствует директория ' + #10#13 + '"Folder_DB_PaymentDocumets"', 'Внимание!', (MB_ICONINFORMATION));
+
+    funUntil.MyFloatingMessage(4, frmMsg);   //  сообщение - У Вас отсутствует директория "Folder_DB_PaymentDocumets"
+
     dlgSavePay.InitialDir := f_Path;
     dlgSavePay.FileName := 'temp.pd_fds';
     f_ext := '.pd_fds';
@@ -421,12 +404,12 @@ begin
   end;
   if dlgSavePay.Execute then
   begin
-  fFile := ExtractFileName(dlgSavePay.FileName);
-       if Length( fFile) > 15 then
-       begin
-                fFile := LeftStr( fFile, 15);
-                dlgSavePay.FileName := dlgSavePay.InitialDir +'\'+ fFile;
-       end;
+    fFile := ExtractFileName(dlgSavePay.FileName);
+    if Length(fFile) > 15 then
+    begin
+      fFile := LeftStr(fFile, 15);
+      dlgSavePay.FileName := dlgSavePay.InitialDir + '\' + fFile;
+    end;
 
     begin
       if AnsiPos('.', dlgSavePay.FileName) = 0 then
@@ -447,9 +430,7 @@ begin
     end;
   end
   else
-  begin
-   Application.MessageBox('Вы отменили сохранение БД', 'Внимание!', (MB_ICONINFORMATION));
-  end;
+    funUntil.MyFloatingMessage(5, frmMsg);   // сообщение - Вы отменили сохранение БД
 end;
 // *************************************************************************************************
 
@@ -521,31 +502,27 @@ begin
     else
       lblOnLineApp.Caption := 'Исполнен';
   end;
-
-// // формирование Листа учета
-//  fStatusList := False;
-//  ShowMessage('Вы заказали распечатать листок учета и оплаты услуг');
-
-
 end;
 // активация формы прав администратора
+
 procedure TfrmPaymentDocuments.mniAccess_AdminClick(Sender: TObject);
 begin
   frmAdmin := TfrmAdmin.Create(nil);
   frmAdmin.ShowModal;
 end;
 
-
 // активация кнопки поверки приборов
 procedure TfrmPaymentDocuments.mniAccess_CheckedClick(Sender: TObject);
+var
+  f_question: Integer;
 begin
- if Application.MessageBox('Вы пытаетесь активировать режим поверки приборов учета', 'Обратите внимание',
- (MB_OKCANCEL + MB_ICONQUESTION)) = 1 then
- begin
-f_Checked_btn := True;
- end
- else
-  Application.MessageBox('Вы отказались активировать кнопку поверки приборов', 'Внимание', MB_OK + MB_ICONINFORMATION);
+  f_question := Application.MessageBox('Активировать режим поверки приборов учета', 'Вопрос', MB_YESNO + MB_ICONQUESTION);
+  case f_question of
+    6:
+      f_Checked_btn := True;
+    7:
+      funUntil.MyFloatingMessage(6, frmMsg);     // сообщение - 'Вы отказались активировать кнопку поверки приборов'
+  end;
 end;
 
 procedure TfrmPaymentDocuments.mniTabShow_LittleClick(Sender: TObject);
@@ -568,47 +545,27 @@ begin
 end;
 
 // редактирование формы "Поверка"
- procedure TfrmPaymentDocuments.mniForms_EditCheckedClick(Sender: TObject);
+procedure TfrmPaymentDocuments.mniForms_EditCheckedClick(Sender: TObject);
 begin
   f_Admin := True;
   frmCheckDevice := TfrmCheckDevice.Create(nil);
   frmCheckDevice.ShowModal;
-  // возврат из формы "Поверки"
+  // возврат из формы "Поверки"   - что хотел сделать?
   if frmCheckDevice.ModalResult = mrOk then
   begin
     if frmCheckDevice.f_CountChecked > 0 then
     begin
 
-  end
-  else
-  begin
-     Application.MessageBox('Вы ничего не ввели', 'Внимание!', (MB_ICONINFORMATION));
-  end;
+    end
+    else
+    begin
+      Application.MessageBox('Вы ничего не ввели', 'Внимание!', (MB_ICONINFORMATION));
+    end;
 
   end;
-    frmCheckDevice.Free;
+  frmCheckDevice.Free;
 
 end;
-
-
-
-procedure TfrmPaymentDocuments.mniShowCheckClick(Sender: TObject);
-begin
-frmMsg.ShowModal;
-
-end;
-
-// выбор директории с Базами Данных - проект релизовать
-procedure TfrmPaymentDocuments.mniFindBDClick(Sender: TObject);
-var
-f_Path_DB : string;
-begin
-GetDir(0, f_Path_DB);
-ShowMessage(f_Path_DB);
-//ChDir(f_Path_DB);
-end;
-
-
 
 // выбор даты - "Листок учета и оплаты услуг"
 procedure TfrmPaymentDocuments.mniReport_ListReportClick(Sender: TObject);
@@ -621,16 +578,6 @@ begin
 
   frmSelectionDate := TfrmSelectionDate.Create(nil);
   frmSelectionDate.ShowModal;
-end;
-
-
-
-
-// процедура открытия таблицы показания приборов учета
-procedure TfrmPaymentDocuments.mniTabShow_BigClick(Sender: TObject);
-begin
-  frmMeteringDevice := TfrmMeteringDevice.Create(nil);
-  frmMeteringDevice.ShowModal;
 end;
 
  // отчет - "Листок учета и оплаты услуг"
@@ -647,6 +594,14 @@ begin
   mniReport_Print.Enabled := False;
   mniReport_Export.Enabled := False;
   mniReport_Reset.Enabled := False;
+end;
+
+
+// процедура открытия таблицы показания приборов учета
+procedure TfrmPaymentDocuments.mniTabShow_BigClick(Sender: TObject);
+begin
+  frmMeteringDevice := TfrmMeteringDevice.Create(nil);
+  frmMeteringDevice.ShowModal;
 end;
 
 // просмотр отчета "Сводной таблицы"
@@ -678,7 +633,8 @@ begin
 // проверяем на наличие директории
   if TDirectory.Exists(fPath) then
   begin
-    Application.MessageBox('Директория существует!!', 'Внимание', (MB_OK + MB_ICONWARNING));
+//    Application.MessageBox('Директория существует!!', 'Внимание', (MB_OK + MB_ICONWARNING));
+    funUntil.MyFloatingMessage(7, frmMsg);  // сообщение - 'Директория существует!!'
   end
   else
   begin
@@ -699,7 +655,8 @@ begin
 // проверяем на наличие директории
   if not (TDirectory.Exists(fPath)) then
   begin
-    Application.MessageBox('Директория не существует!!', 'Внимание', (MB_OK + MB_ICONWARNING));
+//    Application.MessageBox('Директория не существует!!', 'Внимание', (MB_OK + MB_ICONWARNING));
+      funUntil.MyFloatingMessage(8, frmMsg);  // сообщение - 'Директория не существует!!!!'
   end
   else
   begin

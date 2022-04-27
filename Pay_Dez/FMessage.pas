@@ -76,14 +76,60 @@ tmrMsg.Enabled := True;
       end;
     3:
       begin
-        lblMsg.WordWrap := False;
+        lblMsg.WordWrap := True;
+        lblMsg.AutoSize := False;
         lblMsg.Top := 40;
-        lblMsg.Height :=  20;
+        lblMsg.Height :=  60;
         lblMsg.Width := 300;
         lblMsg.Alignment := taCenter;
         lblTitleMsg.Caption := cs_MsgTitleAttention;
         lblMsg.Caption := cs_Msg_CreateINI;
         tmrMsg.Interval := 3000;
+      end;
+      4:
+      begin
+        lblMsg.WordWrap := True;
+        lblMsg.AutoSize := False;
+        lblMsg.Top := 40;
+        lblMsg.Height := 60;
+        lblMsg.Width := 300;
+        lblMsg.Alignment := taCenter;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := cs_Msg_NoDir;
+        tmrMsg.Interval := 3000;
+      end;
+    5:
+      begin
+        lblMsg.WordWrap := False;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := cs_Msg_NoSaveDB;
+        tmrMsg.Interval := 3000;
+      end;
+      6:
+      begin
+        lblMsg.WordWrap := True;
+        lblMsg.AutoSize := False;
+        lblMsg.Top := 40;
+        lblMsg.Height := 60;
+        lblMsg.Width := 300;
+        lblMsg.Alignment := taCenter;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := cs_Msg_NoActiveDivece;
+        tmrMsg.Interval := 3000;
+      end;
+    7:
+      begin
+        lblMsg.WordWrap := False;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := cs_Msg_DIR_Exist;
+        tmrMsg.Interval := 2000;
+      end;
+    8:
+      begin
+        lblMsg.WordWrap := False;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := cs_Msg_DIR_NoExist;
+        tmrMsg.Interval := 2000;
       end;
   end;
 

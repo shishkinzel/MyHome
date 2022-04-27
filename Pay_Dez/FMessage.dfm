@@ -21,8 +21,8 @@ object frmMsg: TfrmMsg
   object lblMsg: TLabel
     Left = 88
     Top = 50
-    Width = 9
-    Height = 39
+    Width = 6
+    Height = 23
     Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
     Font.Height = -19
@@ -344,7 +344,7 @@ object frmMsg: TfrmMsg
     Left = 24
     Top = 8
     Width = 6
-    Height = 33
+    Height = 25
     Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
     Font.Height = -21
