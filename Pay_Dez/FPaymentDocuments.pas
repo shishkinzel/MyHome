@@ -182,6 +182,9 @@ const
 
 // константы для сообщений
   cs_MsgTitleAttention = 'Внимание';
+  cs_MsgTitleWarning = 'Предупреждение';
+  cs_MsgTitleInfo = 'Информация';
+
   cs_Msg_ExistINI = 'Конфигурационный файл - существует';
   cs_Msg_NoExistINI = 'Конфигурационный файл - отсутствует!!!';
   cs_Msg_NoLoadingBD = 'Вы отменили загрузку БД';
@@ -191,7 +194,10 @@ const
   cs_Msg_NoActiveDivece = 'Вы отказались активировать кнопку поверки приборов';
   cs_Msg_DIR_NoExist = 'Директория не существует!!';
   cs_Msg_DIR_Exist = 'Директория существует!!';
-
+  cs_Msg_FolderEmpty = 'Папка "Folder_DB_PaymentDocumets" - пустая';
+  cs_Msg_FileDefault = 'Файл БД по умолчанию не найден !!!';
+  cs_Msg_BreakDefault = 'Отказ от дефолтных настроек !!!';                 // номер 11
+  cs_Msg_WriteConfig = 'Запись файла конфигурации';                       // номер 15
 var
   frmPaymentDocuments: TfrmPaymentDocuments;
 
@@ -286,6 +292,8 @@ begin
   fIniFile := TIniFile.Create(f_iniPath);
 // запишем путь и имя файл в переменную fFileName_DB в файл конфигурации
   IniOptions.fFileName_DB := fLocal_FileName_DB;
+  IniOptions.fPath_DB := cs_Path;
+  IniOptions.fDIR_Check_DB := cs_Path;
   IniOptions.SaveSettings(fIniFile);
 
 // чтение конфигурации по умолчанию

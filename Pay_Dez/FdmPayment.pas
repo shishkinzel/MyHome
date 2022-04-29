@@ -82,7 +82,7 @@ var
 
 implementation
 uses
-  FPaymentDocuments, IOUtils;
+  FPaymentDocuments, IOUtils, FMessage;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 {$R *.dfm}
@@ -98,8 +98,7 @@ begin
   fquestion := -1;
   if frmPaymentDocuments.fExist_config then
   begin
-//    Application.MessageBox('Чтение ', 'Внимание', MB_OK + MB_ICONINFORMATION);
-//    fmTabPayAndRecord.LoadFromFile(frmPaymentDocuments.f_FileName_DB, sfJSON);
+// файл Ini существует
 // доработка с учетом флага с дефолтными настройками
 
     if frmPaymentDocuments.f_DefaultSettingReadFile then
@@ -108,54 +107,52 @@ begin
     except
       on E: Exception do
       begin
-        Application.MessageBox('Файл БД не найден!', 'Внимание!', MB_ICONWARNING);
+        funUntil.MyFloatingMessage(10, frmMsg);      // сообщение об отсутствии файла БД по умолчанию
         Abort;
       end;
-
     end
     else
-    begin
-      ShowMessage('Отказ от дефолтных настроек');
-    end;
+      funUntil.MyFloatingMessage(11, frmMsg);      // сообщение об отказе от дефолтных настроек
   end
   else
   begin
-// здесь все нужно переделать - когда нет файла конфигурации
-    fquestion := Application.MessageBox('Вы хотите загрузить файл из папки БД ?', 'Внимание, Вопрос', MB_ICONQUESTION + MB_YESNO);
-    case fquestion of
-      6:
-        begin
-          if TDirectory.Exists(fPath) then
+    if TDirectory.Exists(fPath) then
+    begin
+      fquestion := Application.MessageBox('Вы хотите загрузить файл из папки БД ?', 'Внимание, Вопрос', MB_ICONQUESTION + MB_YESNO);
+      case fquestion of
+        6:
           begin
             dlgOpen_dmPayment.InitialDir := fPath;
             dlgOpen_dmPayment.FilterIndex := 1;
             if TDirectory.IsEmpty(fPath) then
+            begin
+              funUntil.MyFloatingMessage(9, frmMsg);
               dlgOpen_dmPayment.FilterIndex := 2;
-          end
-          else
+              dlgOpen_dmPayment.InitialDir := f_Path;
+
+            end;
+
+          end;
+        7:
           begin
             dlgOpen_dmPayment.InitialDir := f_Path;
             dlgOpen_dmPayment.FilterIndex := 2;
           end;
-
-        end;
-      7:
+      else
         begin
-          dlgOpen_dmPayment.InitialDir := f_Path;
-          dlgOpen_dmPayment.FilterIndex := 2;
+          ShowMessage('Внимание - сбой!!!');
         end;
-    else
-      begin
-        ShowMessage('Внимание - сбой!!!');
       end;
     end;
+
 // запуск диалога
     if dlgOpen_dmPayment.Execute then
     begin
       fmTabPayAndRecord.LoadFromFile(dlgOpen_dmPayment.FileName, sfJSON);
       frmPaymentDocuments.lblNameFile.Caption := ExtractFileName(dlgOpen_dmPayment.FileName);
-    end;
-
+    end
+    else
+      funUntil.MyFloatingMessage(2, frmMsg);
 
   end;
   funUntil.CorrectionTable(dmPayment.fmTabPayAndRecord, dmPayment.fmTabSummaryTable);
@@ -169,7 +166,9 @@ begin
   if frmPaymentDocuments.fExist_config then
   begin
     Application.MessageBox('Запись файла конфигурации', 'Внимание', MB_OK + MB_ICONINFORMATION);
+    funUntil.MyFloatingMessage(15, frmMsg);       // не работает - утечка памяти
     fIniFile := TIniFile.Create(f_iniPath);
+
 //    IniOptions.fFileName_DB := frmPaymentDocuments.f_FileName_DB;
     IniOptions.fPath_DB := frmPaymentDocuments.f_Path_DB;
     IniOptions.fFolder_DB_PaymentDocuments := frmPaymentDocuments.f_Folder_DB_PaymentDocumets;
