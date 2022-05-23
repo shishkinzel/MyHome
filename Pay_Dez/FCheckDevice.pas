@@ -182,9 +182,9 @@ begin
 // выставить дату поверки
   if not (f_Admin) then
   begin
-//    Application.MessageBox('Пожалуйста, Укажите дату поверки!!', 'Внимание', (MB_OK + MB_ICONQUESTION));
+    Application.MessageBox('Пожалуйста, Укажите дату поверки!!', 'Внимание', (MB_OK + MB_ICONQUESTION));
 //    frmCheckDevice.BorderStyle := bsDialog;
-       funUntil.MyFloatingMessage(16, frmMsg);
+//       funUntil.MyFloatingMessage(16, frmMsg);
 
     frmCheckDevice.Menu := nil;
   end;

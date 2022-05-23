@@ -81,7 +81,7 @@ var
 implementation
 
 uses
-  FPaymentDocuments, FdmPayment, FAdmin;
+  FPaymentDocuments, FdmPayment, FAdmin, funUntil, FMessage;
 {$R *.dfm}
 
 // процедура показа формы
@@ -107,7 +107,8 @@ begin
   begin
     btnStart.Visible := True;
     fdbEmpty := False;
-    ShowMessage('У Вас пустая база данных');
+//    ShowMessage('У Вас пустая база данных');
+     funUntil.MyFloatingMessage(17, frmMsg);
     edtEle.Text := '0';
     edtColdWater.Text := '0';
     edtHotWater.Text := '0';

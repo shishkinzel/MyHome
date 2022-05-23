@@ -203,7 +203,18 @@ tmrMsg.Enabled := True;
         lblMsg.Caption := 'Пожалуйста, Укажите дату поверки!!';
         tmrMsg.Interval := 1500;
       end;
-
+    17:
+      begin
+        lblMsg.WordWrap := True;
+        lblMsg.AutoSize := True;
+        lblMsg.Top := 30;
+        lblMsg.Height := 60;
+        lblMsg.Width := 300;
+        lblMsg.Alignment := taCenter;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'У Вас пустая база данных';
+        tmrMsg.Interval := 1500;
+      end;
   end;
 
 
@@ -217,3 +228,5 @@ begin
 end;
 
 end.
+
+

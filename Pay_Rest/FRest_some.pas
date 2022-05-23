@@ -44,6 +44,16 @@ type
     actNext: TNextTabAction;
     actBack: TPreviousTabAction;
     lblTitle: TLabel;
+    tbtmTravelling: TTabItem;
+    lblTitleTravel: TLabel;
+    lblDatePay: TLabel;
+    dtdtDatePay: TDateEdit;
+    lblQuantityDay: TLabel;
+    spnbxQuantityDay: TSpinBox;
+    lbResult: TLabel;
+    dtdtResult: TDateEdit;
+    btnRun: TButton;
+    btnCloseAll: TButton;
     procedure FormCreate(Sender: TObject);
     procedure edt1Change(Sender: TObject);
     procedure dtdt1Change(Sender: TObject);
