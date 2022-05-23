@@ -13,7 +13,7 @@ inherited frmRest_LgXhdpiTb: TfrmRest_LgXhdpiTb
       480s
       684s)
     inherited tbtmTicket: TTabItem
-      Size.Width = 83.000000000000000000
+      Size.Width = 160.000000000000000000
       ExplicitSize.cx = 60.000000000000000000
       ExplicitSize.cy = 26.000000000000000000
       inherited lblTitleOne: TLabel
@@ -71,7 +71,7 @@ inherited frmRest_LgXhdpiTb: TfrmRest_LgXhdpiTb
       end
     end
     inherited tbtmHotell: TTabItem
-      Size.Width = 121.000000000000000000
+      Size.Width = 160.000000000000000000
       ExplicitSize.cx = 81.000000000000000000
       ExplicitSize.cy = 26.000000000000000000
       inherited dtdt3: TDateEdit
@@ -124,7 +124,7 @@ inherited frmRest_LgXhdpiTb: TfrmRest_LgXhdpiTb
       end
     end
     inherited tbtmTravelling: TTabItem
-      Size.Width = 119.000000000000000000
+      Size.Width = 160.000000000000000000
       ExplicitSize.cx = 64.000000000000000000
       ExplicitSize.cy = 49.000000000000000000
     end

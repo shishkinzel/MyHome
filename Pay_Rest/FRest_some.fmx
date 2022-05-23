@@ -304,6 +304,8 @@ object frmRest: TfrmRest
       StyleLookup = ''
       TabOrder = 0
       Text = #1055#1088#1086#1077#1079#1076#1085#1086#1081
+      ExplicitSize.cx = 118.000000000000000000
+      ExplicitSize.cy = 49.000000000000000000
       object lblTitleTravel: TLabel
         StyledSettings = [Style, FontColor]
         Position.X = 48.000000000000000000
@@ -351,21 +353,6 @@ object frmRest: TfrmRest
         TextSettings.Font.Size = 18.000000000000000000
         Text = #1050#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1076#1085#1077#1081
         TabOrder = 1
-      end
-      object spnbxQuantityDay: TSpinBox
-        Touch.InteractiveGestures = [LongTap, DoubleTap]
-        TabOrder = 8
-        Cursor = crIBeam
-        Min = 1.000000000000000000
-        Max = 365.000000000000000000
-        Value = 1.000000000000000000
-        Position.X = 218.000000000000000000
-        Position.Y = 198.000000000000000000
-        TextSettings.Font.Size = 18.000000000000000000
-        Size.Width = 120.000000000000000000
-        Size.Height = 32.000000000000000000
-        Size.PlatformDefault = False
-        StyledSettings = [Family, Style, FontColor]
       end
       object lbResult: TLabel
         StyledSettings = [Style, FontColor]
@@ -417,6 +404,25 @@ object frmRest: TfrmRest
         TabOrder = 4
         Text = #1047#1072#1082#1088#1099#1090#1100
         TextSettings.Font.Size = 18.000000000000000000
+      end
+      object edtQuantityDay: TComboEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 8
+        ItemHeight = 19.000000000000000000
+        Items.Strings = (
+          '30'
+          '90'
+          '365')
+        ItemIndex = 0
+        Text = '30'
+        TextSettings.Font.Size = 18.000000000000000000
+        Position.X = 218.000000000000000000
+        Position.Y = 188.000000000000000000
+        StyledSettings = [Family, Style, FontColor]
+        Size.Width = 120.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        OnChange = edt1Change
       end
     end
   end

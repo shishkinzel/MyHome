@@ -13,17 +13,17 @@ inherited frmRest_LgXhdpiPh: TfrmRest_LgXhdpiPh
       450s
       550s)
     inherited tbtmTicket: TTabItem
-      Size.Width = 83.000000000000000000
+      Size.Width = 150.000000000000000000
       ExplicitSize.cx = 60.000000000000000000
       ExplicitSize.cy = 26.000000000000000000
     end
     inherited tbtmHotell: TTabItem
-      Size.Width = 121.000000000000000000
+      Size.Width = 150.000000000000000000
       ExplicitSize.cx = 81.000000000000000000
       ExplicitSize.cy = 26.000000000000000000
     end
     inherited tbtmTravelling: TTabItem
-      Size.Width = 119.000000000000000000
+      Size.Width = 150.000000000000000000
       ExplicitSize.cx = 64.000000000000000000
       ExplicitSize.cy = 49.000000000000000000
     end
