@@ -117,11 +117,12 @@ type
     mniSet_N1: TMenuItem;
     mniAccess_NoAdmin: TMenuItem;
     mniSet_Default: TMenuItem;
-    mniSet_N2: TMenuItem;
+    mniSet_N3: TMenuItem;
     mniSet_Clear_Any: TMenuItem;
     txtNameDB: TStaticText;
     lblNameFile: TLabel;
     tmrPaymentDocument: TTimer;
+    mniSet_N2: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniTabShow_LittleClick(Sender: TObject);
     procedure mniTabShow_BigClick(Sender: TObject);
@@ -146,6 +147,7 @@ type
     procedure mniAccess_NoAdminClick(Sender: TObject);
     procedure mniSet_DefaultClick(Sender: TObject);
     procedure mniSet_Clear_AnyClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
 
   private    { Private declarations }
 //  var
@@ -214,6 +216,7 @@ uses
   System.StrUtils, FMessage;
 
 {$R *.dfm}
+
 procedure TfrmPaymentDocuments.FormCreate(Sender: TObject);
 var
   i: Integer;
@@ -704,7 +707,11 @@ procedure TfrmPaymentDocuments.mniFile_CloseClick(Sender: TObject);
 begin
   Close;
 end;
-
+ procedure TfrmPaymentDocuments.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+    if fExist_config then
+    funUntil.MyFloatingMessage(15, frmMsg);
+end;
 end.
 
 

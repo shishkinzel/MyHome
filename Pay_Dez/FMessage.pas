@@ -187,7 +187,7 @@ tmrMsg.Enabled := True;
         lblTitleMsg.Left := 140;
         lblTitleMsg.Caption := cs_MsgTitleInfo;
         lblTitleMsg.Font.Color := clYellow;
-        lblMsg.Caption := cs_Msg_BreakDefault;
+        lblMsg.Caption := cs_Msg_WriteConfig;
         ilMsg.GetBitmap(7, imgMsg.Picture.Bitmap);
         tmrMsg.Interval := 1500;
       end;

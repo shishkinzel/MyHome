@@ -165,11 +165,9 @@ var
 begin
   if frmPaymentDocuments.fExist_config then
   begin
-    Application.MessageBox('Запись файла конфигурации', 'Внимание', MB_OK + MB_ICONINFORMATION);
-    funUntil.MyFloatingMessage(15, frmMsg);       // не работает - утечка памяти
+//    funUntil.MyFloatingMessage(15, frmMsg);       // не работает - утечка памяти
     fIniFile := TIniFile.Create(f_iniPath);
 
-//    IniOptions.fFileName_DB := frmPaymentDocuments.f_FileName_DB;
     IniOptions.fPath_DB := frmPaymentDocuments.f_Path_DB;
     IniOptions.fFolder_DB_PaymentDocuments := frmPaymentDocuments.f_Folder_DB_PaymentDocumets;
     IniOptions.fDIR_Check_DB := frmPaymentDocuments.f_DIR_Check_DB;

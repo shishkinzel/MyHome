@@ -546,6 +546,7 @@ object frmPaymentDocuments: TfrmPaymentDocuments
   OldCreateOrder = False
   Position = poScreenCenter
   StyleName = 'Payment Documents'
+  OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
@@ -1242,15 +1243,18 @@ object frmPaymentDocuments: TfrmPaymentDocuments
       object mniSet_N2: TMenuItem
         Caption = '-'
       end
+      object mniSet_Clear_Any: TMenuItem
+        Caption = #1054#1095#1080#1089#1090#1082#1072' '#1092#1072#1081#1083#1072' "any_bd.fds"'
+        OnClick = mniSet_Clear_AnyClick
+      end
+      object mniSet_N3: TMenuItem
+        Caption = '-'
+      end
       object mniSet_Exit: TMenuItem
         Caption = #1042#1099#1093#1086#1076
         ImageIndex = 25
         ShortCut = 16453
         OnClick = mniFile_CloseClick
-      end
-      object mniSet_Clear_Any: TMenuItem
-        Caption = #1054#1095#1080#1089#1090#1082#1072' '#1092#1072#1081#1083#1072' "any_bd.fds"'
-        OnClick = mniSet_Clear_AnyClick
       end
     end
     object mniShow: TMenuItem
