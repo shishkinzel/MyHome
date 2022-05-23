@@ -191,6 +191,19 @@ tmrMsg.Enabled := True;
         ilMsg.GetBitmap(7, imgMsg.Picture.Bitmap);
         tmrMsg.Interval := 1500;
       end;
+    16:
+      begin
+        lblMsg.WordWrap := True;
+        lblMsg.AutoSize := True;
+        lblMsg.Top := 30;
+        lblMsg.Height := 60;
+        lblMsg.Width := 300;
+        lblMsg.Alignment := taCenter;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'Пожалуйста, Укажите дату поверки!!';
+        tmrMsg.Interval := 1500;
+      end;
+
   end;
 
 

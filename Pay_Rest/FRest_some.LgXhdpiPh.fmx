@@ -1,0 +1,43 @@
+inherited frmRest_LgXhdpiPh: TfrmRest_LgXhdpiPh
+  ClientHeight = 695
+  ClientWidth = 450
+  DesignerMasterStyle = 3
+  inherited tbcRest: TTabControl
+    Size.Width = 450.000000000000000000
+    Size.Height = 599.000000000000000000
+    TabIndex = 0
+    Sizes = (
+      450s
+      550s
+      450s
+      550s)
+    inherited tbtmTicket: TTabItem
+      IsSelected = True
+      Size.Width = 225.000000000000000000
+      ExplicitSize.cx = 60.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
+    end
+    inherited tbtmHotell: TTabItem
+      IsSelected = False
+      Size.Width = 225.000000000000000000
+      ExplicitSize.cx = 81.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
+    end
+  end
+  inherited tlbUp: TToolBar
+    Size.Width = 450.000000000000000000
+    inherited btnClose: TSpeedButton
+      Position.X = 418.000000000000000000
+    end
+  end
+  inherited tlbDown: TToolBar
+    Position.Y = 647.000000000000000000
+    Size.Width = 450.000000000000000000
+    inherited btnPrev: TSpeedButton
+      Position.X = 402.000000000000000000
+    end
+    inherited btnNext: TSpeedButton
+      Position.X = 354.000000000000000000
+    end
+  end
+end

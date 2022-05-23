@@ -1,0 +1,388 @@
+object frmRest: TfrmRest
+  Left = 0
+  Top = 0
+  Caption = #1056#1072#1089#1095#1077#1090' '#1074#1088#1077#1084#1077#1085#1080' '
+  ClientHeight = 602
+  ClientWidth = 350
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 3
+  object tbcRest: TTabControl
+    Align = Client
+    Size.Width = 350.000000000000000000
+    Size.Height = 506.000000000000000000
+    Size.PlatformDefault = False
+    TabHeight = 49.000000000000000000
+    TabIndex = 1
+    TabOrder = 0
+    TabPosition = PlatformDefault
+    Sizes = (
+      350s
+      457s
+      350s
+      457s)
+    object tbtmTicket: TTabItem
+      CustomIcon = <
+        item
+        end>
+      TextSettings.Font.Size = 18.000000000000000000
+      StyledSettings = [Family, Style, FontColor]
+      IsSelected = False
+      Size.Width = 175.000000000000000000
+      Size.Height = 49.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = #1041#1080#1083#1077#1090#1099
+      ExplicitSize.cx = 60.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
+      object lblTitleOne: TLabel
+        StyledSettings = [Style, FontColor]
+        Position.X = 24.000000000000000000
+        Position.Y = 8.000000000000000000
+        Size.Width = 289.000000000000000000
+        Size.Height = 49.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Tahoma'
+        TextSettings.Font.Size = 18.000000000000000000
+        Text = #1056#1072#1089#1095#1077#1090' '#1074#1088#1077#1084#1077#1085#1080' '#1087#1086#1082#1091#1087#1082#1080' '#1073#1080#1083#1077#1090#1086#1074
+        TabOrder = 3
+      end
+      object lblOut: TLabel
+        StyledSettings = [Style, FontColor]
+        Position.X = 15.000000000000000000
+        Position.Y = 104.000000000000000000
+        Size.Width = 154.000000000000000000
+        Size.Height = 57.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Tahoma'
+        TextSettings.Font.Size = 18.000000000000000000
+        TextSettings.VertAlign = Leading
+        Text = #1044#1072#1090#1072' '#1086#1090#1098#1077#1079#1076#1072
+        TabOrder = 2
+      end
+      object lbl2: TLabel
+        StyledSettings = [Style, FontColor]
+        Position.X = 15.000000000000000000
+        Position.Y = 180.000000000000000000
+        Size.Width = 192.000000000000000000
+        Size.Height = 44.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Tahoma'
+        TextSettings.Font.Size = 18.000000000000000000
+        TextSettings.VertAlign = Leading
+        Text = #1047#1072' '#1082#1072#1082#1086#1077' '#1082#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1089#1091#1090#1086#1082
+        TabOrder = 1
+      end
+      object btn1: TButton
+        StyledSettings = [Family, Style, FontColor]
+        Position.X = 15.000000000000000000
+        Position.Y = 360.000000000000000000
+        Size.Width = 120.000000000000000000
+        Size.Height = 44.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 5
+        Text = #1042#1099#1087#1086#1083#1085#1080#1090#1100
+        TextSettings.Font.Size = 18.000000000000000000
+        OnClick = edt1Change
+      end
+      object btn2: TButton
+        Action = wndwclsOne
+        Enabled = True
+        StyledSettings = [Family, Style, FontColor]
+        ImageIndex = -1
+        Position.X = 210.000000000000000000
+        Position.Y = 360.000000000000000000
+        Size.Width = 120.000000000000000000
+        Size.Height = 44.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 4
+        Text = #1042#1099#1093#1086#1076
+        TextSettings.Font.Size = 18.000000000000000000
+      end
+      object dtdt1: TDateEdit
+        Date = 44331.000000000000000000
+        OnChange = dtdt1Change
+        Position.X = 210.000000000000000000
+        Position.Y = 120.000000000000000000
+        Size.Width = 120.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        StyledSettings = [Family, Style, FontColor]
+        TabOrder = 7
+        TextSettings.Font.Size = 18.000000000000000000
+      end
+      object dtdt2: TDateEdit
+        Date = 44331.000000000000000000
+        Position.X = 210.000000000000000000
+        Position.Y = 260.000000000000000000
+        Size.Width = 120.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        StyledSettings = [Family, Style, FontColor]
+        TabOrder = 6
+        TextSettings.Font.Size = 18.000000000000000000
+      end
+      object edt1: TComboEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 8
+        ItemHeight = 19.000000000000000000
+        Items.Strings = (
+          '15'
+          '30'
+          '45'
+          '60'
+          '90'
+          '120')
+        ItemIndex = 0
+        Text = '15'
+        TextSettings.Font.Size = 18.000000000000000000
+        Position.X = 210.000000000000000000
+        Position.Y = 180.000000000000000000
+        StyledSettings = [Family, Style, FontColor]
+        Size.Width = 120.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        OnChange = edt1Change
+      end
+      object lbl4: TLabel
+        StyledSettings = [Style, FontColor]
+        Position.X = 15.000000000000000000
+        Position.Y = 260.000000000000000000
+        Size.Width = 169.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Tahoma'
+        TextSettings.Font.Size = 18.000000000000000000
+        TextSettings.VertAlign = Leading
+        Text = #1044#1072#1090#1072' '#1087#1086#1082#1091#1087#1082#1080
+        TabOrder = 0
+      end
+    end
+    object tbtmHotell: TTabItem
+      CustomIcon = <
+        item
+        end>
+      TextSettings.Font.Size = 18.000000000000000000
+      StyledSettings = [Family, Style, FontColor]
+      IsSelected = True
+      Size.Width = 175.000000000000000000
+      Size.Height = 49.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = #1043#1086#1089#1090#1080#1085#1080#1094#1072' '
+      ExplicitSize.cx = 81.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
+      object dtdt3: TDateEdit
+        Date = 44331.000000000000000000
+        Position.X = 210.000000000000000000
+        Position.Y = 128.000000000000000000
+        Size.Width = 120.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        StyledSettings = [Family, Style, FontColor]
+        TabOrder = 7
+        TextSettings.Font.Size = 18.000000000000000000
+      end
+      object dtdt4: TDateEdit
+        Date = 44331.000000000000000000
+        Position.X = 210.000000000000000000
+        Position.Y = 268.000000000000000000
+        Size.Width = 120.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        StyledSettings = [Family, Style, FontColor]
+        TabOrder = 6
+        TextSettings.Font.Size = 18.000000000000000000
+      end
+      object Button1: TButton
+        Action = wndwclsOne
+        Enabled = True
+        StyledSettings = [Family, Style, FontColor]
+        ImageIndex = -1
+        Position.X = 210.000000000000000000
+        Position.Y = 368.000000000000000000
+        Size.Width = 120.000000000000000000
+        Size.Height = 44.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 4
+        Text = #1042#1099#1093#1086#1076
+        TextSettings.Font.Size = 18.000000000000000000
+      end
+      object Button2: TButton
+        StyledSettings = [Family, Style, FontColor]
+        Hint = 'Close Window|Close active form'
+        Position.X = 15.000000000000000000
+        Position.Y = 368.000000000000000000
+        Size.Width = 120.000000000000000000
+        Size.Height = 44.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 5
+        Text = #1042#1099#1087#1086#1083#1085#1080#1090#1100
+        TextSettings.Font.Size = 18.000000000000000000
+        OnClick = Button2Click
+      end
+      object Label1: TLabel
+        StyledSettings = [Style, FontColor]
+        Position.X = 15.000000000000000000
+        Position.Y = 268.000000000000000000
+        Size.Width = 117.000000000000000000
+        Size.Height = 29.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Tahoma'
+        TextSettings.Font.Size = 18.000000000000000000
+        Text = #1044#1072#1090#1072' '#1074#1099#1077#1079#1076#1072
+        TabOrder = 0
+      end
+      object Label2: TLabel
+        StyledSettings = [Style, FontColor]
+        Position.X = 15.000000000000000000
+        Position.Y = 188.000000000000000000
+        Size.Width = 157.000000000000000000
+        Size.Height = 37.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Tahoma'
+        TextSettings.Font.Size = 18.000000000000000000
+        Text = #1050#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1085#1086#1095#1077#1081
+        TabOrder = 1
+      end
+      object Label3: TLabel
+        StyledSettings = [Style, FontColor]
+        Position.X = 15.000000000000000000
+        Position.Y = 120.000000000000000000
+        Size.Width = 156.000000000000000000
+        Size.Height = 41.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Tahoma'
+        TextSettings.Font.Size = 18.000000000000000000
+        Text = #1044#1072#1090#1072' '#1079#1072#1077#1079#1076#1072
+        TabOrder = 2
+      end
+      object Label4: TLabel
+        StyledSettings = [Style, FontColor]
+        Position.X = 40.000000000000000000
+        Position.Y = 16.000000000000000000
+        Size.Width = 257.000000000000000000
+        Size.Height = 49.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Tahoma'
+        TextSettings.Font.Size = 18.000000000000000000
+        Text = #1056#1072#1089#1095#1077#1090' '#1074#1088#1077#1084#1077#1085#1080' '#1087#1088#1086#1078#1080#1074#1072#1085#1080#1103
+        TabOrder = 3
+      end
+      object spnbx1: TSpinBox
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 8
+        Cursor = crIBeam
+        Min = 1.000000000000000000
+        Max = 365.000000000000000000
+        Value = 1.000000000000000000
+        Position.X = 210.000000000000000000
+        Position.Y = 190.000000000000000000
+        TextSettings.Font.Size = 18.000000000000000000
+        Size.Width = 120.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        StyledSettings = [Family, Style, FontColor]
+      end
+    end
+  end
+  object tlbUp: TToolBar
+    Size.Width = 350.000000000000000000
+    Size.Height = 48.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    object btnClose: TSpeedButton
+      Action = wndwclsOne
+      Align = Right
+      Enabled = True
+      ImageIndex = -1
+      Position.X = 318.000000000000000000
+      Position.Y = 9.000000000000000000
+      Size.Width = 32.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'cleareditbutton'
+    end
+    object btnMenu: TSpeedButton
+      Align = Left
+      Size.Width = 48.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'drawertoolbutton'
+      Text = 'actPopMenu'
+    end
+    object lblTitle: TLabel
+      Align = Center
+      StyledSettings = [Style, FontColor]
+      Size.Width = 225.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Tahoma'
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.HorzAlign = Center
+      Text = #1055#1088#1080#1083#1086#1078#1077#1085#1080#1077' "'#1054#1090#1087#1091#1089#1082'"'
+      TabOrder = 3
+    end
+  end
+  object tlbDown: TToolBar
+    Align = Bottom
+    Position.Y = 554.000000000000000000
+    Size.Width = 350.000000000000000000
+    Size.Height = 48.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object btnPrev: TSpeedButton
+      Action = actBack
+      Align = Right
+      Enabled = True
+      ImageIndex = -1
+      Opacity = 0.500000000000000000
+      Position.X = 302.000000000000000000
+      Size.Width = 48.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'priortoolbutton'
+    end
+    object btnInfo: TSpeedButton
+      Align = Left
+      Opacity = 0.500000000000000000
+      Size.Width = 48.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'infotoolbutton'
+    end
+    object btnNext: TSpeedButton
+      Action = actNext
+      Align = Right
+      Enabled = True
+      ImageIndex = -1
+      Opacity = 0.500000000000000000
+      Position.X = 254.000000000000000000
+      Size.Width = 48.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'nexttoolbutton'
+    end
+  end
+  object actlst1: TActionList
+    Left = 72
+    Top = 514
+    object wndwclsOne: TWindowClose
+      Category = 'Window'
+      Hint = 'Close Window|Close active form'
+      OnCanActionExec = wndwclsOneCanActionExec
+    end
+    object actNext: TNextTabAction
+      Category = 'Tab'
+      TabControl = tbcRest
+    end
+    object actBack: TPreviousTabAction
+      Category = 'Tab'
+      TabControl = tbcRest
+    end
+  end
+end
