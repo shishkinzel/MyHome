@@ -60,6 +60,7 @@ type
     procedure Button2Click(Sender: TObject);
     procedure wndwclsOneCanActionExec(Sender: TCustomAction;
       var CanExec: Boolean);
+    procedure btnRunClick(Sender: TObject);
   private
     { Private declarations }
     fday : Integer;
@@ -76,6 +77,20 @@ implementation
 {$R *.fmx}
 {$R *.LgXhdpiPh.fmx ANDROID}
 {$R *.LgXhdpiTb.fmx ANDROID}
+
+procedure TfrmRest.FormCreate(Sender: TObject);
+var
+  i: Integer;
+begin
+  dtdt1.Date := Now;
+  dtdt3.Date := Now;
+  dtdtDatePay.Date := Now;
+end;
+
+procedure TfrmRest.btnRunClick(Sender: TObject);
+begin
+dtdtResult.Date := dtdtDatePay.Date + (StrToInt(edtQuantityDay.Text) - 1);
+end;
 
 procedure TfrmRest.Button2Click(Sender: TObject);
 begin
@@ -97,13 +112,7 @@ begin
   lbl4.Visible := True;
 end;
 
-procedure TfrmRest.FormCreate(Sender: TObject);
-var
-  i: Integer;
-begin
-  dtdt1.Date := Now;
-  dtdt3.Date := Now;
-end;
+
 
 procedure TfrmRest.wndwclsOneCanActionExec(Sender: TCustomAction;
   var CanExec: Boolean);

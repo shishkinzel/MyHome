@@ -15,7 +15,7 @@ object frmRest: TfrmRest
     Size.Height = 506.000000000000000000
     Size.PlatformDefault = False
     TabHeight = 49.000000000000000000
-    TabIndex = 2
+    TabIndex = 0
     TabOrder = 0
     TabPosition = PlatformDefault
     Sizes = (
@@ -31,7 +31,7 @@ object frmRest: TfrmRest
         end>
       TextSettings.Font.Size = 18.000000000000000000
       StyledSettings = [Family, Style, FontColor]
-      IsSelected = False
+      IsSelected = True
       Size.Width = 116.000000000000000000
       Size.Height = 49.000000000000000000
       Size.PlatformDefault = False
@@ -206,7 +206,7 @@ object frmRest: TfrmRest
         StyledSettings = [Family, Style, FontColor]
         ImageIndex = -1
         Position.X = 210.000000000000000000
-        Position.Y = 368.000000000000000000
+        Position.Y = 360.000000000000000000
         Size.Width = 120.000000000000000000
         Size.Height = 44.000000000000000000
         Size.PlatformDefault = False
@@ -218,7 +218,7 @@ object frmRest: TfrmRest
         StyledSettings = [Family, Style, FontColor]
         Hint = 'Close Window|Close active form'
         Position.X = 15.000000000000000000
-        Position.Y = 368.000000000000000000
+        Position.Y = 360.000000000000000000
         Size.Width = 120.000000000000000000
         Size.Height = 44.000000000000000000
         Size.PlatformDefault = False
@@ -297,7 +297,7 @@ object frmRest: TfrmRest
         end>
       TextSettings.Font.Size = 18.000000000000000000
       StyledSettings = [Family, Style, FontColor]
-      IsSelected = True
+      IsSelected = False
       Size.Width = 118.000000000000000000
       Size.Height = 49.000000000000000000
       Size.PlatformDefault = False
@@ -321,8 +321,8 @@ object frmRest: TfrmRest
       end
       object lblDatePay: TLabel
         StyledSettings = [Style, FontColor]
-        Position.X = 23.000000000000000000
-        Position.Y = 128.000000000000000000
+        Position.X = 15.000000000000000000
+        Position.Y = 96.000000000000000000
         Size.Width = 156.000000000000000000
         Size.Height = 41.000000000000000000
         Size.PlatformDefault = False
@@ -334,7 +334,7 @@ object frmRest: TfrmRest
       object dtdtDatePay: TDateEdit
         Date = 44331.000000000000000000
         Position.X = 218.000000000000000000
-        Position.Y = 136.000000000000000000
+        Position.Y = 104.000000000000000000
         Size.Width = 120.000000000000000000
         Size.Height = 32.000000000000000000
         Size.PlatformDefault = False
@@ -344,8 +344,8 @@ object frmRest: TfrmRest
       end
       object lblQuantityDay: TLabel
         StyledSettings = [Style, FontColor]
-        Position.X = 23.000000000000000000
-        Position.Y = 196.000000000000000000
+        Position.X = 15.000000000000000000
+        Position.Y = 164.000000000000000000
         Size.Width = 157.000000000000000000
         Size.Height = 37.000000000000000000
         Size.PlatformDefault = False
@@ -356,8 +356,8 @@ object frmRest: TfrmRest
       end
       object lbResult: TLabel
         StyledSettings = [Style, FontColor]
-        Position.X = 23.000000000000000000
-        Position.Y = 276.000000000000000000
+        Position.X = 15.000000000000000000
+        Position.Y = 244.000000000000000000
         Size.Width = 138.000000000000000000
         Size.Height = 101.000000000000000000
         Size.PlatformDefault = False
@@ -370,7 +370,7 @@ object frmRest: TfrmRest
       object dtdtResult: TDateEdit
         Date = 44331.000000000000000000
         Position.X = 218.000000000000000000
-        Position.Y = 308.000000000000000000
+        Position.Y = 276.000000000000000000
         Size.Width = 120.000000000000000000
         Size.Height = 32.000000000000000000
         Size.PlatformDefault = False
@@ -381,28 +381,28 @@ object frmRest: TfrmRest
       object btnRun: TButton
         StyledSettings = [Family, Style, FontColor]
         Hint = 'Close Window|Close active form'
-        Position.X = 23.000000000000000000
-        Position.Y = 376.000000000000000000
+        Position.X = 15.000000000000000000
+        Position.Y = 360.000000000000000000
         Size.Width = 120.000000000000000000
         Size.Height = 44.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 5
         Text = #1042#1099#1087#1086#1083#1085#1080#1090#1100
         TextSettings.Font.Size = 18.000000000000000000
-        OnClick = Button2Click
+        OnClick = btnRunClick
       end
       object btnCloseAll: TButton
         Action = wndwclsOne
         Enabled = True
         StyledSettings = [Family, Style, FontColor]
         ImageIndex = -1
-        Position.X = 218.000000000000000000
-        Position.Y = 376.000000000000000000
+        Position.X = 210.000000000000000000
+        Position.Y = 360.000000000000000000
         Size.Width = 120.000000000000000000
         Size.Height = 44.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 4
-        Text = #1047#1072#1082#1088#1099#1090#1100
+        Text = #1042#1099#1093#1086#1076
         TextSettings.Font.Size = 18.000000000000000000
       end
       object edtQuantityDay: TComboEdit
@@ -417,12 +417,12 @@ object frmRest: TfrmRest
         Text = '30'
         TextSettings.Font.Size = 18.000000000000000000
         Position.X = 218.000000000000000000
-        Position.Y = 188.000000000000000000
+        Position.Y = 156.000000000000000000
         StyledSettings = [Family, Style, FontColor]
         Size.Width = 120.000000000000000000
         Size.Height = 32.000000000000000000
         Size.PlatformDefault = False
-        OnChange = edt1Change
+        OnChange = btnRunClick
       end
     end
   end
@@ -505,8 +505,8 @@ object frmRest: TfrmRest
     end
   end
   object actlst1: TActionList
-    Left = 72
-    Top = 514
+    Left = 64
+    Top = 562
     object wndwclsOne: TWindowClose
       Category = 'Window'
       Hint = 'Close Window|Close active form'

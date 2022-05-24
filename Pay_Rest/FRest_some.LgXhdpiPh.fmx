@@ -1,10 +1,12 @@
 inherited frmRest_LgXhdpiPh: TfrmRest_LgXhdpiPh
+  BorderStyle = Single
   ClientHeight = 695
   ClientWidth = 450
   DesignerMasterStyle = 3
   inherited tbcRest: TTabControl
     Size.Width = 450.000000000000000000
     Size.Height = 599.000000000000000000
+    TabIndex = 2
     Sizes = (
       450s
       550s
@@ -13,19 +15,30 @@ inherited frmRest_LgXhdpiPh: TfrmRest_LgXhdpiPh
       450s
       550s)
     inherited tbtmTicket: TTabItem
+      IsSelected = False
       Size.Width = 150.000000000000000000
       ExplicitSize.cx = 60.000000000000000000
       ExplicitSize.cy = 26.000000000000000000
+      inherited lblTitleOne: TLabel
+        Position.X = 10.000000000000000000
+      end
     end
     inherited tbtmHotell: TTabItem
       Size.Width = 150.000000000000000000
       ExplicitSize.cx = 81.000000000000000000
       ExplicitSize.cy = 26.000000000000000000
+      inherited Label4: TLabel
+        Position.X = 10.000000000000000000
+      end
     end
     inherited tbtmTravelling: TTabItem
+      IsSelected = True
       Size.Width = 150.000000000000000000
       ExplicitSize.cx = 64.000000000000000000
       ExplicitSize.cy = 49.000000000000000000
+      inherited lblTitleTravel: TLabel
+        Position.X = 10.000000000000000000
+      end
     end
   end
   inherited tlbUp: TToolBar
