@@ -207,12 +207,65 @@ tmrMsg.Enabled := True;
       begin
         lblMsg.WordWrap := True;
         lblMsg.AutoSize := True;
-        lblMsg.Top := 30;
+        lblMsg.Left := 110;
+        lblMsg.Top := 60;
         lblMsg.Height := 60;
         lblMsg.Width := 300;
         lblMsg.Alignment := taCenter;
         lblTitleMsg.Caption := cs_MsgTitleAttention;
         lblMsg.Caption := 'У Вас пустая база данных';
+        tmrMsg.Interval := 1500;
+      end;
+    18:
+      begin
+        lblMsg.WordWrap := True;
+        lblMsg.AutoSize := True;
+        lblMsg.Left := 110;
+        lblMsg.Top := 60;
+        lblMsg.Height := 60;
+        lblMsg.Width := 300;
+        lblMsg.Alignment := taCenter;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'Пожалуйста введите данные в правую колонку';
+        tmrMsg.Interval := 1500;
+      end;
+    19:
+      begin
+        lblMsg.WordWrap := True;
+        lblMsg.AutoSize := True;
+        lblMsg.Left := 110;
+        lblMsg.Top := 60;
+        lblMsg.Height := 60;
+        lblMsg.Width := 300;
+        lblMsg.Alignment := taCenter;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'Установите начальную дату';
+        tmrMsg.Interval := 1500;
+      end;
+    20:
+      begin
+        lblMsg.WordWrap := True;
+        lblMsg.AutoSize := True;
+        lblMsg.Left := 110;
+        lblMsg.Top := 60;
+        lblMsg.Height := 60;
+        lblMsg.Width := 300;
+        lblMsg.Alignment := taCenter;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'Вы ничего не ввели';
+        tmrMsg.Interval := 1500;
+      end;
+    21:
+      begin
+        lblMsg.WordWrap := True;
+        lblMsg.AutoSize := True;
+        lblMsg.Left := 110;
+        lblMsg.Top := 60;
+        lblMsg.Height := 60;
+        lblMsg.Width := 300;
+        lblMsg.Alignment := taCenter;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'Вы отменили ввод данных в базу';
         tmrMsg.Interval := 1500;
       end;
   end;

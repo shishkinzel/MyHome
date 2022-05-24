@@ -156,7 +156,8 @@ begin
   begin
     if fActiveForm then
     begin
-      ShowMessage('Пожалуйста введите данные в правую колонку');
+//      ShowMessage('Пожалуйста введите данные в правую колонку');
+      funUntil.MyFloatingMessage(18, frmMsg);
       fActiveForm := False;
       pnlRight.Enabled := True;
       edtEle.SetFocus;
@@ -204,7 +205,8 @@ begin
     dmPayment.fmTabPayAndRecord.FieldByName('WaterHotPrev').AsString := edtHotWater.Text;
 
   end;
-  ShowMessage('Установите начальную дату');
+//  ShowMessage('Установите начальную дату');
+     funUntil.MyFloatingMessage(19, frmMsg);
   dtpDate.Enabled := True;
 
 end;
@@ -382,7 +384,8 @@ begin
   end
   else
   begin
-     MessageBox(0, 'Вы ничего не ввели', 'Внимание!', (MB_ICONINFORMATION));
+//     MessageBox(0, 'Вы ничего не ввели', 'Внимание!', (MB_ICONINFORMATION));
+      funUntil.MyFloatingMessage(20, frmMsg);
   end;
   case f_setFocus of
     0, 2, 4, 6:
@@ -423,7 +426,8 @@ end;
 procedure TfrmInputData.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if not (dsPayAndRecord.DataSet.Modified) then
-    MessageBox(0, 'Вы отменили ввод данных в базу', 'Внимание!', (MB_ICONINFORMATION))
+//    MessageBox(0, 'Вы отменили ввод данных в базу', 'Внимание!', (MB_ICONINFORMATION))
+     funUntil.MyFloatingMessage(21, frmMsg)
   else
   begin
     if fApply or not ((edtEleNow.Text = '') and (edtColdWaterNow.Text = '') and (edtHotWaterNow.Text = '') and (edtDez.Text = '') and (edtMEle.Text = '') and (edtOnLime.Text = '') and (edtEle.Text = '') and (edtColdWater.Text = '') and (edtHotWater.Text = '')) and ((edtEleNow.Text = '') or (edtColdWaterNow.Text = '') or (edtHotWaterNow.Text = '') or (edtDez.Text = '') or (edtMEle.Text = '') or (edtOnLime.Text = '') or (edtEle.Text = '') or (edtColdWater.Text = '') or (edtHotWater.Text = '')) then
