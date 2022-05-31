@@ -221,7 +221,7 @@ tmrMsg.Enabled := True;
         lblMsg.WordWrap := True;
         lblMsg.AutoSize := True;
         lblMsg.Left := 110;
-        lblMsg.Top := 60;
+        lblMsg.Top := 45;
         lblMsg.Height := 60;
         lblMsg.Width := 300;
         lblMsg.Alignment := taCenter;
@@ -266,6 +266,34 @@ tmrMsg.Enabled := True;
         lblMsg.Alignment := taCenter;
         lblTitleMsg.Caption := cs_MsgTitleAttention;
         lblMsg.Caption := 'Вы отменили ввод данных в базу';
+        tmrMsg.Interval := 1500;
+      end;
+    22:
+      begin
+        lblMsg.WordWrap := True;
+        lblMsg.AutoSize := True;
+        lblMsg.Left := 110;
+        lblMsg.Top := 45;
+        lblMsg.Height := 60;
+        lblMsg.Width := 350;
+        lblMsg.Alignment := taCenter;
+        lblTitleMsg.Caption := cs_MsgTitleWarning;
+        lblTitleMsg.Font.Color := clBlue;
+        ilMsg.GetBitmap(6, imgMsg.Picture.Bitmap);
+        lblMsg.Caption := 'Проверте корректность заполнения полей';
+        tmrMsg.Interval := 1500;
+      end;
+          23:
+      begin
+        lblMsg.WordWrap := True;
+        lblMsg.AutoSize := True;
+        lblMsg.Left := 160;
+        lblMsg.Top := 60;
+        lblMsg.Height := 60;
+        lblMsg.Width := 350;
+        lblMsg.Alignment := taCenter;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'Заполните все поля !!!';
         tmrMsg.Interval := 1500;
       end;
   end;

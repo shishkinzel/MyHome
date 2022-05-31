@@ -107,7 +107,6 @@ begin
   begin
     btnStart.Visible := True;
     fdbEmpty := False;
-//    ShowMessage('У Вас пустая база данных');
      funUntil.MyFloatingMessage(17, frmMsg);
     edtEle.Text := '0';
     edtColdWater.Text := '0';
@@ -156,7 +155,6 @@ begin
   begin
     if fActiveForm then
     begin
-//      ShowMessage('Пожалуйста введите данные в правую колонку');
       funUntil.MyFloatingMessage(18, frmMsg);
       fActiveForm := False;
       pnlRight.Enabled := True;
@@ -182,8 +180,7 @@ procedure TfrmInputData.btnStartClick(Sender: TObject);
 begin
   if (edtEle.Text = '') or (edtColdWater.Text = '') or (edtHotWater.Text = '') then
   begin
-    MessageBox(0, 'Проверте корректность заполнения полей', 'Внимание, ошибка!',
-                  (MB_OK + MB_ICONERROR));
+    funUntil.MyFloatingMessage(22, frmMsg);
     edtEle.Text := '0';
     edtColdWater.Text := '0';
     edtHotWater.Text := '0';
@@ -205,8 +202,7 @@ begin
     dmPayment.fmTabPayAndRecord.FieldByName('WaterHotPrev').AsString := edtHotWater.Text;
 
   end;
-//  ShowMessage('Установите начальную дату');
-     funUntil.MyFloatingMessage(19, frmMsg);
+     funUntil.MyFloatingMessage(19, frmMsg);   // Сообщение - Введите начальную дату
   dtpDate.Enabled := True;
 
 end;
@@ -288,7 +284,7 @@ begin
         edtEleNow.Text := '';
         edtColdWaterNow.Text := '';
         edtHotWaterNow.Text := '';
-        MessageBox(0, 'Проверте корректность заполнения полей', 'Внимание, ошибка!', (MB_OK + MB_ICONERROR));
+        funUntil.MyFloatingMessage(22, frmMsg);     // сообщение - Проверте корректность заполнения полей
         edtEleNow.SetFocus;
         Exit;
       end;
@@ -317,7 +313,7 @@ begin
   end
   else
   begin
-    ShowMessage('Заполните все поля');
+      funUntil.MyFloatingMessage(23, frmMsg);    // сообщение - 'Заполните все поля'
   end;
 end;
 
@@ -384,8 +380,7 @@ begin
   end
   else
   begin
-//     MessageBox(0, 'Вы ничего не ввели', 'Внимание!', (MB_ICONINFORMATION));
-      funUntil.MyFloatingMessage(20, frmMsg);
+      funUntil.MyFloatingMessage(20, frmMsg);   // сообщение -  'Вы ничего не ввели'
   end;
   case f_setFocus of
     0, 2, 4, 6:
@@ -426,8 +421,7 @@ end;
 procedure TfrmInputData.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if not (dsPayAndRecord.DataSet.Modified) then
-//    MessageBox(0, 'Вы отменили ввод данных в базу', 'Внимание!', (MB_ICONINFORMATION))
-     funUntil.MyFloatingMessage(21, frmMsg)
+     funUntil.MyFloatingMessage(21, frmMsg)  // сообщение -  'Вы отменили ввод данных в базу'
   else
   begin
     if fApply or not ((edtEleNow.Text = '') and (edtColdWaterNow.Text = '') and (edtHotWaterNow.Text = '') and (edtDez.Text = '') and (edtMEle.Text = '') and (edtOnLime.Text = '') and (edtEle.Text = '') and (edtColdWater.Text = '') and (edtHotWater.Text = '')) and ((edtEleNow.Text = '') or (edtColdWaterNow.Text = '') or (edtHotWaterNow.Text = '') or (edtDez.Text = '') or (edtMEle.Text = '') or (edtOnLime.Text = '') or (edtEle.Text = '') or (edtColdWater.Text = '') or (edtHotWater.Text = '')) then
