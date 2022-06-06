@@ -195,6 +195,7 @@ object frmInputData: TfrmInputData
       ParentFont = False
       TabOrder = 1
       OnKeyDown = edtEleKeyDown
+      OnKeyPress = edtDezKeyPress
     end
     object edtColdWaterNow: TEdit
       Left = 150
@@ -209,6 +210,7 @@ object frmInputData: TfrmInputData
       ParentFont = False
       TabOrder = 2
       OnKeyDown = edtEleKeyDown
+      OnKeyPress = edtDezKeyPress
     end
     object edtHotWaterNow: TEdit
       Left = 150
@@ -223,6 +225,7 @@ object frmInputData: TfrmInputData
       ParentFont = False
       TabOrder = 3
       OnKeyDown = edtEleKeyDown
+      OnKeyPress = edtDezKeyPress
     end
     object edtUseEle: TEdit
       Left = 312
@@ -417,6 +420,7 @@ object frmInputData: TfrmInputData
       ParentFont = False
       TabOrder = 0
       OnKeyDown = edtEleKeyDown
+      OnKeyPress = edtDezKeyPress
     end
     object edtMEle: TEdit
       Left = 150
@@ -431,6 +435,7 @@ object frmInputData: TfrmInputData
       ParentFont = False
       TabOrder = 1
       OnKeyDown = edtEleKeyDown
+      OnKeyPress = edtDezKeyPress
     end
     object edtOnLime: TEdit
       Left = 150
@@ -445,6 +450,7 @@ object frmInputData: TfrmInputData
       ParentFont = False
       TabOrder = 2
       OnKeyDown = edtEleKeyDown
+      OnKeyPress = edtDezKeyPress
     end
   end
   object pnlRight: TPanel

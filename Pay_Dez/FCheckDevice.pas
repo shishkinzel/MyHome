@@ -63,6 +63,8 @@ type
     actClose: TAction;
     actSave: TAction;
     actOpenReport: TAction;
+    txtTitleFile: TStaticText;
+    lblNameFile: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
@@ -182,13 +184,12 @@ begin
 // выставить дату поверки
   if not (f_Admin) then
   begin
-    Application.MessageBox('Пожалуйста, Укажите дату поверки!!', 'Внимание', (MB_OK + MB_ICONQUESTION));
 //    frmCheckDevice.BorderStyle := bsDialog;
-//       funUntil.MyFloatingMessage(16, frmMsg);
+       funUntil.MyFloatingMessage(16, frmMsg);   // сообщение - 'Пожалуйста, Укажите дату поверки!!'
 
     frmCheckDevice.Menu := nil;
   end;
-
+   lblNameFile.Caption := ExtractFileName(f_FileName_DB_Check_T);
 end;
 // перемещение по таблице
 procedure TfrmCheckDevice.grdCheckDeviceCellClick(Column: TColumn);
@@ -217,7 +218,8 @@ begin
 
   if not (FileExists(f_FileName_DB_Check_T)) and not(TDirectory.Exists(fPath)) then
   begin
-    Application.MessageBox('У Вас не файлов или папки БД архива поверки ', 'Внимание!', (MB_ICONINFORMATION));
+//    Application.MessageBox('У Вас не файлов или папки БД архива поверки ', 'Внимание!', (MB_ICONINFORMATION));
+   funUntil.MyFloatingMessage(24, frmMsg);   // сообщение - 'У Вас не файлов или папки БД архива поверки '
     Abort;
   end;
   if TDirectory.Exists(fPath) then
@@ -236,7 +238,8 @@ begin
         end;
 
     else
-      ShowMessage('Вы прервали ввод');
+//      ShowMessage('Вы прервали ввод');
+     funUntil.MyFloatingMessage(26, frmMsg);   // сообщение - 'Вы прервали ввод'
     end;
   end
   else
@@ -248,13 +251,15 @@ begin
       f_JsonFile := dlgOpen_Check.FileName;
       dmPayment.fmTabCheckDevice.LoadFromFile(f_JsonFile, sfJSON);
       f_FileName_DB_Check_T := f_JsonFile;
+      lblNameFile.Caption := ExtractFileName(f_FileName_DB_Check_T);
 //  пытаемся заполнить данными из таблицы
       dsCheckDevice.DataSet.First;
      funUntil.MyF_Fill(frmCheckDevice, dsCheckDevice);      // процедура из funUntil
     end
     else
     begin
-      Application.MessageBox('Вы отказались от открытия файла ', 'Внимание!', MB_ICONINFORMATION);
+//      Application.MessageBox('Вы отказались от открытия файла ', 'Внимание!', MB_ICONINFORMATION);
+        funUntil.MyFloatingMessage(28, frmMsg);   // сообщение - 'Вы отказались от открытия файла '
     end;
   except
     on E: EFDException do
@@ -282,7 +287,8 @@ begin
  // необходимо проверить файл на пустоту!!!!
   if dsCheckDevice.DataSet.IsEmpty then
   begin
-    Application.MessageBox('У Вас пустая таблица', 'Внимание!', MB_ICONINFORMATION);
+//    Application.MessageBox('У Вас пустая таблица', 'Внимание!', MB_ICONINFORMATION);
+     funUntil.MyFloatingMessage(29, frmMsg);   // сообщение - 'У Вас пустая таблица',
     Abort;
   end;
 
@@ -304,7 +310,8 @@ begin
           fExt := '.ch_fds';
         end;
     else
-      ShowMessage('Вы прервали ввод');
+//      ShowMessage('Вы прервали ввод');
+         funUntil.MyFloatingMessage(31, frmMsg);   // сообщение - 'Вы прервали ввод'
     end;
   end;
 
@@ -319,7 +326,8 @@ begin
   end
   else
   begin
-    Application.MessageBox('Вы отказались от сохранения файла ', 'Внимание!', MB_ICONINFORMATION);
+         funUntil.MyFloatingMessage(30, frmMsg);   // сообщение - 'Вы отказались от сохранения файла ',
+//    Application.MessageBox('Вы отказались от сохранения файла ', 'Внимание!', MB_ICONINFORMATION);
   end;
 
 end;
@@ -352,7 +360,8 @@ begin
 // проверяем на наличие директории
   if TDirectory.Exists(fPath) then
   begin
-    Application.MessageBox('Директория существует!!', 'Внимание', (MB_OK + MB_ICONWARNING));
+//    Application.MessageBox('Директория существует!!', 'Внимание', (MB_OK + MB_ICONWARNING));
+    funUntil.MyFloatingMessage(32, frmMsg);   // сообщение - 'Директория существует!!'
   end
   else
   begin
@@ -373,7 +382,8 @@ begin
 // проверяем на наличие директории
   if not (TDirectory.Exists(fPath)) then
   begin
-    Application.MessageBox('Директория не существует!!', 'Внимание', (MB_OK + MB_ICONWARNING));
+//    Application.MessageBox('Директория не существует!!', 'Внимание', (MB_OK + MB_ICONWARNING));
+      funUntil.MyFloatingMessage(33, frmMsg);   // сообщение - 'Директория не существует!!'
   end
   else
   begin

@@ -62,6 +62,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure edtEleKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edtDezKeyPress(Sender: TObject; var Key: Char);
 
   private    { Private declarations }
     f_checked: Boolean;    // флаг режима поверки
@@ -214,11 +215,12 @@ end;
 procedure TfrmInputData.btnApplyClick(Sender: TObject);
 var
   fEle, fWaterCold, fWaterHot: Integer;
+  moneyDez, moneyMEle, moneOnLime : Float32;
 begin
   if (edtEleNow.Text <> '') and (edtColdWaterNow.Text <> '') and (edtHotWaterNow.Text <> '') and (edtDez.Text <> '') and (edtMEle.Text <> '') and (edtOnLime.Text <> '') then
   begin
-  if fdbEmpty then
-     dsPayAndRecord.DataSet.Append;
+    if fdbEmpty then
+      dsPayAndRecord.DataSet.Append;
     dsPayAndRecord.DataSet.FieldByName('number').AsInteger := stepNub;
     dsPayAndRecord.DataSet.FieldByName('date').AsDateTime := dtpDate.Date;
 
@@ -236,6 +238,14 @@ begin
   fWaterHot := StrToInt(edtHotWaterNow.Text) - StrToIntDef(edtHotWater.Text, -1);
 
   fApply := False;          // флаг нажатие кнопки выполнить
+// проверка ввода DecimalSeparator '.' в ','
+    moneyDez := funUntil.MyStrToFloatDef(edtDez.Text, -1);
+    moneyMEle := funUntil.MyStrToFloatDef(edtMEle.Text, -1);
+    moneOnLime := funUntil.MyStrToFloatDef(edtOnLime.Text, -1);
+
+    edtDez.Text := Format('%f', [moneyDez]);
+    edtMEle.Text := Format('%f', [moneyMEle]);
+    edtOnLime.Text := Format('%f', [moneOnLime]);
 
 // заполняем таблицу текущими данными
     with dsPayAndRecord.DataSet do
@@ -284,6 +294,7 @@ begin
         edtEleNow.Text := '';
         edtColdWaterNow.Text := '';
         edtHotWaterNow.Text := '';
+        dsPayAndRecord.DataSet.Delete;    // удаляем последнюю запись в таблице
         funUntil.MyFloatingMessage(22, frmMsg);     // сообщение - Проверте корректность заполнения полей
         edtEleNow.SetFocus;
         Exit;
@@ -397,9 +408,12 @@ begin
 end;
 
 
-
-
 // фокус на форме
+procedure TfrmInputData.edtDezKeyPress(Sender: TObject; var Key: Char);
+begin
+  if not (Key in ['0'..'9',',','.', #8])then Key:=#0;
+end;
+
 procedure TfrmInputData.edtEleKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if (Key = VK_RETURN)
@@ -408,10 +422,6 @@ begin
     FindNextControl(Sender as TWinControl, True, True, false).SetFocus;
 end;
 
-//procedure TfrmInputData.edtDezKeyPress(Sender: TObject; var Key: Char);
-//begin
-// if not (Key in ['0'..'9',',','.', #8])then Key:=#0;
-//end;
 
 // закрытие формы
 procedure TfrmInputData.btnCloseClick(Sender: TObject);

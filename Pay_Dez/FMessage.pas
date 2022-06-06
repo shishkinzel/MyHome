@@ -195,13 +195,13 @@ tmrMsg.Enabled := True;
       begin
         lblMsg.WordWrap := True;
         lblMsg.AutoSize := True;
-        lblMsg.Top := 30;
+        lblMsg.Top := 60;
         lblMsg.Height := 60;
-        lblMsg.Width := 300;
+        lblMsg.Width := 400;
         lblMsg.Alignment := taCenter;
         lblTitleMsg.Caption := cs_MsgTitleAttention;
         lblMsg.Caption := 'Пожалуйста, Укажите дату поверки!!';
-        tmrMsg.Interval := 1500;
+        tmrMsg.Interval := 4500;
       end;
     17:
       begin
@@ -296,9 +296,93 @@ tmrMsg.Enabled := True;
         lblMsg.Caption := 'Заполните все поля !!!';
         tmrMsg.Interval := 1500;
       end;
+    24:
+      begin
+        lblMsg.WordWrap := True;
+        lblMsg.AutoSize := False;
+        lblMsg.Top := 40;
+        lblMsg.Height := 60;
+        lblMsg.Width := 300;
+        lblMsg.Alignment := taCenter;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'У Вас не файлов или папки БД архива поверки ';
+        tmrMsg.Interval := 1500;
+      end;
+    25:
+      begin
+        lblMsg.WordWrap := True;
+        lblMsg.AutoSize := False;
+        lblMsg.Top := 40;
+        lblMsg.Height := 60;
+        lblMsg.Width := 300;
+        lblMsg.Alignment := taCenter;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'У Вас нет прав доступа к редактированию данных';
+        tmrMsg.Interval := 1500;
+      end;
+    26:
+      begin
+        lblMsg.WordWrap := False;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'Добро пожаловать администратор';
+        tmrMsg.Interval := 1500;
+      end;
+    27:
+      begin
+        lblMsg.WordWrap := False;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'Вы прервали ввод';
+        tmrMsg.Interval := 1500;
+      end;
+    28:
+      begin
+        lblMsg.WordWrap := False;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'Вы отказались от открытия файла';
+        tmrMsg.Interval := 1500;
+      end;
+    29:
+      begin
+        lblMsg.WordWrap := True;
+        lblMsg.AutoSize := True;
+        lblMsg.Left := 110;
+        lblMsg.Top := 60;
+        lblMsg.Height := 60;
+        lblMsg.Width := 300;
+        lblMsg.Alignment := taCenter;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'У Вас пустая таблица';
+        tmrMsg.Interval := 1500;
+      end;
+    30:
+      begin
+        lblMsg.WordWrap := False;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'Вы отказались от сохранения файла';
+        tmrMsg.Interval := 4500;
+      end;
+    31:
+      begin
+        lblMsg.WordWrap := False;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'Вы отказались от сохранения файла';
+        tmrMsg.Interval := 4500;
+      end;
+    32:
+      begin
+        lblMsg.WordWrap := False;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'Директория существует!!';
+        tmrMsg.Interval := 4500;
+      end;
+    33:
+      begin
+        lblMsg.WordWrap := False;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'Директория не существует!!';
+        tmrMsg.Interval := 4500;
+      end;
   end;
-
-
 
 end;
 

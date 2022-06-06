@@ -30,7 +30,7 @@ var
 implementation
 
 uses
-  FPaymentDocuments;
+  FPaymentDocuments, funUntil, FMessage;
 
 {$R *.dfm}
 
@@ -49,11 +49,11 @@ begin
     frmPaymentDocuments.mniAccess_NoAdmin.Visible := True;
 //    frmPaymentDocuments.fVerification := True;
 //    f_Admin := True;
-    ShowMessage('Добро пожаловать администратор');
+    funUntil.MyFloatingMessage(26, frmMsg);   // сообщение - 'Добро пожаловать администратор'
   end
   else
   begin
-    ShowMessage('У Вас нет прав доступа к редактированию данных')
+ funUntil.MyFloatingMessage(25, frmMsg);   // сообщение - 'У Вас нет прав доступа к редактированию данных'
   end;
   frmAdmin.Close;
 end;

@@ -394,7 +394,7 @@ begin
 // задаем начальную папку открытия  опции OpenDialog
   fPath := f_Path + cs_db_PaymentDocumets;
 //  fFile := f_Path + cs_JsonFile;
-// куда хотим записать файл- релизовать
+// куда хотим записать файл- релизовать     !!!!!!!!!!!
 
 // проверка на наличие папки с БД
   if not (TDirectory.Exists(fPath)) then
@@ -416,6 +416,7 @@ begin
   if dlgSavePay.Execute then
   begin
     fFile := ExtractFileName(dlgSavePay.FileName);
+    Delete(fFile, Pos('.', fFile), Length(fFile));
     if Length(fFile) > 15 then
     begin
       fFile := LeftStr(fFile, 15);

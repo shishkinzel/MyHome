@@ -52,6 +52,18 @@ object frmCheckDevice: TfrmCheckDevice
     Constraints.MaxHeight = 100
     Constraints.MinHeight = 80
     TabOrder = 0
+    object lblNameFile: TLabel
+      Left = 175
+      Top = 46
+      Width = 380
+      Height = 27
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
     object txtTitleDevice: TStaticText
       Left = 256
       Top = 8
@@ -83,6 +95,24 @@ object frmCheckDevice: TfrmCheckDevice
       ParentFont = False
       TabOrder = 0
       OnKeyDown = dtpCheckDeviceKeyDown
+    end
+    object txtTitleFile: TStaticText
+      Left = 16
+      Top = 46
+      Width = 143
+      Height = 23
+      BevelKind = bkTile
+      BevelOuter = bvRaised
+      BiDiMode = bdLeftToRight
+      Caption = #1060#1072#1081#1083' '#1041#1044' '#1087#1086#1074#1077#1088#1082#1080' :'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentBiDiMode = False
+      ParentFont = False
+      TabOrder = 2
     end
   end
   object pnlDown: TPanel
@@ -360,8 +390,8 @@ object frmCheckDevice: TfrmCheckDevice
   object mmAdmin_All: TMainMenu
     AutoHotkeys = maManual
     Images = ilChecked
-    Left = 32
-    Top = 10
+    Left = 8
+    Top = 82
     object mniAdmin_File: TMenuItem
       Caption = #1060#1072#1081#1083
       object mniSet_Open: TMenuItem
@@ -414,16 +444,16 @@ object frmCheckDevice: TfrmCheckDevice
       ')|*.ch_fds'
     Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
     Title = #1057#1086#1093#1088#1072#1085#1077#1085#1080#1077' '#1092#1072#1081#1083#1086#1074' '#1074' '#1087#1072#1087#1082#1091' '#1041#1044'  '#1087#1088#1080#1073#1086#1088#1086#1074' '#1091#1095#1077#1090#1072
-    Left = 88
-    Top = 8
+    Left = 48
+    Top = 80
   end
   object dlgOpen_Check: TOpenDialog
     Filter = 
       ' '#1050#1072#1090#1072#1083#1086#1075' '#1041#1044' '#1087#1086#1074#1077#1088#1082#1080'(*.pv_fds)|*.pv_fds|'#1060#1072#1081#1083' '#1041#1044' '#1087#1086#1074#1077#1088#1082#1080' (*.ch_fds' +
       ')|*.ch_fds'
     Title = #1059#1082#1072#1078#1080#1090#1077' '#1087#1072#1087#1082#1091' '#1041#1044' '#1089' '#1092#1072#1081#1083#1086#1084' '#1087#1086#1074#1077#1088#1082#1080' '#1087#1088#1080#1073#1086#1088#1086#1074' '#1091#1095#1077#1090#1072
-    Left = 144
-    Top = 8
+    Left = 96
+    Top = 80
   end
   object ilChecked: TImageList
     Height = 24
@@ -1332,8 +1362,8 @@ object frmCheckDevice: TfrmCheckDevice
   object pmCheckDevice: TPopupMenu
     Images = ilChecked
     MenuAnimation = [maNone]
-    Left = 24
-    Top = 56
+    Left = 360
+    Top = 96
     object mniAdmin_FolderOpen: TMenuItem
       Caption = #1054#1090#1082#1088#1099#1090#1100
       ImageIndex = 0
