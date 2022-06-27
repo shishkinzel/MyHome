@@ -323,7 +323,7 @@ tmrMsg.Enabled := True;
     26:
       begin
         lblMsg.WordWrap := False;
-        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblTitleMsg.Caption := cs_MsgTitleInfo;
         lblMsg.Caption := 'Добро пожаловать администратор';
         tmrMsg.Interval := 1500;
       end;
@@ -350,7 +350,7 @@ tmrMsg.Enabled := True;
         lblMsg.Height := 60;
         lblMsg.Width := 300;
         lblMsg.Alignment := taCenter;
-        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblTitleMsg.Caption := cs_MsgTitleInfo;
         lblMsg.Caption := 'У Вас пустая таблица';
         tmrMsg.Interval := 1500;
       end;
@@ -359,28 +359,60 @@ tmrMsg.Enabled := True;
         lblMsg.WordWrap := False;
         lblTitleMsg.Caption := cs_MsgTitleAttention;
         lblMsg.Caption := 'Вы отказались от сохранения файла';
-        tmrMsg.Interval := 4500;
+        tmrMsg.Interval := 1500;
       end;
     31:
       begin
         lblMsg.WordWrap := False;
-        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblTitleMsg.Caption := cs_MsgTitleInfo;
         lblMsg.Caption := 'Вы отказались от сохранения файла';
-        tmrMsg.Interval := 4500;
+        tmrMsg.Interval := 1500;
       end;
     32:
       begin
         lblMsg.WordWrap := False;
-        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblTitleMsg.Caption := cs_MsgTitleInfo;
         lblMsg.Caption := 'Директория существует!!';
-        tmrMsg.Interval := 4500;
+        tmrMsg.Interval := 1500;
       end;
     33:
       begin
         lblMsg.WordWrap := False;
-        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblTitleMsg.Caption := cs_MsgTitleWarning;
         lblMsg.Caption := 'Директория не существует!!';
-        tmrMsg.Interval := 4500;
+        ilMsg.GetBitmap(6, imgMsg.Picture.Bitmap);
+        tmrMsg.Interval := 1500;
+      end;
+    34:
+      begin
+        lblMsg.WordWrap := False;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'Пожалуйста, заполните все поля!!';
+        tmrMsg.Interval := 1500;
+      end;
+    35:
+      begin
+        lblMsg.WordWrap := True;
+        lblMsg.AutoSize := False;
+        lblMsg.Top := 40;
+        lblMsg.Height := 60;
+        lblMsg.Width := 300;
+        lblMsg.Alignment := taCenter;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'Пожалуйста, проверти корректность введённых данных!!';
+        tmrMsg.Interval := 1500;
+      end;
+    36:
+      begin
+        lblMsg.WordWrap := True;
+        lblMsg.AutoSize := False;
+        lblMsg.Top := 40;
+        lblMsg.Height := 60;
+        lblMsg.Width := 300;
+        lblMsg.Alignment := taCenter;
+        lblTitleMsg.Caption := cs_MsgTitleWarning;
+        lblMsg.Caption := 'Проверте правильность введенной даты';
+        tmrMsg.Interval := 1500;
       end;
   end;
 

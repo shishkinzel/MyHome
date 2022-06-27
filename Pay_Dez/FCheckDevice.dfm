@@ -55,8 +55,8 @@ object frmCheckDevice: TfrmCheckDevice
     object lblNameFile: TLabel
       Left = 175
       Top = 46
-      Width = 380
-      Height = 27
+      Width = 5
+      Height = 19
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16

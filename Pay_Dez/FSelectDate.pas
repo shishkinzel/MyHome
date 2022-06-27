@@ -31,7 +31,7 @@ var
 implementation
 
 uses
-  FPaymentDocuments, FdmPayment;
+  FPaymentDocuments, FdmPayment, funUntil, FMessage;
 
 {$R *.dfm}
 
@@ -161,7 +161,8 @@ begin
   end
   else
   begin
-    ShowMessage('Проверте правильность введенной даты');
+//    ShowMessage('Проверте правильность введенной даты');
+    funUntil.MyFloatingMessage(36, frmMsg);   // сообщение - 'Проверте правильность введенной даты'
   end;
 //  frmTestForm.Show;
   frmSelectionDate.Close;

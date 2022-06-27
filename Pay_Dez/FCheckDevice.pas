@@ -115,7 +115,7 @@ begin
   f_CountChecked := 0;
   f_FileName_DB_Check_T := frmPaymentDocuments.f_FileName_DB_Check; // путь к файлу по умолчанию  <checkdevice_bd.fds>
                           // псевдоним для  <f_FileName_DB_Check>
-  // проверка наличия файла конфигурации
+                          // проверка наличия файла конфигурации
   if frmPaymentDocuments.fExist_config then
   begin
     mniAdmin_Setting.Enabled := True;
@@ -185,8 +185,7 @@ begin
   if not (f_Admin) then
   begin
 //    frmCheckDevice.BorderStyle := bsDialog;
-       funUntil.MyFloatingMessage(16, frmMsg);   // сообщение - 'Пожалуйста, Укажите дату поверки!!'
-
+    funUntil.MyFloatingMessage(16, frmMsg);   // сообщение - 'Пожалуйста, Укажите дату поверки!!'
     frmCheckDevice.Menu := nil;
   end;
    lblNameFile.Caption := ExtractFileName(f_FileName_DB_Check_T);
@@ -218,7 +217,6 @@ begin
 
   if not (FileExists(f_FileName_DB_Check_T)) and not(TDirectory.Exists(fPath)) then
   begin
-//    Application.MessageBox('У Вас не файлов или папки БД архива поверки ', 'Внимание!', (MB_ICONINFORMATION));
    funUntil.MyFloatingMessage(24, frmMsg);   // сообщение - 'У Вас не файлов или папки БД архива поверки '
     Abort;
   end;
@@ -238,7 +236,6 @@ begin
         end;
 
     else
-//      ShowMessage('Вы прервали ввод');
      funUntil.MyFloatingMessage(26, frmMsg);   // сообщение - 'Вы прервали ввод'
     end;
   end
@@ -258,7 +255,6 @@ begin
     end
     else
     begin
-//      Application.MessageBox('Вы отказались от открытия файла ', 'Внимание!', MB_ICONINFORMATION);
         funUntil.MyFloatingMessage(28, frmMsg);   // сообщение - 'Вы отказались от открытия файла '
     end;
   except
@@ -287,7 +283,6 @@ begin
  // необходимо проверить файл на пустоту!!!!
   if dsCheckDevice.DataSet.IsEmpty then
   begin
-//    Application.MessageBox('У Вас пустая таблица', 'Внимание!', MB_ICONINFORMATION);
      funUntil.MyFloatingMessage(29, frmMsg);   // сообщение - 'У Вас пустая таблица',
     Abort;
   end;
@@ -310,7 +305,6 @@ begin
           fExt := '.ch_fds';
         end;
     else
-//      ShowMessage('Вы прервали ввод');
          funUntil.MyFloatingMessage(31, frmMsg);   // сообщение - 'Вы прервали ввод'
     end;
   end;
@@ -326,11 +320,12 @@ begin
   end
   else
   begin
-         funUntil.MyFloatingMessage(30, frmMsg);   // сообщение - 'Вы отказались от сохранения файла ',
-//    Application.MessageBox('Вы отказались от сохранения файла ', 'Внимание!', MB_ICONINFORMATION);
+    funUntil.MyFloatingMessage(30, frmMsg);   // сообщение - 'Вы отказались от сохранения файла '
   end;
 
 end;
+
+
 
 
 // указываем путь к папке
@@ -360,7 +355,6 @@ begin
 // проверяем на наличие директории
   if TDirectory.Exists(fPath) then
   begin
-//    Application.MessageBox('Директория существует!!', 'Внимание', (MB_OK + MB_ICONWARNING));
     funUntil.MyFloatingMessage(32, frmMsg);   // сообщение - 'Директория существует!!'
   end
   else
@@ -382,8 +376,7 @@ begin
 // проверяем на наличие директории
   if not (TDirectory.Exists(fPath)) then
   begin
-//    Application.MessageBox('Директория не существует!!', 'Внимание', (MB_OK + MB_ICONWARNING));
-      funUntil.MyFloatingMessage(33, frmMsg);   // сообщение - 'Директория не существует!!'
+    funUntil.MyFloatingMessage(33, frmMsg);   // предупреждение - 'Директория не существует!!'
   end
   else
   begin
@@ -406,7 +399,8 @@ begin
 
   if (cbbNameDevice.Text = '') and (edtNumOldDevice.Text = '') and (edtNumNewDevice.Text = '') and (edtShowOldBefore.Text = '') and (edtShowNewBefore.Text = '') and (edtShowOldNow.Text = '') and (edtShowNewNow.Text = '') then
   begin
-    Application.MessageBox('Пожалуйста, заполните все поля!!', 'Внимание', (MB_OK + MB_ICONWARNING));
+//    Application.MessageBox('Пожалуйста, заполните все поля!!', 'Внимание', (MB_OK + MB_ICONWARNING));
+    funUntil.MyFloatingMessage(34, frmMsg);   // сообщение - 'Пожалуйста, заполните все поля!!'
     Exit;
   end
   else
@@ -418,6 +412,7 @@ begin
     if (fcheckOldPrev < 0) or (fcheckOldNow < 0) or (fcheckNewPrev < 0) or (fcheckNewNow < 0) then
     begin
       Application.MessageBox('Пожалуйста, проверти корректность введённых данных!!', 'Внимание, ошибка!!!!', (MB_OK + MB_ICONWARNING));
+       funUntil.MyFloatingMessage(35, frmMsg);   // сообщение - 'Пожалуйста, проверти корректность введённых данных!!'
       Exit;
     end
     else

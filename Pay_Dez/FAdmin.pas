@@ -53,7 +53,7 @@ begin
   end
   else
   begin
- funUntil.MyFloatingMessage(25, frmMsg);   // сообщение - 'У Вас нет прав доступа к редактированию данных'
+    funUntil.MyFloatingMessage(25, frmMsg);   // сообщение - 'У Вас нет прав доступа к редактированию данных'
   end;
   frmAdmin.Close;
 end;
