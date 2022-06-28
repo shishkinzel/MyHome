@@ -1243,9 +1243,13 @@ object frmPaymentDocuments: TfrmPaymentDocuments
       object mniSet_N2: TMenuItem
         Caption = '-'
       end
-      object mniSet_Clear_Any: TMenuItem
+      object mniSet_Clear_any_bd: TMenuItem
         Caption = #1054#1095#1080#1089#1090#1082#1072' '#1092#1072#1081#1083#1072' "any_bd.fds"'
-        OnClick = mniSet_Clear_AnyClick
+        OnClick = mniSet_Clear_any_bdClick
+      end
+      object mniSet_Clear_checkdevice_bd: TMenuItem
+        Caption = #1054#1095#1080#1089#1090#1082#1072' '#1092#1072#1081#1083#1072' "checkdevice_bd.ch_fds"'
+        OnClick = mniSet_Clear_checkdevice_bdClick
       end
       object mniSet_N3: TMenuItem
         Caption = '-'
@@ -1426,10 +1430,6 @@ object frmPaymentDocuments: TfrmPaymentDocuments
         Enabled = False
         OnClick = mniReport_ResetClick
       end
-    end
-    object mniShowCheck: TMenuItem
-      Caption = #1055#1088#1086#1089#1084#1086#1090#1088
-      Enabled = False
     end
   end
   object dsPayAndRecord: TDataSource

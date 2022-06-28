@@ -104,7 +104,6 @@ type
     mniReport_Tab_Big_XML: TMenuItem;
     mniReport_Tab_Big_PDF: TMenuItem;
     mniSet_CreateBD: TMenuItem;
-    mniShowCheck: TMenuItem;
     mniAccess_Checked: TMenuItem;
     mniSet_Separator: TMenuItem;
     mniForms_EditChecked: TMenuItem;
@@ -118,11 +117,12 @@ type
     mniAccess_NoAdmin: TMenuItem;
     mniSet_Default: TMenuItem;
     mniSet_N3: TMenuItem;
-    mniSet_Clear_Any: TMenuItem;
+    mniSet_Clear_any_bd: TMenuItem;
     txtNameDB: TStaticText;
     lblNameFile: TLabel;
     tmrPaymentDocument: TTimer;
     mniSet_N2: TMenuItem;
+    mniSet_Clear_checkdevice_bd: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniTabShow_LittleClick(Sender: TObject);
     procedure mniTabShow_BigClick(Sender: TObject);
@@ -146,8 +146,9 @@ type
     procedure mniSet_CreateBDClick(Sender: TObject);
     procedure mniAccess_NoAdminClick(Sender: TObject);
     procedure mniSet_DefaultClick(Sender: TObject);
-    procedure mniSet_Clear_AnyClick(Sender: TObject);
+    procedure mniSet_Clear_any_bdClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure mniSet_Clear_checkdevice_bdClick(Sender: TObject);
 
   private    { Private declarations }
 //  var
@@ -235,7 +236,8 @@ begin
   f_Checked_btn := False;              // флаг активации кнопки поверки приборов
   f_FileName_DB := f_Path + cs_JsonFile;  // путь к файлу по умолчанию  <any_bd.pd_fds>
   f_FileName_DB_Check := f_Path + cs_JsonFile_Check; // путь к файлу по умолчанию  <checkdevice_bd.ch_fds>
-// чтение конфигурационного файла
+
+    // чтение конфигурационного файла
   if FileExists(cs_Config_file) then
   begin
     fExist_config := True;
@@ -682,15 +684,15 @@ end;
 
 // очистка файла 'any_bd.fds'
 
-procedure TfrmPaymentDocuments.mniSet_Clear_AnyClick(Sender: TObject);
+procedure TfrmPaymentDocuments.mniSet_Clear_any_bdClick(Sender: TObject);
 var
   i: Integer;
   fPath: string;
 begin
-  fPath := f_Path + cs_JsonFile;
+  fPath := f_FileName_DB_Check  + cs_JsonFile;
 
   try
-    dmPayment.fmTabPayAndRecord.EmptyDataset;;
+    dmPayment.fmTabPayAndRecord.EmptyDataset;
     dmPayment.fmTabPayAndRecord.SaveToFile(fPath, sfJSON);
     funUntil.CorrectionTable(dmPayment.fmTabPayAndRecord, dmPayment.fmTabSummaryTable);
   except
@@ -701,6 +703,25 @@ begin
     end;
   end;
 
+end;
+
+procedure TfrmPaymentDocuments.mniSet_Clear_checkdevice_bdClick(Sender: TObject);
+var
+  i: Integer;
+  fPath: string;
+begin
+  fPath := f_Path + cs_JsonFile_Check;
+
+  try
+    dmPayment.fmTabCheckDevice.EmptyDataset;
+    dmPayment.fmTabCheckDevice.SaveToFile(fPath, sfJSON);
+  except
+    on E: Exception do
+    begin
+      ShowMessage(E.ClassName + '  - Класс ошибки');
+      Abort;
+    end;
+  end;
 end;
 
 // закрытие формы

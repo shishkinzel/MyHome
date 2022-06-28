@@ -96,6 +96,7 @@ begin
   fmTabSummaryTable.Open;
   fPath := f_Path + cs_db_PaymentDocumets;
   fquestion := -1;
+
   if frmPaymentDocuments.fExist_config then
   begin
 // файл Ini существует
@@ -153,9 +154,16 @@ begin
     end
     else
       funUntil.MyFloatingMessage(2, frmMsg);
-
+//    сообщение об отмене загрузки БД - 'Вы отменили загрузку БД'
   end;
   funUntil.CorrectionTable(dmPayment.fmTabPayAndRecord, dmPayment.fmTabSummaryTable);
+
+ //проверка наличия файла "checkdevice_bd.ch_fds" - при отсутствие создать пустой
+  if not (FileExists(frmPaymentDocuments.f_FileName_DB_Check)) then
+  begin
+    dmPayment.fmTabCheckDevice.EmptyDataset;
+    dmPayment.fmTabCheckDevice.SaveToFile(frmPaymentDocuments.f_FileName_DB_Check, sfJSON);
+  end;
 
 end;
 

@@ -201,7 +201,7 @@ tmrMsg.Enabled := True;
         lblMsg.Alignment := taCenter;
         lblTitleMsg.Caption := cs_MsgTitleAttention;
         lblMsg.Caption := 'Пожалуйста, Укажите дату поверки!!';
-        tmrMsg.Interval := 4500;
+        tmrMsg.Interval := 1500;
       end;
     17:
       begin

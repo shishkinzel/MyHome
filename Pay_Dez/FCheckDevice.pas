@@ -138,8 +138,8 @@ begin
     dsCheckDevice.DataSet.Close;
     dsCheckDevice.DataSet.Open;
     dtpCheckDevice.Date := Now;
-    btnApply.Enabled := False;
-    btnReset.Enabled := False;
+    if not(grdCheckDevice.DataSource.DataSet.IsEmpty) then
+      btnReset.Enabled := True;
 
   end
   else
@@ -168,7 +168,14 @@ begin
      nvgCheckDevice.VisibleButtons := nvgCheckDevice.VisibleButtons + [nbInsert] + [nbDelete] +
      [nbEdit] + [nbPost] + [nbCancel] + [nbRefresh];
      grdCheckDevice.Enabled := True;
-   end;
+// активируем и переобозначаем кнопки "Выполнить", "Сброс", "Закрыть"
+//    btnApply.Enabled := True;
+//    btnReset.Enabled := True;
+    btnApply.Caption := 'Добавить запись';
+    btnReset.Caption := 'Удалить запись';
+    btnClose.Caption := 'Сброс';
+
+  end;
 // формирование таблицы
   grdCheckDevice.Columns[0].Width := 65;
   grdCheckDevice.Columns[1].Width := 100;
@@ -268,9 +275,13 @@ begin
     begin
       ShowMessage(E.ClassName + ' - Другая ошибка');
     end;
-
   end;
+  if grdCheckDevice.DataSource.DataSet.IsEmpty then
+    btnReset.Enabled := False
+    else
+    btnReset.Enabled := True;
 end;
+
 // запись БД поверки
 procedure TfrmCheckDevice.mniAdmin_SaveClick(Sender: TObject);
 var
@@ -281,7 +292,7 @@ var
 begin
   fPath := f_Path + cs_db_Check;
  // необходимо проверить файл на пустоту!!!!
-  if dsCheckDevice.DataSet.IsEmpty then
+  if dsCheckDevice.DataSet.IsEmpty and not(f_Admin) then
   begin
      funUntil.MyFloatingMessage(29, frmMsg);   // сообщение - 'У Вас пустая таблица',
     Abort;
@@ -460,6 +471,8 @@ end;
 // сброс значений из таблицы если она не пустая
 procedure TfrmCheckDevice.btnResetClick(Sender: TObject);
 begin
+  if not(f_Admin) then
+  begin
   if (dsCheckDevice.DataSet.Modified) or (f_CountChecked > 0) then
   begin
     Dec(f_CountChecked);
@@ -473,8 +486,19 @@ begin
     end;
   end;
   if f_CountChecked = 0 then
-    btnReset.Enabled := False;
+      btnReset.Enabled := False;
+  end
+  else
+  begin
+    if grdCheckDevice.DataSource.DataSet.IsEmpty then
+      btnReset.Enabled := False;
+// удаление выделенной строки!!! - релизовать 28.06.2022
+
+  end;
 end;
+
+
+
 
 // установка начальных значений в поле  "Начальное показание прибора"
 procedure TfrmCheckDevice.cbbNameDeviceChange(Sender: TObject);
