@@ -130,8 +130,10 @@ object frmCheckDevice: TfrmCheckDevice
       Width = 792
       Height = 100
       Align = alClient
+      Color = clBtnFace
       DataSource = dsCheckDevice
       Enabled = False
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
@@ -139,6 +141,7 @@ object frmCheckDevice: TfrmCheckDevice
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
       OnCellClick = grdCheckDeviceCellClick
+      OnDrawColumnCell = grdCheckDeviceDrawColumnCell
     end
     object nvgCheckDevice: TDBNavigator
       Left = 1

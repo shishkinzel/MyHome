@@ -85,6 +85,10 @@ type
     procedure mniAdmin_Folder_DeleteClick(Sender: TObject);
     procedure grdCheckDeviceCellClick(Column: TColumn);
     procedure nvgCheckDeviceClick(Sender: TObject; Button: TNavigateBtn);
+    procedure grdCheckDeviceDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer;
+      Column: TColumn; State: TGridDrawState);
+//    procedure grdCheckDeviceDrawDataCell(Sender: TObject; const Rect: TRect; Field: TField;
+//      State: TGridDrawState);
 
   private    { Private declarations }
     fdayCorr: TDate;
@@ -201,12 +205,37 @@ end;
 procedure TfrmCheckDevice.grdCheckDeviceCellClick(Column: TColumn);
 begin
   funUntil.MyF_Fill(frmCheckDevice, dsCheckDevice);
+  if f_Admin then
+    dtpCheckDevice.Date := Now;
 end;
+
+
+// выделение цветом строки
+procedure TfrmCheckDevice.grdCheckDeviceDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  if f_Admin and not(TDBGrid(Sender).DataSource.DataSet.IsEmpty) then
+  begin
+    if gdFocused in State then
+    begin
+      with TDBGrid(Sender).Canvas do
+      begin
+        Font.Color := clYellow;
+        Font.Size := 10;
+        Brush.Color := clRed;
+      end;
+    end;
+    TDBGrid(Sender).DefaultDrawColumnCell(Rect, DataCol, Column, State);
+  end;
+end;
+
+
 // навигатор
 
 procedure TfrmCheckDevice.nvgCheckDeviceClick(Sender: TObject; Button: TNavigateBtn);
 begin
    funUntil.MyF_Fill(frmCheckDevice, dsCheckDevice);
+   if f_Admin and grdCheckDevice.DataSource.DataSet.IsEmpty then
+      dtpCheckDevice.Date := Now;
 end;
 
 
@@ -277,10 +306,16 @@ begin
     end;
   end;
   if grdCheckDevice.DataSource.DataSet.IsEmpty then
-    btnReset.Enabled := False
-    else
+  begin
+    btnReset.Enabled := False;
+    dtpCheckDevice.Date := Now;
+  end
+  else
+  begin
     btnReset.Enabled := True;
+  end;
 end;
+
 
 // запись БД поверки
 procedure TfrmCheckDevice.mniAdmin_SaveClick(Sender: TObject);
@@ -470,6 +505,8 @@ end;
 
 // сброс значений из таблицы если она не пустая
 procedure TfrmCheckDevice.btnResetClick(Sender: TObject);
+var
+f_question: Integer;
 begin
   if not(f_Admin) then
   begin
@@ -491,13 +528,30 @@ begin
   else
   begin
     if grdCheckDevice.DataSource.DataSet.IsEmpty then
+    begin
       btnReset.Enabled := False;
-// удаление выделенной строки!!! - релизовать 28.06.2022
+      dtpCheckDevice.Date := Now;
+      Abort;
+    end;
+    f_question := Application.MessageBox('Вы уверены, что хотите удалить запись', 'Внимание', MB_YESNO + MB_ICONWARNING);
+    case f_question of
+      6:
+        begin
+         // удаляем строку
+          ShowMessage('Удаляем строку');
+        end;
+      7:
+        begin
+          funUntil.MyFloatingMessage(37, frmMsg);     // сообщение - 'Вы отказались удалить запись'
+          grdCheckDevice.DataSource.DataSet.Refresh;
+        end;
+
+    // удаление выделенной строки!!! - релизовать 28.06.2022
 
   end;
 end;
 
-
+ end;
 
 
 // установка начальных значений в поле  "Начальное показание прибора"

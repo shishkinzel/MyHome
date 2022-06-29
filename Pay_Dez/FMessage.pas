@@ -414,6 +414,19 @@ tmrMsg.Enabled := True;
         lblMsg.Caption := 'Проверте правильность введенной даты';
         tmrMsg.Interval := 1500;
       end;
+    37:
+      begin
+        lblMsg.WordWrap := True;
+        lblMsg.AutoSize := True;
+        lblMsg.Left := 110;
+        lblMsg.Top := 60;
+        lblMsg.Height := 60;
+        lblMsg.Width := 300;
+        lblMsg.Alignment := taCenter;
+        lblTitleMsg.Caption := cs_MsgTitleAttention;
+        lblMsg.Caption := 'Вы отказались удалить запись';
+        tmrMsg.Interval := 1500;
+      end;
   end;
 
 end;
